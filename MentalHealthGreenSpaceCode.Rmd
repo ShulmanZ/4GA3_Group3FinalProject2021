@@ -32,7 +32,27 @@ Note that the `echo = FALSE` parameter was added to the code chunk to prevent pr
 
 #Group Names:
 #Zack
+<<<<<<< HEAD
 #Devon
+#BINGBONG
 #Github can s my d in the a 
+=======
+<<<<<<< HEAD
+=======
+#Ignacio
+<<<<<<< HEAD
+#Ignacio IS HERE
+=======
+#Devon'sLife
+#Owen
+>>>>>>> ac5a8aed68882d8178caec6c94dc0b33447794d6
+<<<<<<< HEAD
+>>>>>>> e8a551c9316827883ffa7afab9ea10cb32d4186d
+=======
+
+#TestTEstTESt
+>>>>>>> 5296ee156ccc68781ce7c75310166143c11697e1
+#Owen
+>>>>>>> 1559203365a51669cc874a686cb57f90b5586b76
 ```
 
