@@ -33,5 +33,10 @@ Note that the `echo = FALSE` parameter was added to the code chunk to prevent pr
 #Group Names:
 #Zack
 #Ignacio
+<<<<<<< HEAD
+#Ignacio IS HERE
+=======
+#Devon'sLife
+>>>>>>> ac5a8aed68882d8178caec6c94dc0b33447794d6
 ```
 
