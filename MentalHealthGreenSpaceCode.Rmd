@@ -13,28 +13,41 @@ This is an R Markdown document. Markdown is a simple formatting syntax for autho
 
 When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
 
-```{r cars}
-summary(cars)
+```{r}
+library(tidyverse)
+library(ggmap)
+library(geosphere)
+library(sf)
+library(plotly)
+library(spdep)
+library(geog4ga3)
 ```
 
-## Including Plots
-
-You can also embed plots, for example:
-
-```{r pressure, echo=FALSE}
-plot(pressure)
-```
-
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
 ```{r}
 #This is the code we will be using throughout this entire project
 #Use this for edits.
 
 #Group Names:
 #Zack
+<<<<<<< HEAD
 #Lysha
 #Owen
 #Devon
 #Ignacio
+=======
+#Devon
+#Ignacio
+#Owen
+#Lysha
+
+
+#Owen: not sure how to import a dataset so everyone can see it, but i have the the xls file for the neighbourhoods
+
+library(readxl)
+Neighbourhoods_fields <- read_excel("~/McMaster/ENVSOCTY 4GA3/FinalProject/Neighbourhoods_fields.xls")
+summary(Neighbourhoods_fields)
+
+
+>>>>>>> 24b1161a93be01731f77ea30eb5c8eebec30ed5f
 ```
 
