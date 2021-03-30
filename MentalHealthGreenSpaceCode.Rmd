@@ -37,9 +37,14 @@ library(geog4ga3)
 
 #Owen: not sure how to import a dataset so everyone can see it, but i have the the xls file for the neighbourhoods
 
-library(readxl)
-Neighbourhoods_fields <- read_excel("~/McMaster/ENVSOCTY 4GA3/FinalProject/Neighbourhoods_fields.xls")
-summary(Neighbourhoods_fields)
+#library(readxl)
+#Neighbourhoods_fields <- read_excel("~/McMaster/ENVSOCTY 4GA3/FinalProject/Neighbourhoods_fields.xls")
+#summary(Neighbourhoods_fields)
+
+# Zacks 
+library(readr)
+NeighbourhoodVariablesFinal <- read_csv("NeighbourhoodVariablesFinal.csv")
+View(NeighbourhoodVariablesFinal)
 
 
 ```
