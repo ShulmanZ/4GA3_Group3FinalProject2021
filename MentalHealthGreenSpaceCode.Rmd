@@ -44,7 +44,11 @@ library(geog4ga3)
 # Zacks 
 library(readr)
 NeighbourhoodVariablesFinal <- read_csv("NeighbourhoodVariablesFinal.csv")
-View(NeighbourhoodVariablesFinal)
+Neighbourbounds <- st_read("Neighbourhoods")
+Parks <- st_read("parks-wgs84")
+plot(st_geometry(Neighbourbounds))
+plot(st_geometry(Parks))
+
 
 
 ```
