@@ -41,7 +41,7 @@ library(geog4ga3)
 #Neighbourhoods_fields <- read_excel("~/McMaster/ENVSOCTY 4GA3/FinalProject/Neighbourhoods_fields.xls")
 #summary(Neighbourhoods_fields)
 
-# Zacks 
+# Zacks New
 library(readr)
 NeighbourhoodVariablesFinal <- read_csv("NeighbourhoodVariablesFinal.csv")
 Neighbourbounds <- st_read("Neighbourhoods")
