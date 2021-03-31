@@ -36,12 +36,11 @@ library(geog4ga3)
 
 
 library(readr)
-ProjectVariables_Final <- read_excel("4GA3_Project_Variables_Final.xlsx")
+Variables_Final <- read_csv("4GA3_Project_Variables_Final.csv")
 Neighbourbounds <- st_read("Neighbourhoods")
 Parks <- st_read("parks-wgs84")
 plot(st_geometry(Neighbourbounds))
 plot(st_geometry(Parks))
-
 
 
 ```
