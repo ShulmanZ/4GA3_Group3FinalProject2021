@@ -1,19 +1,34 @@
 ---
-title: "Group 3's 4GA3 Final Project"
-output: html_document
+title: "Relationship Between Green Spaces and Mental Health in Toronto, ON"
+#subtitle: "A subtitle"
+thanks: "Paper submitted to complete the requirements of ENVSOCTY 4GA3 Applied Spatial Statistics"
+author:
+- name: Devon Sendler
+  student_number: 400158561
+- name: Lysha Boudreau-Pirsich
+  student_number: 400085049
+- name: Igancio De Ysasi Cabrera
+  student_number: 400127387
+- name: Owen Jarvis
+  student_number: 400143944
+- name: Zackary Shulman
+  student_number: 400121210
+subject: "ENVSOCTY 4GA3"
+abstract: "This paper reports our analysis of the correlation between green space and mental health within Toronto, ON, and its relationship between income and age. Data was collected from the Open Ontario, statistics Canada, and Toronto Community Health."
+keywords: "Mental, health, income, Toronto, Parks, spatial analysis"
+date: "4/4/2021"
+output:
+  pdf_document:
+    # The project-template-default.tex file was minimally adapted from Steven V. Miller's template for academic manuscripts. See:
+    # http://svmiller.com/blog/2016/02/svm-r-markdown-manuscript/
+    # https://github.com/svmiller/svm-r-markdown-templates/blob/master/svm-latex-ms.tex
+    template: project-template-default.tex
+bibliography: [bibliography.bib, packages.bib]
+always_allow_html: true
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
-
-## R Markdown
-
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
-
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
-
-```{r}
+<!--Chunks of code can have names; the chunk option "include" controls whether the chunk and its output are printed in the final document-->
+```{r load-packages, include=FALSE}
 library(tidyverse)
 library(ggmap)
 library(geosphere)
@@ -21,27 +36,93 @@ library(sf)
 library(plotly)
 library(spdep)
 library(geog4ga3)
+library(readr)
+```
+```{r}
+Variables_Final <- read_csv("4GA3_Project_Variables_Final.csv")
+Neighbourbounds <- st_read("Neighbourhoods")
+```
+
+
+
+```{r write-package-bib, include=FALSE}
+# This function is used to write a bibliography for the `R` packages used in the paper
+knitr::write_bib(file = 'packages.bib')
 ```
 
 ```{r}
-#This is the code we will be using throughout this entire project
-#Use this
-
-#Group Names:
-#Zack
-#Devon
-#Ignacio
-#Owen
-#Lysha
-
-
-library(readr)
 Variables_Final <- read_csv("4GA3_Project_Variables_Final.csv")
-Neighbourbounds <- st_read("Neighbourhoods")
+Neighbourbounds <- st_read("Neighbourhoods_Boundaries")
 Parks <- st_read("parks-wgs84")
 plot(st_geometry(Neighbourbounds))
 plot(st_geometry(Parks))
 
+Neighbourbounds.sp <- as(Neighbourbounds,"Spatial")
+Neighbourbounds.nb <- poly2nb(pl = Neighbourbounds.sp)
+Neighbourbounds.w <- nb2listw(Neighbourbounds.nb)
+data.frame(Neighbourbounds)
+```
+
+
+```{r}
+#Chloropleth Map for Mental Health Cases
+ggplot() + 
+  geom_sf(data = Neighbourbounds, 
+          aes(fill = MH_Cases_T), color = NA) + 
+  scale_fill_distiller(palette = "YlOrRd", direction = 1) + # Select palette for colors 
+  labs(fill = "Mental Health Cases") + # Change the label of the legend
+  theme(axis.text.x = element_blank(), 
+        axis.text.y = element_blank()) # Remove the axis labels to avoid cluttering the plots
 
 ```
+
+<!--This create a page break, i.e., starts a new page-->
+<!--\newpage-->
+
+<!-- 
+To cite references in your bibliography.bib file, use [@item] if you want it to be cited in brackets, or @item if you want it to be cited as Name (year). If you want to cite various items in brackets, separate them with semicolons [@item1; @item2]
+-->
+
+<!--Use "#" for section headers-->
+# Introduction
+	As the current global population rises over 7.8 billion people, more people move from rural towns and settlements towards bigger metropolises. While big cities make services like healthcare, sanitation, or education (among others) more accessible to people, not everything about the move is positive. Exposure and access to green spaces, especially during the earlier years of a child’s development, has been demonstrated to have an impact on the risk of developing psychiatric disorders and mental health in general. A study by  Engeman et al. (2019)  included over 900,000 people from Denmark, comparing the Normalized Difference Vegetation Index obtained from satellite imagery with incidence rate ratios of developing psychiatric disorders. Engeman et al. (2019) proved a 15 to 55% higher risk of mental health deterioration in residents when comparing areas with the lowest and highest levels of green space.
+The need to understand these links between mental health and green spaces becomes increasingly important as cities continue growing, highlighting the relevance of approaching the development of new urban infrastructure with natural spaces in mind. Callaghan et al. (2020) concluded that 23 of their 25 cross-sectional studies showed a positive relationship between mentally healthy population and green space characteristics. The evidence is there, and for the purpose of this research, we want to focus on the city of Toronto. The city’s surface area is 13% green space (open spaces, parks, community gardens, etc). Despite the seemingly overwhelming evidence for this positive relationship of good mental health and green spaces, the quality, cleanliness, location, and accessibility to these spaces also play a role in its users’ mental health. This being said, there have also been studies interested in highlighting these issues, which we hope to add with the proposed spatial statistics research project. 
+As Scottish-American naturalist John Muir stated at the turn of the 19th century, ‘thousands of tired, nerve-shaken, over-civilized people are beginning to find out that going to the mountains is going home’. Rather than their presence, it may be the way natural spaces are distributed in today’s urban metropolitan areas that dictates their impact on city dwellers. 
+
+# Study area
+
+
+
+<!--Chunk option eval controls whether a chunk is evaluated when the document is executed; set to false to avoid running. It can still be manually run-->
+
+
+<!--Chunk option echo controls whether the code is displayed in the output. The results of the chunk are displayed.
+Chunk option fig.cap is used to give the figure a caption; we can add a label that we can refer to in the text as \ref{fig:counties-ky}, and then the figures will be automatically numbered.-->
+
+# Data
+
+The project’s data comes from several sources. Neighbourhood boundaries and green space areas come from Open Toronto, a data portal containing publicly available information on Toronto, and Statistics Canada from 2011. The city is broken down into 140 distinct neighbourhoods, allowing us to analyze the relationship in great detail. Presuming residents are most likely to utilize green spaces that are easily accessible to them,  a neighbourhood level spatial scale is appropriate. data Toronto Community Health profiles provide a neighbourhood-level breakdown of the annual rate of hospitalizations of Mental Health Conditions for those over 20. This data is averaged annually from 2012 to 2014. This is provided for males, females, and the overall population. As well, the data provided describes whether the hospitalizations for mental health conditions in a given neighbourhood are higher than, lower than, or not significantly different from the City of Toronto overall rate. This is done at a 95% confidence interval. Mental health is often a difficult topic to measure, so we decided that hospital admissions, a clear and quantifiable variable, was a good indicator of mental health within a neighbourhood. We plan to compare the numerical number of mental-health related hospital admissions to the percentage of a neighbourhood that is classified as green space. As well, we will compare the status of a neighbourhood (i.e. significantly higher than, significantly lower than, or not significantly different than Toronto’s average mental health admission rate) to the percentage of green spaces. Utilizing these datasets will help us determine if there is a relationship between the availability of green spaces and the mental health of Torontonians. 
+# Methods
+
+Proposed Analysis Methods:
+
+
+
+# Results
+
+
+<!--We can include inline calculations in the text by using r code as shown in the paragraph below-->
+
+
+# Analysis
+
+#Here we look at each figure we have created and how it affects our conclusion
+
+# Conclusion
+
+# References
+https://open.toronto.ca/
+https://www12.statcan.gc.ca/census-recensement/2011/dp-pd/prof/details/page.cfm?Lang=E&Geo1=CMA&Code1=535&Geo2=PR&Code2=01&Data=Count&SearchText=Toronto&SearchType=Begins&SearchPR=01&B1=All&Custom=&TABID=1
+
+
 
