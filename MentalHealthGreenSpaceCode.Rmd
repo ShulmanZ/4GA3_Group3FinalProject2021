@@ -51,23 +51,29 @@ knitr::write_bib(file = 'packages.bib')
 ```
 
 ```{r}
-#This is the code we will be using throughout this entire project
-#Use this
-
-#Group Names:
-#Zack
-#Devon
-#Ignacio
-#Owen
-#Lysha
-
-
-library(readr)
 Variables_Final <- read_csv("4GA3_Project_Variables_Final.csv")
-Neighbourbounds <- st_read("Neighbourhoods")
+Neighbourbounds <- st_read("Neighbourhoods_Boundaries")
 Parks <- st_read("parks-wgs84")
 plot(st_geometry(Neighbourbounds))
 plot(st_geometry(Parks))
+
+Neighbourbounds.sp <- as(Neighbourbounds,"Spatial")
+Neighbourbounds.nb <- poly2nb(pl = Neighbourbounds.sp)
+Neighbourbounds.w <- nb2listw(Neighbourbounds.nb)
+data.frame(Neighbourbounds)
+```
+
+
+```{r}
+#Chloropleth Map for Mental Health Cases
+ggplot() + 
+  geom_sf(data = Neighbourbounds, 
+          aes(fill = MH_Cases_T), color = NA) + 
+  scale_fill_distiller(palette = "YlOrRd", direction = 1) + # Select palette for colors 
+  labs(fill = "Mental Health Cases") + # Change the label of the legend
+  theme(axis.text.x = element_blank(), 
+        axis.text.y = element_blank()) # Remove the axis labels to avoid cluttering the plots
+
 ```
 
 <!--This create a page break, i.e., starts a new page-->
