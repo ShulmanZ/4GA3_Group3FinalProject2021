@@ -56,21 +56,46 @@ Neighbourbounds <- st_read("Neighbourhoods_Boundaries")
 Parks <- st_read("parks-wgs84")
 plot(st_geometry(Neighbourbounds))
 plot(st_geometry(Parks))
-
-Neighbourbounds.sp <- as(Neighbourbounds,"Spatial")
-Neighbourbounds.nb <- poly2nb(pl = Neighbourbounds.sp)
-Neighbourbounds.w <- nb2listw(Neighbourbounds.nb)
 data.frame(Neighbourbounds)
 ```
 
+Fixing the names up for some of the fields (Kinda Clunky, if you can find a more efficient method please do!)
+```{r}
+names(Neighbourbounds)[names(Neighbourbounds) == 'Shape_Area'] <- 'Neighbourhood_Area'
+names(Neighbourbounds)[names(Neighbourbounds) == 'Shape_Ar_1'] <- 'GS_Area'
+names(Neighbourbounds)[names(Neighbourbounds) == 'Med_Indiv_'] <- 'Med_Ind_In'
+names(Neighbourbounds)[names(Neighbourbounds) == 'Num_Househ'] <- 'Num_House'
+names(Neighbourbounds)[names(Neighbourbounds) == 'Income_U50'] <- 'Income_U5000'
+names(Neighbourbounds)[names(Neighbourbounds) == 'Income_500'] <- 'Income_5000to9999'
+names(Neighbourbounds)[names(Neighbourbounds) == 'Income_100'] <- 'Income_10000to14999'
+names(Neighbourbounds)[names(Neighbourbounds) == 'Income_150'] <- 'Income_15000to19999'
+names(Neighbourbounds)[names(Neighbourbounds) == 'Income_200'] <- 'Income_20000to29999'
+names(Neighbourbounds)[names(Neighbourbounds) == 'Income_300'] <- 'Income_30000to39999'
+names(Neighbourbounds)[names(Neighbourbounds) == 'Income_400'] <- 'Income_40000to49999'
+names(Neighbourbounds)[names(Neighbourbounds) == 'Income_501'] <- 'Income_50000to59999'
+names(Neighbourbounds)[names(Neighbourbounds) == 'Income_600'] <- 'Income_60000to79999'
+names(Neighbourbounds)[names(Neighbourbounds) == 'Income_800'] <- 'Income_80000to99999'
+names(Neighbourbounds)[names(Neighbourbounds) == 'Income_101'] <- 'Income_100000to124999'
+names(Neighbourbounds)[names(Neighbourbounds) == 'Income_125'] <- 'Income_125000to149999'
+names(Neighbourbounds)[names(Neighbourbounds) == 'Income_151'] <- 'Income_150000Plus'
+names(Neighbourbounds)[names(Neighbourbounds) == 'Non_immigr'] <- 'Non_Immigrants'
+
+```
+
+
+```{r}
+Neighbourbounds.sp <- as(Neighbourbounds,"Spatial")
+Neighbourbounds.nb <- poly2nb(pl = Neighbourbounds.sp)
+Neighbourbounds.w <- nb2listw(Neighbourbounds.nb)
+```
 
 ```{r}
 #Chloropleth Map for Mental Health Cases
 ggplot() + 
   geom_sf(data = Neighbourbounds, 
-          aes(fill = MH_Cases_T), color = NA) + 
+          aes(fill = MH_PC_Tot), color = NA) + 
   scale_fill_distiller(palette = "YlOrRd", direction = 1) + # Select palette for colors 
-  labs(fill = "Mental Health Cases") + # Change the label of the legend
+  labs(fill = "Mental Health Cases Per 100,000") + # Change the label of the legend
   theme(axis.text.x = element_blank(), 
         axis.text.y = element_blank()) # Remove the axis labels to avoid cluttering the plots
 
