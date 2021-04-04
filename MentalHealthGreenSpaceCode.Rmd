@@ -41,20 +41,12 @@ library(geog4ga3)
 #Lysha
 
 
-#Owen: not sure how to import a dataset so everyone can see it, but i have the the xls file for the neighbourhoods
-
-#library(readxl)
-#Neighbourhoods_fields <- read_excel("~/McMaster/ENVSOCTY 4GA3/FinalProject/Neighbourhoods_fields.xls")
-#summary(Neighbourhoods_fields)
-
-# Zacks New
-#library(readr)
-#NeighbourhoodVariablesFinal <- read_csv("NeighbourhoodVariablesFinal.csv")
-#Neighbourbounds <- st_read("Neighbourhoods")
-#Parks <- st_read("parks-wgs84")
-#plot(st_geometry(Neighbourbounds))
-#plot(st_geometry(Parks))
-
+library(readr)
+Variables_Final <- read_csv("4GA3_Project_Variables_Final.csv")
+Neighbourbounds <- st_read("Neighbourhoods")
+Parks <- st_read("parks-wgs84")
+plot(st_geometry(Neighbourbounds))
+plot(st_geometry(Parks))
 
 
 >>>>>>> 24b1161a93be01731f77ea30eb5c8eebec30ed5f
