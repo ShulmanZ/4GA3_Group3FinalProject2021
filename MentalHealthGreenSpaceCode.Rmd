@@ -14,7 +14,7 @@ author:
 - name: Zackary Shulman
   student_number: 400121210
 subject: "ENVSOCTY 4GA3"
-abstract: "This paper reports our analysis of the correlation between green space and mental health within Toronto, ON, and its relationship between income and age. Data was collected from the Open Ontario and Toronto Community Health."
+abstract: "This paper reports our analysis of the correlation between green space and mental health within Toronto, ON, and its relationship between income and age. Data was collected from the Open Ontario, statistics Canada, and Toronto Community Health."
 keywords: "Mental, health, income, Toronto, Parks, spatial analysis"
 date: "4/4/2021"
 output:
@@ -101,7 +101,7 @@ Chunk option fig.cap is used to give the figure a caption; we can add a label th
 
 # Data
 
-The project’s data comes from several sources. Neighbourhood boundaries and green space areas come from Open Toronto, a data portal containing publicly available information on Toronto. The city is broken down into 140 distinct neighbourhoods, allowing us to analyze the relationship in great detail. Presuming residents are most likely to utilize green spaces that are easily accessible to them,  a neighbourhood level spatial scale is appropriate. data Toronto Community Health profiles provide a neighbourhood-level breakdown of the annual rate of hospitalizations of Mental Health Conditions for those over 20. This data is averaged annually from 2012 to 2014. This is provided for males, females, and the overall population. As well, the data provided describes whether the hospitalizations for mental health conditions in a given neighbourhood are higher than, lower than, or not significantly different from the City of Toronto overall rate. This is done at a 95% confidence interval. Mental health is often a difficult topic to measure, so we decided that hospital admissions, a clear and quantifiable variable, was a good indicator of mental health within a neighbourhood. We plan to compare the numerical number of mental-health related hospital admissions to the percentage of a neighbourhood that is classified as green space. As well, we will compare the status of a neighbourhood (i.e. significantly higher than, significantly lower than, or not significantly different than Toronto’s average mental health admission rate) to the percentage of green spaces. Utilizing these datasets will help us determine if there is a relationship between the availability of green spaces and the mental health of Torontonians. 
+The project’s data comes from several sources. Neighbourhood boundaries and green space areas come from Open Toronto, a data portal containing publicly available information on Toronto, and Statistics Canada from 2011. The city is broken down into 140 distinct neighbourhoods, allowing us to analyze the relationship in great detail. Presuming residents are most likely to utilize green spaces that are easily accessible to them,  a neighbourhood level spatial scale is appropriate. data Toronto Community Health profiles provide a neighbourhood-level breakdown of the annual rate of hospitalizations of Mental Health Conditions for those over 20. This data is averaged annually from 2012 to 2014. This is provided for males, females, and the overall population. As well, the data provided describes whether the hospitalizations for mental health conditions in a given neighbourhood are higher than, lower than, or not significantly different from the City of Toronto overall rate. This is done at a 95% confidence interval. Mental health is often a difficult topic to measure, so we decided that hospital admissions, a clear and quantifiable variable, was a good indicator of mental health within a neighbourhood. We plan to compare the numerical number of mental-health related hospital admissions to the percentage of a neighbourhood that is classified as green space. As well, we will compare the status of a neighbourhood (i.e. significantly higher than, significantly lower than, or not significantly different than Toronto’s average mental health admission rate) to the percentage of green spaces. Utilizing these datasets will help us determine if there is a relationship between the availability of green spaces and the mental health of Torontonians. 
 # Methods
 
 Proposed Analysis Methods:
@@ -121,6 +121,8 @@ Proposed Analysis Methods:
 # Conclusion
 
 # References
+https://open.toronto.ca/
+https://www12.statcan.gc.ca/census-recensement/2011/dp-pd/prof/details/page.cfm?Lang=E&Geo1=CMA&Code1=535&Geo2=PR&Code2=01&Data=Count&SearchText=Toronto&SearchType=Begins&SearchPR=01&B1=All&Custom=&TABID=1
 
 
 
