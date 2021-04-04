@@ -24,6 +24,7 @@ library(geog4ga3)
 ```
 
 ```{r}
+<<<<<<< HEAD
 #This is the code we will be using throughout this entire project
 #Use this for edits.
 
@@ -42,11 +43,81 @@ library(geog4ga3)
 
 
 library(readr)
+=======
+>>>>>>> 0b8dab74e730b89504fb4713f721546f64fc9aff
 Variables_Final <- read_csv("4GA3_Project_Variables_Final.csv")
-Neighbourbounds <- st_read("Neighbourhoods")
+Neighbourbounds <- st_read("Neighbourhoods_Boundaries")
 Parks <- st_read("parks-wgs84")
 plot(st_geometry(Neighbourbounds))
 plot(st_geometry(Parks))
+<<<<<<< HEAD
+=======
+
+Neighbourbounds.sp <- as(Neighbourbounds,"Spatial")
+Neighbourbounds.nb <- poly2nb(pl = Neighbourbounds.sp)
+Neighbourbounds.w <- nb2listw(Neighbourbounds.nb)
+data.frame(Neighbourbounds)
+```
+
+
+```{r}
+#Chloropleth Map for Mental Health Cases
+ggplot() + 
+  geom_sf(data = Neighbourbounds, 
+          aes(fill = MH_Cases_T), color = NA) + 
+  scale_fill_distiller(palette = "YlOrRd", direction = 1) + # Select palette for colors 
+  labs(fill = "Mental Health Cases") + # Change the label of the legend
+  theme(axis.text.x = element_blank(), 
+        axis.text.y = element_blank()) # Remove the axis labels to avoid cluttering the plots
+
+```
+
+<!--This create a page break, i.e., starts a new page-->
+<!--\newpage-->
+
+<!-- 
+To cite references in your bibliography.bib file, use [@item] if you want it to be cited in brackets, or @item if you want it to be cited as Name (year). If you want to cite various items in brackets, separate them with semicolons [@item1; @item2]
+-->
+
+<!--Use "#" for section headers-->
+# Introduction
+	As the current global population rises over 7.8 billion people, more people move from rural towns and settlements towards bigger metropolises. While big cities make services like healthcare, sanitation, or education (among others) more accessible to people, not everything about the move is positive. Exposure and access to green spaces, especially during the earlier years of a child’s development, has been demonstrated to have an impact on the risk of developing psychiatric disorders and mental health in general. A study by  Engeman et al. (2019)  included over 900,000 people from Denmark, comparing the Normalized Difference Vegetation Index obtained from satellite imagery with incidence rate ratios of developing psychiatric disorders. Engeman et al. (2019) proved a 15 to 55% higher risk of mental health deterioration in residents when comparing areas with the lowest and highest levels of green space.
+The need to understand these links between mental health and green spaces becomes increasingly important as cities continue growing, highlighting the relevance of approaching the development of new urban infrastructure with natural spaces in mind. Callaghan et al. (2020) concluded that 23 of their 25 cross-sectional studies showed a positive relationship between mentally healthy population and green space characteristics. The evidence is there, and for the purpose of this research, we want to focus on the city of Toronto. The city’s surface area is 13% green space (open spaces, parks, community gardens, etc). Despite the seemingly overwhelming evidence for this positive relationship of good mental health and green spaces, the quality, cleanliness, location, and accessibility to these spaces also play a role in its users’ mental health. This being said, there have also been studies interested in highlighting these issues, which we hope to add with the proposed spatial statistics research project. 
+As Scottish-American naturalist John Muir stated at the turn of the 19th century, ‘thousands of tired, nerve-shaken, over-civilized people are beginning to find out that going to the mountains is going home’. Rather than their presence, it may be the way natural spaces are distributed in today’s urban metropolitan areas that dictates their impact on city dwellers. 
+
+# Study area
+
+
+
+<!--Chunk option eval controls whether a chunk is evaluated when the document is executed; set to false to avoid running. It can still be manually run-->
+
+
+<!--Chunk option echo controls whether the code is displayed in the output. The results of the chunk are displayed.
+Chunk option fig.cap is used to give the figure a caption; we can add a label that we can refer to in the text as \ref{fig:counties-ky}, and then the figures will be automatically numbered.-->
+
+# Data
+
+The project’s data comes from several sources. Neighbourhood boundaries and green space areas come from Open Toronto, a data portal containing publicly available information on Toronto. The city is broken down into 140 distinct neighbourhoods, allowing us to analyze the relationship in great detail. Presuming residents are most likely to utilize green spaces that are easily accessible to them,  a neighbourhood level spatial scale is appropriate. data Toronto Community Health profiles provide a neighbourhood-level breakdown of the annual rate of hospitalizations of Mental Health Conditions for those over 20. This data is averaged annually from 2012 to 2014. This is provided for males, females, and the overall population. As well, the data provided describes whether the hospitalizations for mental health conditions in a given neighbourhood are higher than, lower than, or not significantly different from the City of Toronto overall rate. This is done at a 95% confidence interval. Mental health is often a difficult topic to measure, so we decided that hospital admissions, a clear and quantifiable variable, was a good indicator of mental health within a neighbourhood. We plan to compare the numerical number of mental-health related hospital admissions to the percentage of a neighbourhood that is classified as green space. As well, we will compare the status of a neighbourhood (i.e. significantly higher than, significantly lower than, or not significantly different than Toronto’s average mental health admission rate) to the percentage of green spaces. Utilizing these datasets will help us determine if there is a relationship between the availability of green spaces and the mental health of Torontonians. 
+# Methods
+
+Proposed Analysis Methods:
+
+
+
+# Results
+
+
+<!--We can include inline calculations in the text by using r code as shown in the paragraph below-->
+
+
+# Analysis
+
+#Here we look at each figure we have created and how it affects our conclusion
+
+# Conclusion
+
+# References
+>>>>>>> 0b8dab74e730b89504fb4713f721546f64fc9aff
 
 
 >>>>>>> 24b1161a93be01731f77ea30eb5c8eebec30ed5f
