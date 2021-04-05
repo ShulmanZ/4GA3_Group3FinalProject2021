@@ -82,7 +82,7 @@ names(Neighbourbounds)[names(Neighbourbounds) == 'Non_immigr'] <- 'Non_Immigrant
 
 ```
 
-
+#Spatial weights Matrix for data
 ```{r}
 Neighbourbounds.sp <- as(Neighbourbounds,"Spatial")
 Neighbourbounds.nb <- poly2nb(pl = Neighbourbounds.sp)
@@ -100,6 +100,84 @@ ggplot() +
         axis.text.y = element_blank()) # Remove the axis labels to avoid cluttering the plots
 
 ```
+
+
+Moran Test for Mental health cases:
+```{r}
+moran.test(Neighbourbounds$MH_PC_Tot, Neighbourbounds.w)
+
+```
+The p-value is low (~0.00016), therefore the data is spatially autocorellated
+
+Moran Plot:
+```{r}
+
+MHTot_MP <- moran.plot(Neighbourbounds$MH_PC_Tot, Neighbourbounds.w)
+```
+
+his function is used to create local Moran maps:
+```{r}
+localmoran.map <- function(p = p, listw = listw, VAR = VAR, by = by){
+  require(tidyverse)
+  require(spdep)
+  require(plotly)
+  
+  df_msc <- transmute(p,
+                      key = p[[by]],
+                      Z = (p[[VAR]] - mean(p[[VAR]])) / var(p[[VAR]]),
+                      SMA = lag.listw(listw, Z),
+                      Type = case_when(Z < 0 & SMA < 0 ~ "LL",
+                                       Z > 0 & SMA > 0 ~ "HH",
+                                       TRUE ~ "HL/LH"))
+  
+  local_I <- localmoran(p[[VAR]], listw)
+  
+  df_msc <- left_join(df_msc, 
+                  data.frame(key = p[[by]], local_I))
+  df_msc <- rename(df_msc, p.val = Pr.z...0.)
+  
+  plot_ly(df_msc) %>%
+    add_sf(split = ~(p.val < 0.05), color = ~Type, colors = c("red", "khaki1", "dodgerblue", "dodgerblue4")) 
+}
+```
+
+This function is used to create $G_i^*$ maps:
+```{r}
+gistar.map <- function(p = p, listw = listw, VAR = VAR, by = by){
+  require(tidyverse)
+  require(spdep)
+  require(sf)
+  require(plotly)
+  
+  p <- mutate(p, key = p[[by]])
+  
+  df.lg <- localG(p[[VAR]], listw)
+  df.lg <- as.numeric(df.lg)
+  df.lg <- data.frame(Gstar = df.lg, p.val = 2 * pnorm(abs(df.lg), lower.tail = FALSE))
+  
+  df.lg <- mutate(df.lg, 
+              Type = case_when(Gstar < 0 & p.val <= 0.05 ~ "Low Concentration",
+                               Gstar > 0 & p.val <= 0.05 ~ "High Concentration",
+                               TRUE ~ "Not Signicant"))
+
+  p <- left_join(p, 
+                  data.frame(key = p[[by]], df.lg))
+  
+  plot_ly(p) %>%
+    add_sf(split = ~(p.val < 0.05), color = ~Type, colors = c("red", "dodgerblue", "gray"))
+}
+```
+
+Creating a local Moran Map:
+```{r}
+localmoran.map(Neighbourbounds, Neighbourbounds.w, "MH_PC_Tot", by = "NAME")
+```
+
+Creating GiStar MAp:
+```{r}
+gistar.map(Neighbourbounds, Neighbourbounds.w, "MH_PC_Tot", by = "NAME")
+```
+
 
 <!--This create a page break, i.e., starts a new page-->
 <!--\newpage-->
