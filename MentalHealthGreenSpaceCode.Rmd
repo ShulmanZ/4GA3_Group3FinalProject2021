@@ -29,6 +29,7 @@ always_allow_html: true
 
 <!--Chunks of code can have names; the chunk option "include" controls whether the chunk and its output are printed in the final document-->
 ```{r load-packages, include=FALSE}
+rm(list = ls())
 library(tidyverse)
 library(ggmap)
 library(geosphere)
@@ -176,6 +177,87 @@ localmoran.map(Neighbourbounds, Neighbourbounds.w, "MH_PC_Tot", by = "NAME")
 Creating GiStar MAp:
 ```{r}
 gistar.map(Neighbourbounds, Neighbourbounds.w, "MH_PC_Tot", by = "NAME")
+```
+```{r calculate-spatial-moving-averages, include=FALSE}
+
+Neighbourbounds <- Neighbourbounds %>%
+  mutate(sma = lag.listw(Neighbourbounds.w, MH_PC_Tot))
+
+simulation_1 <- sample(Neighbourbounds$MH_PC_Tot)
+simulation_1.sma <- lag.listw(Neighbourbounds.w, simulation_1)
+simulation_2 <- sample(Neighbourbounds$MH_PC_Tot)
+simulation_2.sma <- lag.listw(Neighbourbounds.w, simulation_2)
+simulation_3 <- sample(Neighbourbounds$MH_PC_Tot)
+simulation_3.sma <- lag.listw(Neighbourbounds.w, simulation_3)
+simulation_4 <- sample(Neighbourbounds$MH_PC_Tot)
+simulation_4.sma <- lag.listw(Neighbourbounds.w, simulation_4)
+simulation_5 <- sample(Neighbourbounds$MH_PC_Tot)
+simulation_5.sma <- lag.listw(Neighbourbounds.w, simulation_5)
+#Add simulated landscapes to sf dataframe
+Neighbourbounds$simulation_1 <- simulation_1
+Neighbourbounds$simulation_2 <- simulation_2
+Neighbourbounds$simulation_3 <- simulation_3
+Neighbourbounds$simulation_4 <- simulation_4
+Neighbourbounds$simulation_5 <- simulation_5
+
+#Add spatial moving averages to sf dataframe
+Neighbourbounds$simulation_1.sma <- simulation_1.sma
+Neighbourbounds$simulation_2.sma <- simulation_2.sma
+Neighbourbounds$simulation_3.sma <- simulation_3.sma
+Neighbourbounds$simulation_4.sma <- simulation_4.sma
+Neighbourbounds$simulation_5.sma <- simulation_5.sma
+
+#Create a new dataframe to compare original landscape to null landscapes
+MH_PC_Tot2 <- Neighbourbounds %>% 
+  # `transmute()` keeps only the spatial moving averages and geometry
+  transmute(observed = MH_PC_Tot, 
+         simulation_1,
+         simulation_2,
+         simulation_3,
+         simulation_4,
+         simulation_5,
+         geometry) %>% 
+  # `pivot_longer()` places all variables with the exception of `geometry` in a single column named `SMA` and creates a new variable called `VAR` with the names of the original columns (i.e., observed, simulation_1,...)
+  pivot_longer(cols = -c(geometry, ends_with("sma")), names_to = "VAR", values_to = "values") %>%
+  st_as_sf()
+
+ggplot() + 
+  geom_sf(data = MH_PC_Tot2, 
+          aes(fill = values), color = NA) + 
+  facet_wrap(~VAR, ncol = 3) +
+  scale_fill_distiller(palette = "YlOrRd", direction = 1)+
+  labs(fill = "Mental Health Cases per SMA") + 
+  theme(axis.text.x = element_blank(), 
+        axis.text.y = element_blank())
+
+MH_PC_Tot2 <- MH_PC_Tot2 %>% 
+  data.frame(Neighbourbounds %>% 
+               st_drop_geometry() %>% # Drop the geometry because it is already available 
+               # Select the original population density and the 5 null landscapes simulated from it.
+               transmute(sma,
+                      simulation_1.sma,
+                      simulation_2.sma,
+                      simulation_3.sma,
+                      simulation_4.sma,
+                      simulation_5.sma,
+               ) %>% # Pass the result to `pivot_longer()`  
+               pivot_longer(cols = everything(), names_to = "VAR", values_to = "SMA") %>% # Copy all density variables to a single column, and create a new variable called `VAR` with the names of the original columns 
+               select(SMA)) # Drop VAR from the the dataframe
+
+ggplot(data = MH_PC_Tot2, 
+       aes(x = values, 
+           y = SMA,
+           color = VAR)) +
+  geom_point(alpha = 0.1) +
+  geom_abline(slope = 1, intercept = 0, linetype = "dashed") +
+  # Add a fitted line to the plots
+  geom_smooth(formula = y ~ x,
+              method = "lm") +
+  coord_equal() +
+  xlab("Mental Helath cases per Neighbourhood") +
+  ylab("Spatial lag of mental health cases per neighbourhood") +
+  facet_wrap(~ VAR, ncol = 3)
+```
 ```
 
 
