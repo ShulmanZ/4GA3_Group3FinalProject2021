@@ -1,21 +1,4 @@
 ---
-<<<<<<< HEAD
-title: "Group 3's 4GA3 Final Project"
-output: html_document
----
-
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
-
-## R Markdown
-
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
-
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
-
-```{r}
-=======
 title: "Relationship Between Green Spaces and Mental Health in Toronto, ON"
 #subtitle: "A subtitle"
 thanks: "Paper submitted to complete the requirements of ENVSOCTY 4GA3 Applied Spatial Statistics"
@@ -47,7 +30,6 @@ always_allow_html: true
 <!--Chunks of code can have names; the chunk option "include" controls whether the chunk and its output are printed in the final document-->
 ```{r load-packages, include=FALSE}
 rm(list = ls())
->>>>>>> 389bf27a2e702fa4d3c5a7cf4f7e1c2686f5184a
 library(tidyverse)
 library(ggmap)
 library(geosphere)
@@ -55,40 +37,25 @@ library(sf)
 library(plotly)
 library(spdep)
 library(geog4ga3)
+library(readr)
+```
+```{r}
+Variables_Final <- read_csv("4GA3_Project_Variables_Final.csv")
+Neighbourbounds <- st_read("Neighbourhoods")
+```
+
+```{r write-package-bib, include=FALSE}
+# This function is used to write a bibliography for the `R` packages used in the paper
+knitr::write_bib(file = 'packages.bib')
 ```
 
 ```{r}
-<<<<<<< HEAD
-#This is the code we will be using throughout this entire project
-#Use this for edits.
-
-#Group Names:
-#Zack
-<<<<<<< HEAD
-#Lysha
-#Owen
-#Devon
-#Ignacio
-=======
-#Devon
-#Ignacio
-#Owen
-#Lysha
-
-
-library(readr)
-=======
->>>>>>> 0b8dab74e730b89504fb4713f721546f64fc9aff
 Variables_Final <- read_csv("4GA3_Project_Variables_Final.csv")
 Neighbourbounds <- st_read("Neighbourhoods_Boundaries")
 Neighbourbounds_Centroids <- st_read("Neighbourhood_Centroids")
 Parks <- st_read("parks-wgs84")
 plot(st_geometry(Neighbourbounds))
 plot(st_geometry(Parks))
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-=======
 data.frame(Neighbourbounds)
 ```
 
@@ -118,7 +85,6 @@ names(Neighbourbounds)[names(Neighbourbounds) == 'Shape_Ar_4'] <- 'GSArea_60Min_
 
 ```
 
->>>>>>> 389bf27a2e702fa4d3c5a7cf4f7e1c2686f5184a
 
 Mutate to add a field from SMA:
 ```{r}
@@ -134,17 +100,193 @@ Neighbourbounds.nb <- poly2nb(pl = Neighbourbounds.sp)
 Neighbourbounds.w <- nb2listw(Neighbourbounds.nb)
 ```
 
+Choropleth Maps of relevant data for this study:
+
 ```{r}
-#Chloropleth Map for Mental Health Cases
+#Population Density 
+
+ggplot() + 
+  geom_sf(data = Neighbourbounds, 
+          aes(fill = Census_Pop), color = NA) + 
+  scale_fill_distiller(palette = "YlOrRd", direction = 1) + 
+  labs(fill = "Population Density per Neighbourhood") + 
+  theme(axis.text.x = element_blank(), 
+        axis.text.y = element_blank())
+```
+A select few areas with over 40,000 people
+```{r}
+#Mental Health Cases Per Capita
+
 ggplot() + 
   geom_sf(data = Neighbourbounds, 
           aes(fill = MH_PC_Tot), color = NA) + 
-  scale_fill_distiller(palette = "YlOrRd", direction = 1) + # Select palette for colors 
-  labs(fill = "Mental Health Cases Per 100,000") + # Change the label of the legend
+  scale_fill_distiller(palette = "YlOrRd", direction = 1) +  
+  labs(fill = "Mental Health Cases Per Capita") + 
   theme(axis.text.x = element_blank(), 
-        axis.text.y = element_blank()) # Remove the axis labels to avoid cluttering the plots
+        axis.text.y = element_blank())
+
+ggplot() + 
+  geom_sf(data = Neighbourbounds, 
+          aes(fill = MH_PC_M), color = NA) + 
+  scale_fill_distiller(palette = "YlOrRd", direction = 1) +  
+  labs(fill = "Mental Health Cases Per Capita (Male)") + 
+  theme(axis.text.x = element_blank(), 
+        axis.text.y = element_blank())
+
+ggplot() + 
+  geom_sf(data = Neighbourbounds, 
+          aes(fill = MH_PC_F), color = NA) + 
+  scale_fill_distiller(palette = "YlOrRd", direction = 1) +  
+  labs(fill = "Mental Health Cases Per Capita (Female)") + 
+  theme(axis.text.x = element_blank(), 
+        axis.text.y = element_blank())
+```
+
+```{r}
+#Unemployment Rates 
+
+ggplot() + 
+  geom_sf(data = Neighbourbounds, 
+          aes(fill = Unemploy_r), color = NA) + 
+  scale_fill_distiller(palette = "YlOrRd", direction = 1) + 
+  labs(fill = "Unemployment Rates (in %)") + 
+  theme(axis.text.x = element_blank(), 
+        axis.text.y = element_blank())
+```
+Correlation between mental health cases and unemployment rates are visible in 3 neighbourhoods.
+```{r}
+#Income 
+
+ggplot() + 
+  geom_sf(data = Neighbourbounds, 
+          aes(fill = Med_Indiv_), color = NA) + 
+  scale_fill_distiller(palette = "YlOrRd", direction = 1) +  
+  labs(fill = "Median Income (Individual) ") + 
+  theme(axis.text.x = element_blank(), 
+        axis.text.y = element_blank())
+
+ggplot() + 
+  geom_sf(data = Neighbourbounds, 
+          aes(fill = Avg_Ind_In), color = NA) + 
+  scale_fill_distiller(palette = "YlOrRd", direction = 1) +  
+  labs(fill = "Average Income (Individual)") + 
+  theme(axis.text.x = element_blank(), 
+        axis.text.y = element_blank())
+```
+
+```{r}
+#Living Situation 
+
+ggplot() + 
+  geom_sf(data = Neighbourbounds, 
+          aes(fill = W_Rel), color = NA) + 
+  scale_fill_distiller(palette = "YlOrRd", direction = 1) +  
+  labs(fill = "Living with relatives") + 
+  theme(axis.text.x = element_blank(), 
+        axis.text.y = element_blank())
+
+ggplot() + 
+  geom_sf(data = Neighbourbounds, 
+          aes(fill = W_Non_Rel), color = NA) + 
+  scale_fill_distiller(palette = "YlOrRd", direction = 1) +  
+  labs(fill = "Living with non-relatives ") + 
+  theme(axis.text.x = element_blank(), 
+        axis.text.y = element_blank())
+
+ggplot() + 
+  geom_sf(data = Neighbourbounds, 
+          aes(fill = Alone), color = NA) + 
+  scale_fill_distiller(palette = "YlOrRd", direction = 1) +  
+  labs(fill = "Living alone ") + 
+  theme(axis.text.x = element_blank(), 
+        axis.text.y = element_blank())
 
 ```
+
+Also, the median/average income choropleth maps show a relationship between low income and high mental health cases.
+```{r}
+#Age Proportion in each Neighbourhood 
+
+ggplot(Neighbourbounds) + 
+  geom_sf(aes(fill = cut_number((Age0to14 +
+                                 Age15to24 +
+                                 Age25to34 +
+                                 Age35to44 +
+                                 Age45to54 +
+                                 Age55to64 +
+                                 Age65to79 +
+                                 Age80to99) / Census_Pop,8)),
+          color = NA, 
+          size = 0.1) +
+  scale_fill_brewer(palette = "YlOrRd") +
+  labs(fill = "Proportion of Age in Each Neighbourhood")
+
+ggplot() + 
+  geom_sf(data = Neighbourbounds, 
+          aes(fill = Age0to14), color = NA) + 
+  scale_fill_distiller(palette = "YlOrRd", direction = 1) +  
+  labs(fill = "Age 0 to 14") + 
+  theme(axis.text.x = element_blank(), 
+        axis.text.y = element_blank())
+
+ggplot() + 
+  geom_sf(data = Neighbourbounds, 
+          aes(fill = Age15to24), color = NA) + 
+  scale_fill_distiller(palette = "YlOrRd", direction = 1) +  
+  labs(fill = "Age 15 to 24") + 
+  theme(axis.text.x = element_blank(), 
+        axis.text.y = element_blank())
+
+ggplot() + 
+  geom_sf(data = Neighbourbounds, 
+          aes(fill = Age25to34), color = NA) + 
+  scale_fill_distiller(palette = "YlOrRd", direction = 1) +  
+  labs(fill = "Age 25 to 34") + 
+  theme(axis.text.x = element_blank(), 
+        axis.text.y = element_blank())
+
+ggplot() + 
+  geom_sf(data = Neighbourbounds, 
+          aes(fill = Age35to44), color = NA) + 
+  scale_fill_distiller(palette = "YlOrRd", direction = 1) +  
+  labs(fill = "Age 35 to 44") + 
+  theme(axis.text.x = element_blank(), 
+        axis.text.y = element_blank())
+
+ggplot() + 
+  geom_sf(data = Neighbourbounds, 
+          aes(fill = Age45to54), color = NA) + 
+  scale_fill_distiller(palette = "YlOrRd", direction = 1) +  
+  labs(fill = "Age 45 to 54") + 
+  theme(axis.text.x = element_blank(), 
+        axis.text.y = element_blank())
+
+ggplot() + 
+  geom_sf(data = Neighbourbounds, 
+          aes(fill = Age55to64), color = NA) + 
+  scale_fill_distiller(palette = "YlOrRd", direction = 1) +  
+  labs(fill = "Age 55 to 64") + 
+  theme(axis.text.x = element_blank(), 
+        axis.text.y = element_blank())
+
+ggplot() + 
+  geom_sf(data = Neighbourbounds, 
+          aes(fill = Age65to79), color = NA) + 
+  scale_fill_distiller(palette = "YlOrRd", direction = 1) +  
+  labs(fill = "Age 65 to 79") + 
+  theme(axis.text.x = element_blank(), 
+        axis.text.y = element_blank())
+
+ggplot() + 
+  geom_sf(data = Neighbourbounds, 
+          aes(fill = Age80to99), color = NA) + 
+  scale_fill_distiller(palette = "YlOrRd", direction = 1) +  
+  labs(fill = "Age 80 to 99") + 
+  theme(axis.text.x = element_blank(), 
+        axis.text.y = element_blank())
+```
+
+The overall findings from these maps point towards high unemployment rates and low median/average income being contributing factors that lead to high mental health cases.
 
 
 Moran Test for Mental health cases:
@@ -365,14 +507,7 @@ Proposed Analysis Methods:
 # Conclusion
 
 # References
-<<<<<<< HEAD
->>>>>>> 0b8dab74e730b89504fb4713f721546f64fc9aff
-=======
 https://open.toronto.ca/
 https://www12.statcan.gc.ca/census-recensement/2011/dp-pd/prof/details/page.cfm?Lang=E&Geo1=CMA&Code1=535&Geo2=PR&Code2=01&Data=Count&SearchText=Toronto&SearchType=Begins&SearchPR=01&B1=All&Custom=&TABID=1
->>>>>>> 389bf27a2e702fa4d3c5a7cf4f7e1c2686f5184a
 
-
->>>>>>> 24b1161a93be01731f77ea30eb5c8eebec30ed5f
-```
 
