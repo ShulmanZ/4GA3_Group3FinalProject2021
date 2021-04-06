@@ -155,7 +155,7 @@ ggplot() +
 ```
 Correlation between mental health cases and unemployment rates are visible in 3 neighbourhoods.
 ```{r}
-#Income 
+# Income Chloropleth Map
 
 ggplot() + 
   geom_sf(data = Neighbourbounds, 
