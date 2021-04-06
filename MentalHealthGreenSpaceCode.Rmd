@@ -84,6 +84,14 @@ names(Neighbourbounds)[names(Neighbourbounds) == 'Non_immigr'] <- 'Non_Immigrant
 
 ```
 
+
+Mutate to add a field from SMA:
+```{r}
+Neighbourbounds <- Neighbourbounds %>%
+  mutate(SMA_MH_PC_Tot = MH_PC_Tot)
+
+```
+
 #Spatial weights Matrix for data
 ```{r}
 Neighbourbounds.sp <- as(Neighbourbounds,"Spatial")
@@ -179,20 +187,23 @@ Creating GiStar MAp:
 ```{r}
 gistar.map(Neighbourbounds, Neighbourbounds.w, "MH_PC_Tot", by = "NAME")
 ```
+
+
+
 ```{r calculate-spatial-moving-averages, include=FALSE}
 
-Neighbourbounds <- Neighbourbounds %>%
-  mutate(sma = lag.listw(Neighbourbounds.w, MH_PC_Tot))
 
-simulation_1 <- sample(Neighbourbounds$MH_PC_Tot)
+MHPCTot.sma <- lag.listw(Neighbourbounds.w, Neighbourbounds$SMA_MH_PC_Tot)
+
+simulation_1 <- sample(Neighbourbounds$SMA_MH_PC_Tot)
 simulation_1.sma <- lag.listw(Neighbourbounds.w, simulation_1)
-simulation_2 <- sample(Neighbourbounds$MH_PC_Tot)
+simulation_2 <- sample(Neighbourbounds$SMA_MH_PC_Tot)
 simulation_2.sma <- lag.listw(Neighbourbounds.w, simulation_2)
-simulation_3 <- sample(Neighbourbounds$MH_PC_Tot)
+simulation_3 <- sample(Neighbourbounds$SMA_MH_PC_Tot)
 simulation_3.sma <- lag.listw(Neighbourbounds.w, simulation_3)
-simulation_4 <- sample(Neighbourbounds$MH_PC_Tot)
+simulation_4 <- sample(Neighbourbounds$SMA_MH_PC_Tot)
 simulation_4.sma <- lag.listw(Neighbourbounds.w, simulation_4)
-simulation_5 <- sample(Neighbourbounds$MH_PC_Tot)
+simulation_5 <- sample(Neighbourbounds$SMA_MH_PC_Tot)
 simulation_5.sma <- lag.listw(Neighbourbounds.w, simulation_5)
 #Add simulated landscapes to sf dataframe
 Neighbourbounds$simulation_1 <- simulation_1
@@ -200,7 +211,9 @@ Neighbourbounds$simulation_2 <- simulation_2
 Neighbourbounds$simulation_3 <- simulation_3
 Neighbourbounds$simulation_4 <- simulation_4
 Neighbourbounds$simulation_5 <- simulation_5
+```
 
+```{r}
 #Add spatial moving averages to sf dataframe
 Neighbourbounds$simulation_1.sma <- simulation_1.sma
 Neighbourbounds$simulation_2.sma <- simulation_2.sma
@@ -235,7 +248,7 @@ MH_PC_Tot2 <- MH_PC_Tot2 %>%
   data.frame(Neighbourbounds %>% 
                st_drop_geometry() %>% # Drop the geometry because it is already available 
                # Select the original population density and the 5 null landscapes simulated from it.
-               transmute(sma,
+               transmute(MHPCTot.sma,
                       simulation_1.sma,
                       simulation_2.sma,
                       simulation_3.sma,
@@ -244,7 +257,10 @@ MH_PC_Tot2 <- MH_PC_Tot2 %>%
                ) %>% # Pass the result to `pivot_longer()`  
                pivot_longer(cols = everything(), names_to = "VAR", values_to = "SMA") %>% # Copy all density variables to a single column, and create a new variable called `VAR` with the names of the original columns 
                select(SMA)) # Drop VAR from the the dataframe
+```
 
+Plots:
+```{r}
 ggplot(data = MH_PC_Tot2, 
        aes(x = values, 
            y = SMA,
