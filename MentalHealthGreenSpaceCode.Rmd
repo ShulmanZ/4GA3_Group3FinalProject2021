@@ -1,4 +1,5 @@
 ---
+<<<<<<< HEAD
 title: "Group 3's 4GA3 Final Project"
 output: html_document
 ---
@@ -14,6 +15,39 @@ This is an R Markdown document. Markdown is a simple formatting syntax for autho
 When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
 
 ```{r}
+=======
+title: "Relationship Between Green Spaces and Mental Health in Toronto, ON"
+#subtitle: "A subtitle"
+thanks: "Paper submitted to complete the requirements of ENVSOCTY 4GA3 Applied Spatial Statistics"
+author:
+- name: Devon Sendler
+  student_number: 400158561
+- name: Lysha Boudreau-Pirsich
+  student_number: 400085049
+- name: Igancio De Ysasi Cabrera
+  student_number: 400127387
+- name: Owen Jarvis
+  student_number: 400143944
+- name: Zackary Shulman
+  student_number: 400121210
+subject: "ENVSOCTY 4GA3"
+abstract: "This paper reports our analysis of the correlation between green space and mental health within Toronto, ON, and its relationship between income and age. Data was collected from the Open Ontario, statistics Canada, and Toronto Community Health."
+keywords: "Mental, health, income, Toronto, Parks, spatial analysis"
+date: "4/4/2021"
+output:
+  pdf_document:
+    # The project-template-default.tex file was minimally adapted from Steven V. Miller's template for academic manuscripts. See:
+    # http://svmiller.com/blog/2016/02/svm-r-markdown-manuscript/
+    # https://github.com/svmiller/svm-r-markdown-templates/blob/master/svm-latex-ms.tex
+    template: project-template-default.tex
+bibliography: [bibliography.bib, packages.bib]
+always_allow_html: true
+---
+
+<!--Chunks of code can have names; the chunk option "include" controls whether the chunk and its output are printed in the final document-->
+```{r load-packages, include=FALSE}
+rm(list = ls())
+>>>>>>> 389bf27a2e702fa4d3c5a7cf4f7e1c2686f5184a
 library(tidyverse)
 library(ggmap)
 library(geosphere)
@@ -47,30 +81,244 @@ library(readr)
 >>>>>>> 0b8dab74e730b89504fb4713f721546f64fc9aff
 Variables_Final <- read_csv("4GA3_Project_Variables_Final.csv")
 Neighbourbounds <- st_read("Neighbourhoods_Boundaries")
+Neighbourbounds_Centroids <- st_read("Neighbourhood_Centroids")
 Parks <- st_read("parks-wgs84")
 plot(st_geometry(Neighbourbounds))
 plot(st_geometry(Parks))
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
-
-Neighbourbounds.sp <- as(Neighbourbounds,"Spatial")
-Neighbourbounds.nb <- poly2nb(pl = Neighbourbounds.sp)
-Neighbourbounds.w <- nb2listw(Neighbourbounds.nb)
+=======
 data.frame(Neighbourbounds)
 ```
 
+Fixing the names up for some of the fields (Kinda Clunky, if you can find a more efficient method please do!)
+```{r}
+names(Neighbourbounds)[names(Neighbourbounds) == 'Shape_Area'] <- 'Neighbourhood_Area'
+names(Neighbourbounds)[names(Neighbourbounds) == 'Shape_Ar_1'] <- 'GS_Area'
+names(Neighbourbounds)[names(Neighbourbounds) == 'Med_Indiv_'] <- 'Med_Ind_In'
+names(Neighbourbounds)[names(Neighbourbounds) == 'Num_Househ'] <- 'Num_House'
+names(Neighbourbounds)[names(Neighbourbounds) == 'Income_U50'] <- 'Income_U5000'
+names(Neighbourbounds)[names(Neighbourbounds) == 'Income_500'] <- 'Income_5000to9999'
+names(Neighbourbounds)[names(Neighbourbounds) == 'Income_100'] <- 'Income_10000to14999'
+names(Neighbourbounds)[names(Neighbourbounds) == 'Income_150'] <- 'Income_15000to19999'
+names(Neighbourbounds)[names(Neighbourbounds) == 'Income_200'] <- 'Income_20000to29999'
+names(Neighbourbounds)[names(Neighbourbounds) == 'Income_300'] <- 'Income_30000to39999'
+names(Neighbourbounds)[names(Neighbourbounds) == 'Income_400'] <- 'Income_40000to49999'
+names(Neighbourbounds)[names(Neighbourbounds) == 'Income_501'] <- 'Income_50000to59999'
+names(Neighbourbounds)[names(Neighbourbounds) == 'Income_600'] <- 'Income_60000to79999'
+names(Neighbourbounds)[names(Neighbourbounds) == 'Income_800'] <- 'Income_80000to99999'
+names(Neighbourbounds)[names(Neighbourbounds) == 'Income_101'] <- 'Income_100000to124999'
+names(Neighbourbounds)[names(Neighbourbounds) == 'Income_125'] <- 'Income_125000to149999'
+names(Neighbourbounds)[names(Neighbourbounds) == 'Income_151'] <- 'Income_150000Plus'
+names(Neighbourbounds)[names(Neighbourbounds) == 'Non_immigr'] <- 'Non_Immigrants'
+names(Neighbourbounds)[names(Neighbourbounds) == 'Shape_Ar_2'] <- 'GSArea_10Min_SA'
+names(Neighbourbounds)[names(Neighbourbounds) == 'Shape_Ar_3'] <- 'GSArea_30Min_SA'
+names(Neighbourbounds)[names(Neighbourbounds) == 'Shape_Ar_4'] <- 'GSArea_60Min_SA'
+
+```
+
+>>>>>>> 389bf27a2e702fa4d3c5a7cf4f7e1c2686f5184a
+
+Mutate to add a field from SMA:
+```{r}
+Neighbourbounds <- Neighbourbounds %>%
+  mutate(SMA_MH_PC_Tot = MH_PC_Tot)
+
+```
+
+#Spatial weights Matrix for data
+```{r}
+Neighbourbounds.sp <- as(Neighbourbounds,"Spatial")
+Neighbourbounds.nb <- poly2nb(pl = Neighbourbounds.sp)
+Neighbourbounds.w <- nb2listw(Neighbourbounds.nb)
+```
 
 ```{r}
 #Chloropleth Map for Mental Health Cases
 ggplot() + 
   geom_sf(data = Neighbourbounds, 
-          aes(fill = MH_Cases_T), color = NA) + 
+          aes(fill = MH_PC_Tot), color = NA) + 
   scale_fill_distiller(palette = "YlOrRd", direction = 1) + # Select palette for colors 
-  labs(fill = "Mental Health Cases") + # Change the label of the legend
+  labs(fill = "Mental Health Cases Per 100,000") + # Change the label of the legend
   theme(axis.text.x = element_blank(), 
         axis.text.y = element_blank()) # Remove the axis labels to avoid cluttering the plots
 
 ```
+
+
+Moran Test for Mental health cases:
+```{r}
+moran.test(Neighbourbounds$MH_PC_Tot, Neighbourbounds.w)
+
+```
+The p-value is low (~0.00016), therefore the data is spatially autocorellated
+
+Moran Plot:
+```{r}
+
+MHTot_MP <- moran.plot(Neighbourbounds$MH_PC_Tot, Neighbourbounds.w)
+```
+
+his function is used to create local Moran maps:
+```{r}
+localmoran.map <- function(p = p, listw = listw, VAR = VAR, by = by){
+  require(tidyverse)
+  require(spdep)
+  require(plotly)
+  
+  df_msc <- transmute(p,
+                      key = p[[by]],
+                      Z = (p[[VAR]] - mean(p[[VAR]])) / var(p[[VAR]]),
+                      SMA = lag.listw(listw, Z),
+                      Type = case_when(Z < 0 & SMA < 0 ~ "LL",
+                                       Z > 0 & SMA > 0 ~ "HH",
+                                       TRUE ~ "HL/LH"))
+  
+  local_I <- localmoran(p[[VAR]], listw)
+  
+  df_msc <- left_join(df_msc, 
+                  data.frame(key = p[[by]], local_I))
+  df_msc <- rename(df_msc, p.val = Pr.z...0.)
+  
+  plot_ly(df_msc) %>%
+    add_sf(split = ~(p.val < 0.05), color = ~Type, colors = c("red", "khaki1", "dodgerblue", "dodgerblue4")) 
+}
+```
+
+This function is used to create $G_i^*$ maps:
+```{r}
+gistar.map <- function(p = p, listw = listw, VAR = VAR, by = by){
+  require(tidyverse)
+  require(spdep)
+  require(sf)
+  require(plotly)
+  
+  p <- mutate(p, key = p[[by]])
+  
+  df.lg <- localG(p[[VAR]], listw)
+  df.lg <- as.numeric(df.lg)
+  df.lg <- data.frame(Gstar = df.lg, p.val = 2 * pnorm(abs(df.lg), lower.tail = FALSE))
+  
+  df.lg <- mutate(df.lg, 
+              Type = case_when(Gstar < 0 & p.val <= 0.05 ~ "Low Concentration",
+                               Gstar > 0 & p.val <= 0.05 ~ "High Concentration",
+                               TRUE ~ "Not Signicant"))
+
+  p <- left_join(p, 
+                  data.frame(key = p[[by]], df.lg))
+  
+  plot_ly(p) %>%
+    add_sf(split = ~(p.val < 0.05), color = ~Type, colors = c("red", "dodgerblue", "gray"))
+}
+```
+
+Creating a local Moran Map:
+```{r}
+localmoran.map(Neighbourbounds, Neighbourbounds.w, "MH_PC_Tot", by = "NAME")
+```
+
+Creating GiStar MAp:
+```{r}
+gistar.map(Neighbourbounds, Neighbourbounds.w, "MH_PC_Tot", by = "NAME")
+```
+
+
+
+```{r calculate-spatial-moving-averages, include=FALSE}
+
+
+MHPCTot.sma <- lag.listw(Neighbourbounds.w, Neighbourbounds$SMA_MH_PC_Tot)
+
+simulation_1 <- sample(Neighbourbounds$SMA_MH_PC_Tot)
+simulation_1.sma <- lag.listw(Neighbourbounds.w, simulation_1)
+simulation_2 <- sample(Neighbourbounds$SMA_MH_PC_Tot)
+simulation_2.sma <- lag.listw(Neighbourbounds.w, simulation_2)
+simulation_3 <- sample(Neighbourbounds$SMA_MH_PC_Tot)
+simulation_3.sma <- lag.listw(Neighbourbounds.w, simulation_3)
+simulation_4 <- sample(Neighbourbounds$SMA_MH_PC_Tot)
+simulation_4.sma <- lag.listw(Neighbourbounds.w, simulation_4)
+simulation_5 <- sample(Neighbourbounds$SMA_MH_PC_Tot)
+simulation_5.sma <- lag.listw(Neighbourbounds.w, simulation_5)
+#Add simulated landscapes to sf dataframe
+Neighbourbounds$simulation_1 <- simulation_1
+Neighbourbounds$simulation_2 <- simulation_2
+Neighbourbounds$simulation_3 <- simulation_3
+Neighbourbounds$simulation_4 <- simulation_4
+Neighbourbounds$simulation_5 <- simulation_5
+```
+
+```{r}
+#Add spatial moving averages to sf dataframe
+Neighbourbounds$simulation_1.sma <- simulation_1.sma
+Neighbourbounds$simulation_2.sma <- simulation_2.sma
+Neighbourbounds$simulation_3.sma <- simulation_3.sma
+Neighbourbounds$simulation_4.sma <- simulation_4.sma
+Neighbourbounds$simulation_5.sma <- simulation_5.sma
+
+#Create a new dataframe to compare original landscape to null landscapes
+MH_PC_Tot2 <- Neighbourbounds %>% 
+  # `transmute()` keeps only the spatial moving averages and geometry
+  transmute(observed = MH_PC_Tot, 
+         simulation_1,
+         simulation_2,
+         simulation_3,
+         simulation_4,
+         simulation_5,
+         geometry) %>% 
+  # `pivot_longer()` places all variables with the exception of `geometry` in a single column named `SMA` and creates a new variable called `VAR` with the names of the original columns (i.e., observed, simulation_1,...)
+  pivot_longer(cols = -c(geometry, ends_with("sma")), names_to = "VAR", values_to = "values") %>%
+  st_as_sf()
+
+ggplot() + 
+  geom_sf(data = MH_PC_Tot2, 
+          aes(fill = values), color = NA) + 
+  facet_wrap(~VAR, ncol = 3) +
+  scale_fill_distiller(palette = "YlOrRd", direction = 1)+
+  labs(fill = "Mental Health Cases per SMA") + 
+  theme(axis.text.x = element_blank(), 
+        axis.text.y = element_blank())
+
+MH_PC_Tot2 <- MH_PC_Tot2 %>% 
+  data.frame(Neighbourbounds %>% 
+               st_drop_geometry() %>% # Drop the geometry because it is already available 
+               # Select the original population density and the 5 null landscapes simulated from it.
+               transmute(MHPCTot.sma,
+                      simulation_1.sma,
+                      simulation_2.sma,
+                      simulation_3.sma,
+                      simulation_4.sma,
+                      simulation_5.sma,
+               ) %>% # Pass the result to `pivot_longer()`  
+               pivot_longer(cols = everything(), names_to = "VAR", values_to = "SMA") %>% # Copy all density variables to a single column, and create a new variable called `VAR` with the names of the original columns 
+               select(SMA)) # Drop VAR from the the dataframe
+```
+
+Plots:
+```{r}
+ggplot(data = MH_PC_Tot2, 
+       aes(x = values, 
+           y = SMA,
+           color = VAR)) +
+  geom_point(alpha = 0.1) +
+  geom_abline(slope = 1, intercept = 0, linetype = "dashed") +
+  # Add a fitted line to the plots
+  geom_smooth(formula = y ~ x,
+              method = "lm") +
+  coord_equal() +
+  xlab("Mental Helath cases per Neighbourhood") +
+  ylab("Spatial lag of mental health cases per neighbourhood") +
+  facet_wrap(~ VAR, ncol = 3)
+
+Neighbourhood_centroids <- st_centroid(Neighbourbounds_Centroids) %>% 
+  st_coordinates()
+
+Neighbourhood_centroids.knb <- knn2nb(knearneigh(Neighbourhood_centroids, k = 3))
+plot(Neighbourbounds.sp, border = "gray")
+plot(Neighbourhood_centroids.knb, Neighbourhood_centroids, col = "red", add = TRUE)
+```
+```
+
 
 <!--This create a page break, i.e., starts a new page-->
 <!--\newpage-->
@@ -97,7 +345,7 @@ Chunk option fig.cap is used to give the figure a caption; we can add a label th
 
 # Data
 
-The project’s data comes from several sources. Neighbourhood boundaries and green space areas come from Open Toronto, a data portal containing publicly available information on Toronto. The city is broken down into 140 distinct neighbourhoods, allowing us to analyze the relationship in great detail. Presuming residents are most likely to utilize green spaces that are easily accessible to them,  a neighbourhood level spatial scale is appropriate. data Toronto Community Health profiles provide a neighbourhood-level breakdown of the annual rate of hospitalizations of Mental Health Conditions for those over 20. This data is averaged annually from 2012 to 2014. This is provided for males, females, and the overall population. As well, the data provided describes whether the hospitalizations for mental health conditions in a given neighbourhood are higher than, lower than, or not significantly different from the City of Toronto overall rate. This is done at a 95% confidence interval. Mental health is often a difficult topic to measure, so we decided that hospital admissions, a clear and quantifiable variable, was a good indicator of mental health within a neighbourhood. We plan to compare the numerical number of mental-health related hospital admissions to the percentage of a neighbourhood that is classified as green space. As well, we will compare the status of a neighbourhood (i.e. significantly higher than, significantly lower than, or not significantly different than Toronto’s average mental health admission rate) to the percentage of green spaces. Utilizing these datasets will help us determine if there is a relationship between the availability of green spaces and the mental health of Torontonians. 
+The project’s data comes from several sources. Neighbourhood boundaries and green space areas come from Open Toronto, a data portal containing publicly available information on Toronto, and Statistics Canada from 2011. The city is broken down into 140 distinct neighbourhoods, allowing us to analyze the relationship in great detail. Presuming residents are most likely to utilize green spaces that are easily accessible to them,  a neighbourhood level spatial scale is appropriate. data Toronto Community Health profiles provide a neighbourhood-level breakdown of the annual rate of hospitalizations of Mental Health Conditions for those over 20. This data is averaged annually from 2012 to 2014. This is provided for males, females, and the overall population. As well, the data provided describes whether the hospitalizations for mental health conditions in a given neighbourhood are higher than, lower than, or not significantly different from the City of Toronto overall rate. This is done at a 95% confidence interval. Mental health is often a difficult topic to measure, so we decided that hospital admissions, a clear and quantifiable variable, was a good indicator of mental health within a neighbourhood. We plan to compare the numerical number of mental-health related hospital admissions to the percentage of a neighbourhood that is classified as green space. As well, we will compare the status of a neighbourhood (i.e. significantly higher than, significantly lower than, or not significantly different than Toronto’s average mental health admission rate) to the percentage of green spaces. Utilizing these datasets will help us determine if there is a relationship between the availability of green spaces and the mental health of Torontonians. 
 # Methods
 
 Proposed Analysis Methods:
@@ -117,7 +365,12 @@ Proposed Analysis Methods:
 # Conclusion
 
 # References
+<<<<<<< HEAD
 >>>>>>> 0b8dab74e730b89504fb4713f721546f64fc9aff
+=======
+https://open.toronto.ca/
+https://www12.statcan.gc.ca/census-recensement/2011/dp-pd/prof/details/page.cfm?Lang=E&Geo1=CMA&Code1=535&Geo2=PR&Code2=01&Data=Count&SearchText=Toronto&SearchType=Begins&SearchPR=01&B1=All&Custom=&TABID=1
+>>>>>>> 389bf27a2e702fa4d3c5a7cf4f7e1c2686f5184a
 
 
 >>>>>>> 24b1161a93be01731f77ea30eb5c8eebec30ed5f
