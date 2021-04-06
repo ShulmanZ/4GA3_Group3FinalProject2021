@@ -54,6 +54,7 @@ knitr::write_bib(file = 'packages.bib')
 ```{r}
 Variables_Final <- read_csv("4GA3_Project_Variables_Final.csv")
 Neighbourbounds <- st_read("Neighbourhoods_Boundaries")
+Neighbourbounds_Centroids <- st_read("Neighbourhood_Centroids")
 Parks <- st_read("parks-wgs84")
 plot(st_geometry(Neighbourbounds))
 plot(st_geometry(Parks))
@@ -257,6 +258,13 @@ ggplot(data = MH_PC_Tot2,
   xlab("Mental Helath cases per Neighbourhood") +
   ylab("Spatial lag of mental health cases per neighbourhood") +
   facet_wrap(~ VAR, ncol = 3)
+
+Neighbourhood_centroids <- st_centroid(Neighbourbounds_Centroids) %>% 
+  st_coordinates()
+
+Neighbourhood_centroids.knb <- knn2nb(knearneigh(Neighbourhood_centroids, k = 3))
+plot(Neighbourbounds.sp, border = "gray")
+plot(Neighbourhood_centroids.knb, Neighbourhood_centroids, col = "red", add = TRUE)
 ```
 ```
 
