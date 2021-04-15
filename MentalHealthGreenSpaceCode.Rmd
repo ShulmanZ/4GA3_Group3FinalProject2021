@@ -38,10 +38,20 @@ library(plotly)
 library(spdep)
 library(geog4ga3)
 library(readr)
+install.packages(dplyr)
+install.packages(spData)
+library(dplyr)
+library(spData)
+library(raster)
 ```
 ```{r}
 Variables_Final <- read_csv("4GA3_Project_Variables_Final.csv")
 Neighbourbounds <- st_read("Neighbourhoods")
+```
+
+```{r}
+remotes::install_github("Nowosad/spDataLarge")
+library(spDataLarge)
 ```
 
 ```{r write-package-bib, include=FALSE}
@@ -98,6 +108,29 @@ Neighbourbounds <- Neighbourbounds %>%
 Neighbourbounds.sp <- as(Neighbourbounds,"Spatial")
 Neighbourbounds.nb <- poly2nb(pl = Neighbourbounds.sp)
 Neighbourbounds.w <- nb2listw(Neighbourbounds.nb)
+```
+
+Creating Buffers:
+```{r}
+#5 minute walk 
+green_buff_5min = st_buffer(Neighbourbounds, dist = 410)
+plot(st_geometry(green_buff_5min))
+
+#10 minute walk 
+green_buff_10min = st_buffer(Neighbourbounds, dist = 826)
+plot(st_geometry(green_buff_10min))
+
+#15 minute walk 
+green_buff_15min = st_buffer(Neighbourbounds, dist = 1239)
+plot(st_geometry(green_buff_15min))
+
+#30 minute walk 
+green_buff_30min = st_buffer(Neighbourbounds, dist = 2580)
+plot(st_geometry(green_buff_30min))
+
+#60 minute walk 
+green_buff_60min = st_buffer(Neighbourbounds, dist = 5160)
+plot(st_geometry(green_buff_60min))
 ```
 
 Choropleth Maps of relevant data for this study:
