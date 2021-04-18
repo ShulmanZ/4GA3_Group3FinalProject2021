@@ -190,7 +190,7 @@ Correlation between mental health cases and unemployment rates are visible in 3 
 
 ggplot() + 
   geom_sf(data = Neighbourbounds, 
-          aes(fill = Med_Indiv_), color = NA) + 
+          aes(fill = Med_Ind_In), color = NA) + 
   scale_fill_distiller(palette = "YlOrRd", direction = 1) +  
   labs(fill = "Median Income (Individual) ") + 
   theme(axis.text.x = element_blank(), 
@@ -282,10 +282,7 @@ Also, the median/average income choropleth maps show a relationship between low 
 #Age Proportion in each Neighbourhood 
 
 ggplot(Neighbourbounds) + 
-  geom_sf(aes(fill = cut_number((Age0to14 +
-                                 Age15to24 +
-                                 Age25to34 +
-                                 Age35to44 +
+  geom_sf(aes(fill = cut_number((
                                  Age45to54 +
                                  Age55to64 +
                                  Age65to79 +
@@ -293,71 +290,18 @@ ggplot(Neighbourbounds) +
           color = NA, 
           size = 0.1) +
   scale_fill_brewer(palette = "YlOrRd") +
-  labs(fill = "Proportion of Age in Each Neighbourhood")
+  labs(fill = "Proportion 45+  in Each Neighbourhood")
 
-ggplot() + 
-  geom_sf(data = Neighbourbounds, 
-          aes(fill = Age0to14), color = NA) + 
-  scale_fill_distiller(palette = "YlOrRd", direction = 1) +  
-  labs(fill = "Age 0 to 14") + 
-  theme(axis.text.x = element_blank(), 
-        axis.text.y = element_blank())
 
-ggplot() + 
-  geom_sf(data = Neighbourbounds, 
-          aes(fill = Age15to24), color = NA) + 
-  scale_fill_distiller(palette = "YlOrRd", direction = 1) +  
-  labs(fill = "Age 15 to 24") + 
-  theme(axis.text.x = element_blank(), 
-        axis.text.y = element_blank())
+ggplot(Neighbourbounds) + 
+  geom_sf(aes(fill = cut_number((
+                                 Age65to79 +
+                                 Age80to99) / Census_Pop,8)),
+          color = NA, 
+          size = 0.1) +
+  scale_fill_brewer(palette = "YlOrRd") +
+  labs(fill = "Proportion 65+  in Each Neighbourhood")
 
-ggplot() + 
-  geom_sf(data = Neighbourbounds, 
-          aes(fill = Age25to34), color = NA) + 
-  scale_fill_distiller(palette = "YlOrRd", direction = 1) +  
-  labs(fill = "Age 25 to 34") + 
-  theme(axis.text.x = element_blank(), 
-        axis.text.y = element_blank())
-
-ggplot() + 
-  geom_sf(data = Neighbourbounds, 
-          aes(fill = Age35to44), color = NA) + 
-  scale_fill_distiller(palette = "YlOrRd", direction = 1) +  
-  labs(fill = "Age 35 to 44") + 
-  theme(axis.text.x = element_blank(), 
-        axis.text.y = element_blank())
-
-ggplot() + 
-  geom_sf(data = Neighbourbounds, 
-          aes(fill = Age45to54), color = NA) + 
-  scale_fill_distiller(palette = "YlOrRd", direction = 1) +  
-  labs(fill = "Age 45 to 54") + 
-  theme(axis.text.x = element_blank(), 
-        axis.text.y = element_blank())
-
-ggplot() + 
-  geom_sf(data = Neighbourbounds, 
-          aes(fill = Age55to64), color = NA) + 
-  scale_fill_distiller(palette = "YlOrRd", direction = 1) +  
-  labs(fill = "Age 55 to 64") + 
-  theme(axis.text.x = element_blank(), 
-        axis.text.y = element_blank())
-
-ggplot() + 
-  geom_sf(data = Neighbourbounds, 
-          aes(fill = Age65to79), color = NA) + 
-  scale_fill_distiller(palette = "YlOrRd", direction = 1) +  
-  labs(fill = "Age 65 to 79") + 
-  theme(axis.text.x = element_blank(), 
-        axis.text.y = element_blank())
-
-ggplot() + 
-  geom_sf(data = Neighbourbounds, 
-          aes(fill = Age80to99), color = NA) + 
-  scale_fill_distiller(palette = "YlOrRd", direction = 1) +  
-  labs(fill = "Age 80 to 99") + 
-  theme(axis.text.x = element_blank(), 
-        axis.text.y = element_blank())
 ```
 
 The overall findings from these maps point towards high unemployment rates and low median/average income being contributing factors that lead to high mental health cases.
