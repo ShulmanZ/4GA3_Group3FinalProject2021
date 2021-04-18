@@ -246,49 +246,6 @@ ggplot() +
 
 ```
 
-Chloropleth maps for how much green space is available within buffer distance:
-```{r}
-ggplot() + 
-  geom_sf(data = Neighbourbounds, 
-          aes(fill = Area_5min), color = NA) + 
-  scale_fill_distiller(palette = "YlOrRd", direction = 1) +  
-  labs(fill = "Amount of Green Space within 5 Minute Walk (m squared) ") + 
-  theme(axis.text.x = element_blank(), 
-        axis.text.y = element_blank())
-
-ggplot() + 
-  geom_sf(data = Neighbourbounds, 
-          aes(fill = Area_10min), color = NA) + 
-  scale_fill_distiller(palette = "YlOrRd", direction = 1) +  
-  labs(fill = "Amount of Green Space within 10 Minute Walk (m squared) ") + 
-  theme(axis.text.x = element_blank(), 
-        axis.text.y = element_blank())
-
-ggplot() + 
-  geom_sf(data = Neighbourbounds, 
-          aes(fill = Area_15min), color = NA) + 
-  scale_fill_distiller(palette = "YlOrRd", direction = 1) +  
-  labs(fill = "Amount of Green Space within 15 Minute Walk (m squared) ") + 
-  theme(axis.text.x = element_blank(), 
-        axis.text.y = element_blank())
-
-ggplot() + 
-  geom_sf(data = Neighbourbounds, 
-          aes(fill = Area_30min), color = NA) + 
-  scale_fill_distiller(palette = "YlOrRd", direction = 1) +  
-  labs(fill = "Amount of Green Space within 30 Minute Walk (m squared) ") + 
-  theme(axis.text.x = element_blank(), 
-        axis.text.y = element_blank())
-
-ggplot() + 
-  geom_sf(data = Neighbourbounds, 
-          aes(fill = Area_60min), color = NA) + 
-  scale_fill_distiller(palette = "YlOrRd", direction = 1) +  
-  labs(fill = "Amount of Green Space within 60 Minute Walk (m squared) ") + 
-  theme(axis.text.x = element_blank(), 
-        axis.text.y = element_blank())
-```
-
 Also, the median/average income choropleth maps show a relationship between low income and high mental health cases.
 ```{r}
 #Age Proportion in each Neighbourhood 
