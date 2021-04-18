@@ -53,15 +53,6 @@ Neighbourbounds <- st_read("Neighbourhoods")
 remotes::install_github("Nowosad/spDataLarge")
 library(spDataLarge)
 ```
-```{r}
-install.packages("rgeos")
-library("rgeos")
-```
-
-```{r}
-install.packages("gUnaryUnion")
-```
-
 
 ```{r write-package-bib, include=FALSE}
 # This function is used to write a bibliography for the `R` packages used in the paper
@@ -72,13 +63,11 @@ knitr::write_bib(file = 'packages.bib')
 Variables_Final <- read_csv("4GA3_Project_Variables_Final.csv")
 Neighbourbounds <- st_read("Neighbourhoods_Boundaries")
 Neighbourbounds_Centroids <- st_read("Neighbourhood_Centroids")
-Parks <- st_read("CITY_GREEN_SPACE_NAD1983")
+Parks <- st_read("parks-wgs84")
 plot(st_geometry(Neighbourbounds))
 plot(st_geometry(Parks))
 data.frame(Neighbourbounds)
-Parks.df <- data.frame(Parks)
 ```
-
 
 Fixing the names up for some of the fields (Kinda Clunky, if you can find a more efficient method please do!)
 ```{r}
@@ -143,20 +132,13 @@ plot(st_geometry(green_buff_30min))
 green_buff_60min = st_buffer(Neighbourbounds, dist = 5160)
 plot(st_geometry(green_buff_60min))
 ```
-
+TEST
 
 Adding the area of parks into the neighbourhood:
 ```{r}
 #Using intersect tool, identify the park space that intersects with/ is within each buffer:
 
-intersect_15min = st_intersection(green_buff_15min, Parks)
-int15 <- subset(intersect_15min, select = c(FIELD_6, NAME))
-```
-```{r}
-int15 <- subset(intersect_15min, select = c(FIELD_6, NAME))
-```
-```{r}
-myData <- aggregate(int15, int15["NAME"], FUN = count)
+intersect_15min = st_intersection(Neighbourbounds, Parks)
 ```
 
 Choropleth Maps of relevant data for this study:
