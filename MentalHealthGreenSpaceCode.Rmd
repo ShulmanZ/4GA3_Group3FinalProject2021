@@ -38,21 +38,14 @@ library(plotly)
 library(spdep)
 library(geog4ga3)
 library(readr)
-install.packages(dplyr)
-install.packages(spData)
-library(dplyr)
-library(spData)
-library(raster)
 ```
 ```{r}
 Variables_Final <- read_csv("4GA3_Project_Variables_Final.csv")
 Neighbourbounds <- st_read("Neighbourhoods")
 ```
 
-```{r}
-remotes::install_github("Nowosad/spDataLarge")
-library(spDataLarge)
-```
+
+
 
 ```{r write-package-bib, include=FALSE}
 # This function is used to write a bibliography for the `R` packages used in the paper
@@ -63,11 +56,13 @@ knitr::write_bib(file = 'packages.bib')
 Variables_Final <- read_csv("4GA3_Project_Variables_Final.csv")
 Neighbourbounds <- st_read("Neighbourhoods_Boundaries")
 Neighbourbounds_Centroids <- st_read("Neighbourhood_Centroids")
-Parks <- st_read("parks-wgs84")
+Parks <- st_read("CITY_GREEN_SPACE_NAD1983")
 plot(st_geometry(Neighbourbounds))
 plot(st_geometry(Parks))
 data.frame(Neighbourbounds)
+Parks.df <- data.frame(Parks)
 ```
+
 
 Fixing the names up for some of the fields (Kinda Clunky, if you can find a more efficient method please do!)
 ```{r}
@@ -132,14 +127,9 @@ plot(st_geometry(green_buff_30min))
 green_buff_60min = st_buffer(Neighbourbounds, dist = 5160)
 plot(st_geometry(green_buff_60min))
 ```
-TEST
 
-Adding the area of parks into the neighbourhood:
-```{r}
-#Using intersect tool, identify the park space that intersects with/ is within each buffer:
 
-intersect_15min = st_intersection(Neighbourbounds, Parks)
-```
+
 
 Choropleth Maps of relevant data for this study:
 
@@ -242,6 +232,49 @@ ggplot() +
   theme(axis.text.x = element_blank(), 
         axis.text.y = element_blank())
 
+```
+
+Chloropleth maps for how much green space is available within buffer distance:
+```{r}
+ggplot() + 
+  geom_sf(data = Neighbourbounds, 
+          aes(fill = Area_5min), color = NA) + 
+  scale_fill_distiller(palette = "YlOrRd", direction = 1) +  
+  labs(fill = "Amount of Green Space within 5 Minute Walk (m squared) ") + 
+  theme(axis.text.x = element_blank(), 
+        axis.text.y = element_blank())
+
+ggplot() + 
+  geom_sf(data = Neighbourbounds, 
+          aes(fill = Area_10min), color = NA) + 
+  scale_fill_distiller(palette = "YlOrRd", direction = 1) +  
+  labs(fill = "Amount of Green Space within 10 Minute Walk (m squared) ") + 
+  theme(axis.text.x = element_blank(), 
+        axis.text.y = element_blank())
+
+ggplot() + 
+  geom_sf(data = Neighbourbounds, 
+          aes(fill = Area_15min), color = NA) + 
+  scale_fill_distiller(palette = "YlOrRd", direction = 1) +  
+  labs(fill = "Amount of Green Space within 15 Minute Walk (m squared) ") + 
+  theme(axis.text.x = element_blank(), 
+        axis.text.y = element_blank())
+
+ggplot() + 
+  geom_sf(data = Neighbourbounds, 
+          aes(fill = Area_30min), color = NA) + 
+  scale_fill_distiller(palette = "YlOrRd", direction = 1) +  
+  labs(fill = "Amount of Green Space within 30 Minute Walk (m squared) ") + 
+  theme(axis.text.x = element_blank(), 
+        axis.text.y = element_blank())
+
+ggplot() + 
+  geom_sf(data = Neighbourbounds, 
+          aes(fill = Area_60min), color = NA) + 
+  scale_fill_distiller(palette = "YlOrRd", direction = 1) +  
+  labs(fill = "Amount of Green Space within 60 Minute Walk (m squared) ") + 
+  theme(axis.text.x = element_blank(), 
+        axis.text.y = element_blank())
 ```
 
 Also, the median/average income choropleth maps show a relationship between low income and high mental health cases.
