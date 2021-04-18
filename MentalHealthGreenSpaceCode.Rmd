@@ -58,6 +58,10 @@ install.packages("rgeos")
 library("rgeos")
 ```
 
+```{r}
+install.packages("gUnaryUnion")
+```
+
 
 ```{r write-package-bib, include=FALSE}
 # This function is used to write a bibliography for the `R` packages used in the paper
@@ -141,7 +145,19 @@ plot(st_geometry(green_buff_60min))
 ```
 
 
+Adding the area of parks into the neighbourhood:
+```{r}
+#Using intersect tool, identify the park space that intersects with/ is within each buffer:
 
+intersect_15min = st_intersection(green_buff_15min, Parks)
+int15 <- subset(intersect_15min, select = c(FIELD_6, NAME))
+```
+```{r}
+int15 <- subset(intersect_15min, select = c(FIELD_6, NAME))
+```
+```{r}
+myData <- aggregate(int15, int15["NAME"], FUN = count)
+```
 
 Choropleth Maps of relevant data for this study:
 
