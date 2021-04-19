@@ -306,6 +306,8 @@ ggplot() +
   labs(fill = "Amount of Green Space within 60 Minute Walk (m squared) ") + 
   theme(axis.text.x = element_blank(), 
         axis.text.y = element_blank())
+
+#*****Change from scientific notation*****
 ```
 
 ```{r}
@@ -506,6 +508,8 @@ Neighbourhood_centroids <- st_centroid(Neighbourbounds_Centroids) %>%
 Neighbourhood_centroids.dnb <- dnearneigh(Neighbourhood_centroids, d1 = 0, d2 = 2000)
 plot(Neighbourbounds.sp, border = "gray")
 plot(Neighbourhood_centroids.dnb, Neighbourhood_centroids, col = "red", add = TRUE)
+
+#If we are including the map on the right, give a quick summary of what this explains (Zack)
 ```
 
 
@@ -619,6 +623,12 @@ modelBest <- lm(formula = MH_PC_Tot ~ Area_5_Transform + Unemploy_r + Alone,  da
 summary(modelBest)
 
 
+modelBest1 <- lm(formula = MH_PC_Tot ~ Unemploy_r + Alone,  data = Neighbourbounds)
+summary(modelBest1)
+
+```
+
+```{r}
 #Model including proportion of people below 50,000
 model1 <- lm(formula = MH_PC_Tot ~ Area_5_Transform + Unemploy_r + Alone + PropBelowPoverty, data = Neighbourbounds)
 summary(model1)
@@ -647,6 +657,14 @@ summary(model2_15)
 modelnotArea <- lm(formula = MH_PC_Tot ~  Unemploy_r + Alone,  data = Neighbourbounds)
 summary(modelnotArea)
 
+
+```
+
+Create a plot with the model?
+
+```{r}
+plot(MH_PC_Tot ~ Area_5_Transform + Unemploy_r + Alone,  data = Neighbourbounds)
+abline(modelBest)
 
 ```
 
