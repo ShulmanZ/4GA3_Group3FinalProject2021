@@ -465,7 +465,7 @@ ggplot() +
           aes(fill = values), color = NA) + 
   facet_wrap(~VAR, ncol = 3) +
   scale_fill_distiller(palette = "YlOrRd", direction = 1)+
-  labs(fill = "Mental Health Cases per SMA") + 
+  labs(fill = "Mental Health Cases per capita SMA") + 
   theme(axis.text.x = element_blank(), 
         axis.text.y = element_blank())
 
@@ -496,16 +496,16 @@ ggplot(data = MH_PC_Tot2,
   geom_smooth(formula = y ~ x,
               method = "lm") +
   coord_equal() +
-  xlab("Mental Health cases per Neighbourhood") +
-  ylab("Spatial lag of mental health cases per neighbourhood") +
+  xlab("Mental Health Cases Per Capita") +
+  ylab("Spatial Lag of Mental Health Cases Per Capita") +
   facet_wrap(~ VAR, ncol = 3)
 
 Neighbourhood_centroids <- st_centroid(Neighbourbounds_Centroids) %>% 
   st_coordinates()
 
-Neighbourhood_centroids.knb <- knn2nb(knearneigh(Neighbourhood_centroids, k = 3))
+Neighbourhood_centroids.dnb <- dnearneigh(Neighbourhood_centroids, d1 = 0, d2 = 2000)
 plot(Neighbourbounds.sp, border = "gray")
-plot(Neighbourhood_centroids.knb, Neighbourhood_centroids, col = "red", add = TRUE)
+plot(Neighbourhood_centroids.dnb, Neighbourhood_centroids, col = "red", add = TRUE)
 ```
 
 
