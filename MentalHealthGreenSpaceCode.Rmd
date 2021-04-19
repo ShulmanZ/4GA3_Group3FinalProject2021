@@ -156,6 +156,17 @@ ggplot() +
   theme(axis.text.x = element_blank(), 
         axis.text.y = element_blank())
 
+
+
+
+ggplot(Neighbourbounds) + 
+  geom_sf(aes(fill = cut_number((MH_PC_Tot),8)),
+          color = NA, 
+          size = 0.1) +
+  scale_fill_brewer(palette = "YlOrRd") +
+  labs(fill = "Mental Health Cases per Capita in each Neighbourhood (Total)")
+
+
 ggplot() + 
   geom_sf(data = Neighbourbounds, 
           aes(fill = MH_PC_M), color = NA) + 
@@ -164,6 +175,14 @@ ggplot() +
   theme(axis.text.x = element_blank(), 
         axis.text.y = element_blank())
 
+
+ggplot(Neighbourbounds) + 
+  geom_sf(aes(fill = cut_number((MH_PC_M),8)),
+          color = NA, 
+          size = 0.1) +
+  scale_fill_brewer(palette = "YlOrRd") +
+  labs(fill = "Mental Health Cases per Capita in each Neighbourhood (Males)")
+
 ggplot() + 
   geom_sf(data = Neighbourbounds, 
           aes(fill = MH_PC_F), color = NA) + 
@@ -171,6 +190,15 @@ ggplot() +
   labs(fill = "Mental Health Cases Per Capita (Female)") + 
   theme(axis.text.x = element_blank(), 
         axis.text.y = element_blank())
+
+
+
+ggplot(Neighbourbounds) + 
+  geom_sf(aes(fill = cut_number((MH_PC_F),8)),
+          color = NA, 
+          size = 0.1) +
+  scale_fill_brewer(palette = "YlOrRd") +
+  labs(fill = "Mental Health Cases per Capita in each Neighbourhood (Females)")
 ```
 
 ```{r}
@@ -208,41 +236,44 @@ ggplot() +
 ```{r}
 #Living Situation 
 
-ggplot() + 
-  geom_sf(data = Neighbourbounds, 
-          aes(fill = W_Rel), color = NA) + 
-  scale_fill_distiller(palette = "YlOrRd", direction = 1) +  
-  labs(fill = "Living with relatives") + 
-  theme(axis.text.x = element_blank(), 
-        axis.text.y = element_blank())
+ggplot(Neighbourbounds) + 
+  geom_sf(aes(fill = cut_number(((W_Rel) / Census_Pop)*100,8)),
+          color = NA, 
+          size = 0.1) +
+  scale_fill_brewer(palette = "YlOrRd") +
+  labs(fill = "Percent of Residents Living Alone")
 
-ggplot() + 
-  geom_sf(data = Neighbourbounds, 
-          aes(fill = W_Non_Rel), color = NA) + 
-  scale_fill_distiller(palette = "YlOrRd", direction = 1) +  
-  labs(fill = "Living with non-relatives ") + 
-  theme(axis.text.x = element_blank(), 
-        axis.text.y = element_blank())
+ggplot(Neighbourbounds) + 
+  geom_sf(aes(fill = cut_number(((W_Non_Rel) / Census_Pop)*100,8)),
+          color = NA, 
+          size = 0.1) +
+  scale_fill_brewer(palette = "YlOrRd") +
+  labs(fill = "Percent of Residents Living Alone")
 
-ggplot() + 
-  geom_sf(data = Neighbourbounds, 
-          aes(fill = Alone), color = NA) + 
-  scale_fill_distiller(palette = "YlOrRd", direction = 1) +  
-  labs(fill = "Living alone ") + 
-  theme(axis.text.x = element_blank(), 
-        axis.text.y = element_blank())
+
+
+ggplot(Neighbourbounds) + 
+  geom_sf(aes(fill = cut_number(((Alone) / Census_Pop)*100,8)),
+          color = NA, 
+          size = 0.1) +
+  scale_fill_brewer(palette = "YlOrRd") +
+  labs(fill = "Percent of Residents Living Alone")
+
 
 ```
 
 Chloropleth maps for how much green space is available within buffer distance:
 ```{r}
-ggplot() + 
-  geom_sf(data = Neighbourbounds, 
-          aes(fill = Area_5min), color = NA) + 
-  scale_fill_distiller(palette = "YlOrRd", direction = 1) +  
-  labs(fill = "Amount of Green Space within 5 Minute Walk (m squared) ") + 
-  theme(axis.text.x = element_blank(), 
-        axis.text.y = element_blank())
+
+
+ggplot(Neighbourbounds) + 
+  geom_sf(aes(fill = cut_number(((Area_5min)),8)),
+          color = NA, 
+          size = 0.1) +
+  scale_fill_brewer(palette = "YlOrRd") +
+  labs(fill = "Amount of green space within a 5 minute walk")
+
+
 
 ggplot() + 
   geom_sf(data = Neighbourbounds, 
@@ -277,7 +308,6 @@ ggplot() +
         axis.text.y = element_blank())
 ```
 
-Also, the median/average income choropleth maps show a relationship between low income and high mental health cases.
 ```{r}
 #Age Proportion in each Neighbourhood 
 
@@ -466,7 +496,7 @@ ggplot(data = MH_PC_Tot2,
   geom_smooth(formula = y ~ x,
               method = "lm") +
   coord_equal() +
-  xlab("Mental Helath cases per Neighbourhood") +
+  xlab("Mental Health cases per Neighbourhood") +
   ylab("Spatial lag of mental health cases per neighbourhood") +
   facet_wrap(~ VAR, ncol = 3)
 
@@ -477,8 +507,148 @@ Neighbourhood_centroids.knb <- knn2nb(knearneigh(Neighbourhood_centroids, k = 3)
 plot(Neighbourbounds.sp, border = "gray")
 plot(Neighbourhood_centroids.knb, Neighbourhood_centroids, col = "red", add = TRUE)
 ```
+
+
+Regression Model
+```{r}
+
+#5 minutes worth of green space
+Neighbourbounds <- Neighbourbounds %>%
+  mutate(Area_5_Transform = log10(Area_5min))
+
+model5 <- lm(formula = MH_PC_Tot ~ Area_5_Transform, 
+             data = Neighbourbounds)
+summary(model5)
+
+ggplot(data = Neighbourbounds, 
+       aes(x = Area_5_Transform, 
+           y = MH_PC_Tot))+
+  geom_point() +
+  geom_smooth(formula = y ~ x,
+              method = "lm") +
+  xlab("Green Space within 5 minutes of neighbourhood") +
+  ylab("Mental Health Cases per Capita")
+
+
+#10 minutes worth of green space
+Neighbourbounds <- Neighbourbounds %>%
+  mutate(Area_10_Transform = log10(Area_10min))
+
+model10 <- lm(formula = MH_PC_Tot ~ Area_10_Transform, 
+             data = Neighbourbounds)
+summary(model10)
+
+ggplot(data = Neighbourbounds, 
+       aes(x = Area_10_Transform, 
+           y = MH_PC_Tot))+
+  geom_point() +
+  geom_smooth(formula = y ~ x,
+              method = "lm") +
+  xlab("Green Space within 10 minutes of neighbourhood") +
+  ylab("Mental Health Cases per Capita")
+
+
+
+#15 minutes worth of green space
+Neighbourbounds <- Neighbourbounds %>%
+  mutate(Area_15_Transform = log10(Area_15min))
+
+model15 <- lm(formula = MH_PC_Tot ~ Area_15_Transform, 
+             data = Neighbourbounds)
+summary(model15)
+
+ggplot(data = Neighbourbounds, 
+       aes(x = Area_15_Transform, 
+           y = MH_PC_Tot))+
+  geom_point() +
+  geom_smooth(formula = y ~ x,
+              method = "lm") +
+  xlab("Green Space within 15 minutes of neighbourhood") +
+  ylab("Mental Health Cases per Capita")
+
+#30 minutes worth of green space
+Neighbourbounds <- Neighbourbounds %>%
+  mutate(Area_30_Transform = log10(Area_30min))
+
+model30 <- lm(formula = MH_PC_Tot ~ Area_30_Transform, 
+             data = Neighbourbounds)
+summary(model30)
+
+ggplot(data = Neighbourbounds, 
+       aes(x = Area_30_Transform, 
+           y = MH_PC_Tot))+
+  geom_point() +
+  geom_smooth(formula = y ~ x,
+              method = "lm") +
+  xlab("Green Space within 30 minutes of neighbourhood") +
+  ylab("Mental Health Cases per Capita")
+
+
+#60 minutes worth of green space
+Neighbourbounds <- Neighbourbounds %>%
+  mutate(Area_60_Transform = log10(Area_60min))
+
+model60 <- lm(formula = MH_PC_Tot ~ Area_60_Transform, 
+             data = Neighbourbounds)
+summary(model60)
+
+ggplot(data = Neighbourbounds, 
+       aes(x = Area_60_Transform, 
+           y = MH_PC_Tot))+
+  geom_point() +
+  geom_smooth(formula = y ~ x,
+              method = "lm") +
+  xlab("Green Space within 60 minutes of neighbourhood") +
+  ylab("Mental Health Cases per Capita")
 ```
 
+Linear Models including the other stuff
+
+```{r}
+Neighbourbounds <- Neighbourbounds %>%
+  mutate(PropAge65Plus = (Age65to79 +Age80to99) / Census_Pop,
+         PropAge45Plus = (Age45to54+ Age55to64+ Age65to79 +Age80to99) / Census_Pop,
+         PropBelowPoverty = (Income_U5000 + Income_5000to9999 + Income_10000to14999 + Income_15000to19999 + Income_20000to29999 + Income_30000to39999 + Income_40000to49999)/Num_House,
+         PropBelow20k = (Income_U5000 + Income_5000to9999 + Income_10000to14999 + Income_15000to19999)/Num_House)
+```
+
+
+```{r}
+#Model is our best bet
+modelBest <- lm(formula = MH_PC_Tot ~ Area_5_Transform + Unemploy_r + Alone,  data = Neighbourbounds)
+summary(modelBest)
+
+
+#Model including proportion of people below 50,000
+model1 <- lm(formula = MH_PC_Tot ~ Area_5_Transform + Unemploy_r + Alone + PropBelowPoverty, data = Neighbourbounds)
+summary(model1)
+
+
+#Model including proportion of people below 20,000
+model3 <- lm(formula = MH_PC_Tot ~ Area_5_Transform + Unemploy_r + Alone + PropBelow20k, data = Neighbourbounds)
+summary(model3)
+
+#Model including proportion of people over 65
+model4 <- lm(formula = MH_PC_Tot ~ Area_5_Transform + Unemploy_r + Alone + PropAge65Plus, data = Neighbourbounds)
+summary(model4)
+
+
+#Model including proportion of people over 45
+model4 <- lm(formula = MH_PC_Tot ~ Area_5_Transform + Unemploy_r + Alone + PropAge45Plus, data = Neighbourbounds)
+summary(model4)
+
+
+model2_10 <- lm(formula = MH_PC_Tot ~ Area_10_Transform + Unemploy_r + Alone,  data = Neighbourbounds)
+summary(model2_10)
+
+model2_15 <- lm(formula = MH_PC_Tot ~ Area_15_Transform + Unemploy_r + Alone,  data = Neighbourbounds)
+summary(model2_15)
+
+modelnotArea <- lm(formula = MH_PC_Tot ~  Unemploy_r + Alone,  data = Neighbourbounds)
+summary(modelnotArea)
+
+
+```
 
 <!--This create a page break, i.e., starts a new page-->
 <!--\newpage-->
