@@ -38,6 +38,7 @@ library(plotly)
 library(spdep)
 library(geog4ga3)
 library(readr)
+library(scales)
 ```
 ```{r}
 Variables_Final <- read_csv("4GA3_Project_Variables_Final.csv")
@@ -156,7 +157,18 @@ plot(st_geometry(green_buff_60min))
 Choropleth Maps of relevant data for this study:
 
 ```{r}
-#Population Density 
+#Population Density based on a total population of 2615060
+
+options(scipen=10000)
+
+ggplot(Neighbourbounds) + 
+  geom_sf(aes(fill = cut_number(((Census_Pop/Neighbourhood_Area)*1000000),8)),
+          color = NA, 
+          size = 0.1) +
+  scale_fill_brewer(palette = "YlOrRd") +
+  labs(fill = "Population Density per Neighbourhood (people per km squared")
+
+
 
 ggplot() + 
   geom_sf(data = Neighbourbounds, 
@@ -169,6 +181,8 @@ ggplot() +
 A select few areas with over 40,000 people
 ```{r}
 #Mental Health Cases Per Capita
+
+options(scipen=10000)
 
 ggplot() + 
   geom_sf(data = Neighbourbounds, 
@@ -226,6 +240,8 @@ ggplot(Neighbourbounds) +
 ```{r}
 #Unemployment Rates 
 
+options(scipen=10000)
+
 ggplot() + 
   geom_sf(data = Neighbourbounds, 
           aes(fill = Unemploy_r), color = NA) + 
@@ -237,6 +253,8 @@ ggplot() +
 Correlation between mental health cases and unemployment rates are visible in 3 neighbourhoods.
 ```{r}
 # Income Chloropleth Map
+
+options(scipen=10000)
 
 ggplot() + 
   geom_sf(data = Neighbourbounds, 
@@ -258,19 +276,20 @@ ggplot() +
 ```{r}
 #Living Situation 
 
+
 ggplot(Neighbourbounds) + 
   geom_sf(aes(fill = cut_number(((W_Rel) / Census_Pop)*100,8)),
           color = NA, 
           size = 0.1) +
   scale_fill_brewer(palette = "YlOrRd") +
-  labs(fill = "Percent of Residents Living Alone")
+  labs(fill = "Percent of Residents Living with Relatives")
 
 ggplot(Neighbourbounds) + 
   geom_sf(aes(fill = cut_number(((W_Non_Rel) / Census_Pop)*100,8)),
           color = NA, 
           size = 0.1) +
   scale_fill_brewer(palette = "YlOrRd") +
-  labs(fill = "Percent of Residents Living Alone")
+  labs(fill = "Percent of Residents Living non-Relatives")
 
 
 
@@ -284,52 +303,125 @@ ggplot(Neighbourbounds) +
 
 ```
 
+Mutate to make data in km squared:
+
+```{r}
+Neighbourbounds <- Neighbourbounds %>%
+  mutate(Area_5min_km = Area_5min/1000000,
+         Area_10min_km = Area_10min/1000000,
+         Area_15min_km = Area_15min/1000000,
+         Area_30min_km = Area_30min/1000000,
+         Area_60min_km = Area_60min/1000000)
+
+```
+
+
+
 Chloropleth maps for how much green space is available within buffer distance:
 ```{r}
+options(scipen=10000)
+
+#Continuous Maps:
+
+
+
+ggplot() + 
+  geom_sf(data = Neighbourbounds, 
+          aes(fill = Area_5min_km), color = NA) + 
+  scale_fill_distiller(palette = "YlOrRd", direction = 1) +  
+  labs(fill = "Amount of Green Space within 5 Minute Walk (km squared) ") + 
+  theme(axis.text.x = element_blank(), 
+        axis.text.y = element_blank())
+
+
+ggplot() + 
+  geom_sf(data = Neighbourbounds, 
+          aes(fill = Area_10min_km), color = NA) + 
+  scale_fill_distiller(palette = "YlOrRd", direction = 1) +  
+  labs(fill = "Amount of Green Space within 10 Minute Walk (km squared) ") + 
+  theme(axis.text.x = element_blank(), 
+        axis.text.y = element_blank())
+
+
+ggplot() + 
+  geom_sf(data = Neighbourbounds, 
+          aes(fill = Area_15min_km), color = NA) + 
+  scale_fill_distiller(palette = "YlOrRd", direction = 1) +  
+  labs(fill = "Amount of Green Space within 15 Minute Walk (km squared) ") + 
+  theme(axis.text.x = element_blank(), 
+        axis.text.y = element_blank())
+
+
+ggplot() + 
+  geom_sf(data = Neighbourbounds, 
+          aes(fill = Area_30min_km), color = NA) + 
+  scale_fill_distiller(palette = "YlOrRd", direction = 1) +  
+  labs(fill = "Amount of Green Space within 30 Minute Walk (km squared) ") + 
+  theme(axis.text.x = element_blank(), 
+        axis.text.y = element_blank())
+
+
+ggplot() + 
+  geom_sf(data = Neighbourbounds, 
+          aes(fill = Area_60min_km), color = NA) + 
+  scale_fill_distiller(palette = "YlOrRd", direction = 1) +  
+  labs(fill = "Amount of Green Space within 60 Minute Walk (km squared) ") + 
+  theme(axis.text.x = element_blank(), 
+        axis.text.y = element_blank())
+
+
+#Discrete Maps
 
 
 ggplot(Neighbourbounds) + 
-  geom_sf(aes(fill = cut_number(((Area_5min)),8)),
+  geom_sf(aes(fill = cut_number(((Area_5min)/1000000),8)),
           color = NA, 
           size = 0.1) +
   scale_fill_brewer(palette = "YlOrRd") +
-  labs(fill = "Amount of green space within a 5 minute walk")
+  labs(fill = "Amount of green space within a 5 minute walk (km^2)")
 
 
 
-ggplot() + 
-  geom_sf(data = Neighbourbounds, 
-          aes(fill = Area_10min), color = NA) + 
-  scale_fill_distiller(palette = "YlOrRd", direction = 1) +  
-  labs(fill = "Amount of Green Space within 10 Minute Walk (m squared) ") + 
-  theme(axis.text.x = element_blank(), 
-        axis.text.y = element_blank())
 
-ggplot() + 
-  geom_sf(data = Neighbourbounds, 
-          aes(fill = Area_15min), color = NA) + 
-  scale_fill_distiller(palette = "YlOrRd", direction = 1) +  
-  labs(fill = "Amount of Green Space within 15 Minute Walk (m squared) ") + 
-  theme(axis.text.x = element_blank(), 
-        axis.text.y = element_blank())
 
-ggplot() + 
-  geom_sf(data = Neighbourbounds, 
-          aes(fill = Area_30min), color = NA) + 
-  scale_fill_distiller(palette = "YlOrRd", direction = 1) +  
-  labs(fill = "Amount of Green Space within 30 Minute Walk (m squared) ") + 
-  theme(axis.text.x = element_blank(), 
-        axis.text.y = element_blank())
+ggplot(Neighbourbounds) + 
+  geom_sf(aes(fill = cut_number(((Area_10min_km)/1000000),8)),
+          color = NA, 
+          size = 0.1) +
+  scale_fill_brewer(palette = "YlOrRd") +
+  labs(fill = "Amount of green space within a 10 minute walk (km^2)")
 
-ggplot() + 
-  geom_sf(data = Neighbourbounds, 
-          aes(fill = Area_60min), color = NA) + 
-  scale_fill_distiller(palette = "YlOrRd", direction = 1) +  
-  labs(fill = "Amount of Green Space within 60 Minute Walk (m squared) ") + 
-  theme(axis.text.x = element_blank(), 
-        axis.text.y = element_blank())
 
-#*****Change from scientific notation*****
+
+ggplot(Neighbourbounds) + 
+  geom_sf(aes(fill = cut_number(((Area_15min)/1000000),8)),
+          color = NA, 
+          size = 0.1) +
+  scale_fill_brewer(palette = "YlOrRd") +
+  labs(fill = "Amount of green space within a 15 minute walk (km^2)")
+
+
+
+
+
+
+ggplot(Neighbourbounds) + 
+  geom_sf(aes(fill = cut_number(((Area_30min)/1000000),8)),
+          color = NA, 
+          size = 0.1) +
+  scale_fill_brewer(palette = "YlOrRd") +
+  labs(fill = "Amount of green space within a 30 minute walk (km^2)")
+
+
+
+
+ggplot(Neighbourbounds) + 
+  geom_sf(aes(fill = cut_number(((Area_60min)/1000000),8)),
+          color = NA, 
+          size = 0.1) +
+  scale_fill_brewer(palette = "YlOrRd") +
+  labs(fill = "Amount of green space within a 60 minute walk (km^2)")
+
 ```
 
 ```{r}
