@@ -619,9 +619,30 @@ ggplot(data = MH_PC_Tot2,
 Neighbourhood_centroids <- st_centroid(Neighbourbounds_Centroids) %>% 
   st_coordinates()
 
-Neighbourhood_centroids.dnb <- dnearneigh(Neighbourhood_centroids, d1 = 0, d2 = 2000)
+Neighbourhood_centroids_5min.dnb <- dnearneigh(Neighbourhood_centroids, d1 = 0, d2 = 410)
 plot(Neighbourbounds.sp, border = "gray")
-plot(Neighbourhood_centroids.dnb, Neighbourhood_centroids, col = "red", add = TRUE)
+plot(Neighbourhood_centroids_5min.dnb, Neighbourhood_centroids, col = "red", add = TRUE)
+summary(Neighbourhood_centroids_5min.dnb)
+
+Neighbourhood_centroids_10min.dnb <- dnearneigh(Neighbourhood_centroids, d1 = 0, d2 = 826)
+plot(Neighbourbounds.sp, border = "gray")
+plot(Neighbourhood_centroids_10min.dnb, Neighbourhood_centroids, col = "red", add = TRUE)
+summary(Neighbourhood_centroids_10min.dnb)
+
+Neighbourhood_centroids_15min.dnb <- dnearneigh(Neighbourhood_centroids, d1 = 0, d2 = 1239)
+plot(Neighbourbounds.sp, border = "gray")
+plot(Neighbourhood_centroids_15min.dnb, Neighbourhood_centroids, col = "red", add = TRUE)
+summary(Neighbourhood_centroids_15min.dnb)
+
+Neighbourhood_centroids_30min.dnb <- dnearneigh(Neighbourhood_centroids, d1 = 0, d2 = 2580)
+plot(Neighbourbounds.sp, border = "gray")
+plot(Neighbourhood_centroids_30min.dnb, Neighbourhood_centroids, col = "red", add = TRUE)
+summary(Neighbourhood_centroids_30min.dnb)
+
+Neighbourhood_centroids_60min.dnb <- dnearneigh(Neighbourhood_centroids, d1 = 0, d2 = 5160)
+plot(Neighbourbounds.sp, border = "gray")
+plot(Neighbourhood_centroids_60min.dnb, Neighbourhood_centroids, col = "red", add = TRUE)
+summary(Neighbourhood_centroids_60min.dnb)
 
 #If we are including the map on the right, give a quick summary of what this explains (Zack)
 ```
