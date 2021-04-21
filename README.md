@@ -3,7 +3,7 @@ The Relationship between Mental Health Admissions and Green Space in Toronto, ON
 
 This project is submitted to complete the requirements of ENVSOCTY 4GA3 Applied Spatial Statistics
 
-Neighbourbounds ReadMe table components:
+Neighbourhoods ReadMe table components:
 ==============================================
 FIELD NAME: Data Contained
 FIELD_6 : Unique numerical identifier (shouldn;t really need to use this)
