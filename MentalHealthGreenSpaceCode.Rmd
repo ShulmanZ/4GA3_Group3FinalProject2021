@@ -492,6 +492,7 @@ localmoran.map <- function(p = p, listw = listw, VAR = VAR, by = by){
 }
 ```
 
+
 This function is used to create $G_i^*$ maps:
 ```{r}
 gistar.map <- function(p = p, listw = listw, VAR = VAR, by = by){
@@ -524,9 +525,18 @@ Creating a local Moran Map:
 localmoran.map(Neighbourbounds, Neighbourbounds.w, "MH_PC_Tot", by = "NAME")
 ```
 
+```{r}
+localmoran.map(Neighbourbounds, Neighbourbounds.w, "Area_15min", by = "NAME")
+```
+
+
 Creating GiStar MAp:
 ```{r}
 gistar.map(Neighbourbounds, Neighbourbounds.w, "MH_PC_Tot", by = "NAME")
+```
+
+```{r}
+gistar.map(Neighbourbounds, Neighbourbounds.w, "Area_30min", by = "NAME")
 ```
 
 
@@ -759,13 +769,14 @@ Neighbourbounds <- Neighbourbounds %>%
 
 ```{r}
 #Model is our best bet
-modelBest <- lm(formula = MH_PC_Tot ~ Area_5_Transform + Unemploy_r + Alone,  data = Neighbourbounds)
+modelBest <- lm(formula = MH_PC_Tot ~Area_5_Transform * Unemploy_r * Alone,  data = Neighbourbounds)
 summary(modelBest)
 
+modelBestM <- lm(formula = MH_PC_M ~Area_5_Transform,  data = Neighbourbounds)
+summary(modelBestM)
 
-modelBest1 <- lm(formula = MH_PC_Tot ~ Unemploy_r + Alone,  data = Neighbourbounds)
-summary(modelBest1)
-
+modelBestF <- lm(formula = MH_PC_F ~Area_5_Transform,  data = Neighbourbounds)
+summary(modelBestF)
 ```
 
 ```{r}
@@ -796,17 +807,11 @@ summary(model2_15)
 
 modelnotArea <- lm(formula = MH_PC_Tot ~  Unemploy_r + Alone,  data = Neighbourbounds)
 summary(modelnotArea)
-
-
 ```
 
 Create a plot with the model?
 
-```{r}
-plot(MH_PC_Tot ~ Area_5_Transform + Unemploy_r + Alone,  data = Neighbourbounds)
-abline(modelBest)
 
-```
 
 <!--This create a page break, i.e., starts a new page-->
 <!--\newpage-->
