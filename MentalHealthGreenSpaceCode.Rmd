@@ -166,17 +166,8 @@ ggplot(Neighbourbounds) +
           color = NA, 
           size = 0.1) +
   scale_fill_brewer(palette = "YlOrRd") +
-  labs(fill = "Population Density per Neighbourhood (people per km squared")
+  labs(fill = "Population Density per Neighbourhood (people per km squared)")
 
-
-
-ggplot() + 
-  geom_sf(data = Neighbourbounds, 
-          aes(fill = Census_Pop), color = NA) + 
-  scale_fill_distiller(palette = "YlOrRd", direction = 1) + 
-  labs(fill = "Population Density per Neighbourhood") + 
-  theme(axis.text.x = element_blank(), 
-        axis.text.y = element_blank())
 ```
 A select few areas with over 40,000 people
 ```{r}
