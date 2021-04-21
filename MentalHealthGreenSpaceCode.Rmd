@@ -644,7 +644,12 @@ plot(Neighbourbounds.sp, border = "gray")
 plot(Neighbourhood_centroids_60min.dnb, Neighbourhood_centroids, col = "red", add = TRUE)
 summary(Neighbourhood_centroids_60min.dnb)
 
-#If we are including the map on the right, give a quick summary of what this explains (Zack)
+
+# You will notice that the slope of the line tends to be flat in the simulated variables; this is to be expected, since these variables are spatially random the values of the variable at i are independent of the values of their local means in other words, the probability that the map is random is pretty high (in fact, since these 5 of these maps are null landscapes, we know for a fact that they are random).
+
+#The empirical variable, on the other hand, has a slope that is much closer to the 45 degree line. This indicates that the values of the variable at i are not independent of their local mean the probability of a non-random pattern is high
+
+# A spatial weights matrix is a representation of the spatial structure of your data. It is a quantification of the spatial relationships that exist among the features in your dataset (or, at least, a quantification of the way you conceptualize those relationships). Because the spatial weights matrix imposes a structure on your data, you should select a conceptualization that best reflects how features actually interact with each other. A spatial weights matrix was created for each established buffer to help understand the geographic distribution and to understand accessibility such as if you want to go to a different neighborhoods park. As seen by the maps and when we look at the summary tables, it isn't possible to access a different neighborhood in a 5 minute walking distance. other neighborhoods become accessible to the average walker when they go for a 30 to 60 minute walking trip.
 ```
 
 
