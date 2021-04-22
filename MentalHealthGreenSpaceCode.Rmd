@@ -1,7 +1,5 @@
 ---
 title: "Relationship Between Green Spaces and Mental Health in Toronto, ON"
-#subtitle: "A subtitle"
-thanks: "Paper submitted to complete the requirements of ENVSOCTY 4GA3 Applied Spatial Statistics"
 author:
 - name: Devon Sendler
   student_number: 400158561
@@ -13,17 +11,19 @@ author:
   student_number: 400143944
 - name: Zackary Shulman
   student_number: 400121210
-subject: "ENVSOCTY 4GA3"
-abstract: "This paper reports our analysis of the correlation between green space and mental health within Toronto, ON, and its relationship between income and age. Data was collected from the Open Ontario, statistics Canada, and Toronto Community Health."
-keywords: "Mental, health, income, Toronto, Parks, spatial analysis"
-date: "4/4/2021"
+date: "Winter 2021"
 output:
+  word_document: default
   pdf_document:
-    # The project-template-default.tex file was minimally adapted from Steven V. Miller's template for academic manuscripts. See:
-    # http://svmiller.com/blog/2016/02/svm-r-markdown-manuscript/
-    # https://github.com/svmiller/svm-r-markdown-templates/blob/master/svm-latex-ms.tex
     template: project-template-default.tex
-always_allow_html: true
+abstract: This paper reports our analysis of the correlation between green space and
+  mental health within Toronto, ON, and its relationship with other socioeconomic factors. Data
+  was collected from the Open Ontario, statistics Canada, and Toronto Community Health.
+keywords: Mental, health, income, Toronto, Parks, spatial analysis
+thanks: Paper submitted to complete the requirements of ENVSOCTY 4GA3 Applied Spatial
+  Statistics
+subject: ENVSOCTY 4GA3
+always_allow_html: yes
 ---
 
 <!--Chunks of code can have names; the chunk option "include" controls whether the chunk and its output are printed in the final document-->
@@ -46,6 +46,8 @@ Neighbourbounds <- st_read("Neighbourhoods")
 
 
 **Introduction**
+
+
   When is the last time you enjoyed a stroll in the park, a casual game of catch, or simply took your dog for a walk by a green space down your street? Hopefully it hasn’t been too long! Undoubtedly, parks and green spaces have become absolutely essential areas in our cities (Shanahan et al., 2015), a place to disconnect from the stressors of everyday life and, perhaps, connect back to nature, with a neighbour, friends, or one’s inner peace. They provide fundamental services such as physical activity, meditation, social interaction, or simply a moment away from the hustle and bustle of modern cities such as Toronto, the focus of the present paper. Green spaces like Central Park in New York City (USA) or High Park in Toronto (ON) are millionaire investments that require careful planning and maintenance for the remainder from the moment they are inaugurated (and even prior to that). They must have a clear net positive effect on the population if they were deemed as feasible projects. As population rises and cities continue growing exponentially, public services such as city parks and other green spaces must be planned in ways that ensure equitable access to all inhabitants, if they are to be beneficial to the communities they serve (Nutsford et al., 2013). 
 
   The present paper aims to determine the relationship between green-space availability and mental health in Toronto, ON, Canada. The specific goal of our project is to investigate the relationship between the availability green space and mental health admission rates in Toronto neighbourhoods. Furthermore, we plan to determine which socioeconomic factors influenced mental health admissions in relation to green space, in hopes to identify more vulnerable neighbourhoods within Toronto. 
@@ -53,34 +55,48 @@ Neighbourbounds <- st_read("Neighbourhoods")
   To determine the existence (or lack thereof) of this relationship this project will firstly provide a comprehensive review of the available literature on links between green space and mental health, and walking distance trends in cities. Following the literature review, the data utilized in this study will be outlined, along with the methodology and statistical analysis used to accept  or reject the null hypothesis. Our running hypothesis will expect there to be a clear negative correlation between green space availability and mental health hospital admissions per neighbourhoods in Toronto. Other aspects and relationships will be explored, such as the socioeconomic groups most affected by different availability of green spaces. Finally, the present paper will present final remarks, along with recommendations on future studies and urban planning, specifically in the city of Toronto, ON.
 
 
+
 **Background**
+
+
   Plenty of research is constantly being conducted to determine the effect of green spaces on population’s physical and mental health, as well as on the parameters that ensure equitable access to these areas. Are there certain socioeconomic groups more affected by their accessibility to parks? Does sex play a role in these relationships? Does the city of Toronto, widely regarded as one of the best places to live in worldwide, show correlation between green space accessibility and Torontonians’ mental health? Some of these questions have been answered by the existing literature, and some others, specific to Toronto (ON), we hope to shed light on with the present paper.
 
 
 *Study area*
+
+
   The affect of greenspace on mental health was conducted at the census tract level within Toronto. In order to analyze green space we overlayed a shapefile containing the census tracts with a shapefile containing the area in Km^2 of Toronto' green spaces. Toronto was chosen as our study site due to the highly variable greenspace and its abundant open data sources. A high variability in green space was important for this study as it allows us to view results at the extremes (i.e. virtually no nearby green space -> alot of nearby greenspace) while still having enough census tracts to account for any significant deviations such as disproportionately massive parks.
 
 
 *Greenspace and Mental Health*
+
+
   Contact with natural environments including green spaces has been associated with improved perceived and objective health outcomes and wellbeing (Alcock et al., 2014 and James et al., 2015;). Science attributes many benefits to green spaces, including increased physical activity, reducing psychological stress, anxiety and depression, increasing social contacts and cohesion and reducing exposure to environmental hazards such as air pollution (Dadvand et al. 2015, 2016). Lopes et al. (2020) demonstrate the positive effects of walking in nature. As they suggest, a walk as short as 30 minutes in a setting with natural elements, such as a park, elicits a feeling of awe and consequently draws people away from themselves, preventing rumination and its negative health effects (related to stress and thus high cortisol levels). In this study, researchers compared the effects of walking in nature with the same type of walk (group and duration) except in an urban setting, through the city. This study adds to the scientific consensus that access to natural environments, especially within an urban environment, yields important benefits to the mental health capital of cities and countries. Dadvand et al. (206) suggest a more relevant effect of green spaces on mental health status in males under the age of 65. For the purpose of our study we will determine whether different sex or age groups experience different mental health outcomes with proximity or accessibility to green spaces in Toronto, as observed by Dadvand et al. (2016) in Barcelona.  While science does not correlate living in a greener neighbourhood with any wellbeing outcomes, on the other hand it does suggest positive health outcomes for those who visited nature more than once a week (Martin et al., 2020). Martin et al. 2020 adds to the scientific consensus of positive health-nature relationships, suggesting that “detachment from the natural world may be a factor in poor mental and physical health”. In the present study we aim to determine whether parameters like distance and size of natural areas within Toronto (which affect accessibility) have an impact on the mental health of its population. Rigolon et al (2021) aim to determine the strength of associations between green-space and health of advantaged and disadvantaged groups. This research is relevant for the purpose of the present study on the associations between green-space and mental health in Toronto. The city has been a focus of this sort of science already, with papers such as Hassen (2016) pointing out the challenges of determining which characteristics of green spaces do affect Torontonians’ mental health, such as quality and accessibility of the parks.
 Determining which socioeconomic groups have a greater health dependency on accessibility to green-space can help in future urban planning and park allocation within cities. Rigolon et al. 2021 demonstrate that people of lower socioeconomic status show more beneficial effects to park accessibility than high-income households. The literature is clear, with multiple papers pointing out clear correlations between higher levels of green space and healthier populations (Richardson et al., 2013; van den Berg et al., 2016; Barton & Rogerson, 2017;  Engeman et al., 2019; Callaghan et al., 2020 ). An important aspect of the analysis carried out for the purpose of our study on Toronto were buffers created around neighbourhoods’ centroids. These buffers would represent the walk time an average person would walk towards a park, within or outside their neighbourhood. 
 
 
 *People’s Willingness to Walk*
+
+
   In order to decide the appropriate distance for each of the buffers representing walking distance, we did a brief literature review on the topic. A park that is far from one’s neighbourhood is expected to be considered less “accessible” to that particular neighborhood, since people are more likely to walk to their nearest, most accessible park. However, nothing is stopping Toronto residents from walking over to a park that might be located in a different neighbourhood from the one they reside in. Moore et al. (2010) studied the relationships existing between park use, age, social participation and neighbourhood age composition in the Canadian city of Montreal. Granted, Montreal and Toronto are very different cities, but we considered this research to be significant for the purpose of this paper. Research such as Moore et al. (2010) left it to the study’s subjects to indicate whether a park was (under their subjective opinion, often determined by their mobility status) within an accessible walking distance. Research such as this confirms the importance of park proximity in determining park use and accessibility, also demonstrating differential vulnerability of older adults to neighbourhood influences (average neighbourhood age and park use by age group). 
-
-	Bryan et al. (2009) provides insight into the walking patterns of Canadian adults, which is directly related to the purpose of our study. They found that leisure-walking time trends between Canadian adults (2007 data) varied depending on different demographic subgroups. In 2007: 7% of respondents were willing to walk up to 15 minutes (per walk); 40% reported walking 16 to 30 minutes; around 37% walked 31-60 minutes; and less than 13% reported walking over an hour each time they went for a walk. These numbers report total walk time, whereas our buffer decisions are determining walk time towards a park. For that reason, the bracket of 0-30 minutes was deemed more significant for the purpose of this study, with an emphasis on the 5 minute mark which was found to be most significant in our analysis (see below).
-	
-	Finally, science agrees that someone’s willingness to walk can be determined by their age, health, time availability, quality of surroundings, safety, climate and other factors (Donahue, 2011). In New York, for example, commuters were most likely to walk to a station that was located within a quarter mile, a similar distance when compared to other big cities such as Los Angeles or the Bay Area (all U.S.A locations). Research supports both the quarter mile and half mile distances, since those dilute the issue of determining if the walk to the park is considered a chore, or rather part of the leisure experience. For these reasons, buffers of 5 minutes (410 meters), 10 minutes (826 m) and 15 minutes (1239 m) were determined to be most representative of residents’ trends (Donahue, 2011). Note these distances are measured around the centroid of each neighbourhood in ArcGIS Pro, then imported into R. 
+	Bryan and Katzmarzyk (2009) provide insight into the walking patterns of Canadian adults, which is directly related to the purpose of our study. They found that leisure-walking time trends between canadian adults (2007 data) varied depending on different demographic subgroups. In 2007: 7% of respondents were willing to walk up to 15 minutes (per walk); 40% reported walking 16 to 30 minutes; around 37% walked 31-60 minutes; and less than 13% reported walking over an hour each time they went for a walk. These numbers report total walk time, whereas our buffer decisions are determining walk time towards a park. For that reason, the bracket of 0-30 minutes was deemed more significant for the purpose of this study, with an emphasis on the 5 minute mark which was found to be most significant in our analysis (see below). 
+	Finally, science agrees that someone’s willingness to walk can be determined by their age, health, time availability, quality of surroundings, safety, climate and other factors (Donahue, 2011). In New York, for example, commuters were most likely to walk to a station that was located within a quarter mile, a similar distance when compared to other big cities such as Los Angeles or the Bay Area (all U.S.A locations). Research supports both the quarter mile and half mile distances, since those dilute the issue of determining if the walk to the park is considered a chore, or rather part of the leisure experience. For these reasons, buffers of 5 minutes (410 meters), 10 minutes (826 m) and 15 minutes (1239 m) were determined to be most representative of residents’ trends (Donahue, 2011). Note these distances are measured around the centroid of each neighbourhood in ArcGIS Pro, then imported into R.
 
 
-*Data and methods*
+
+
+**Data and methods**
+
+
   The project’s data comes from several sources. Neighbourhood boundaries and green space areas come from Open Toronto, a data portal containing publicly available information on Toronto, and Statistics Canada from 2011. The city is broken down into 140 distinct neighbourhoods, allowing us to analyze the relationship in great detail. Presuming residents are most likely to utilize green spaces that are easily accessible to them,  a neighbourhood level spatial scale is appropriate. data Toronto Community Health profiles provide a neighbourhood-level breakdown of the annual rate of hospitalizations of Mental Health Conditions for those over 20. This data is averaged annually from 2012 to 2014. This is provided for males, females, and the overall population. As well, the data provided describes whether the hospitalizations for mental health conditions in a given neighbourhood are higher than, lower than, or not significantly different from the City of Toronto overall rate. This is done at a 95% confidence interval. Mental health is often a difficult topic to measure, so we decided that hospital admissions, a clear and quantifiable variable, was a good indicator of mental health within a neighbourhood. We plan to compare the numerical number of mental-health related hospital admissions to the percentage of a neighbourhood that is classified as green space. As well, we will compare the status of a neighbourhood (i.e. significantly higher than, significantly lower than, or not significantly different than Toronto’s average mental health admission rate) to the percentage of green spaces. Utilizing these datasets will help us determine if there is a relationship between the availability of green spaces and the mental health of Torontonians.
 
   This study uses Rstudio to conduct a series of data processes to visualize and find a significant correlation in several variables including wealth, age, and distance to green space for Toronto, ON. Prior to loading data into R we created buffers using ESRI ArcPro, we then added buffers around neighbourhood boundaries based on our research. We then intercepted each of these buffers with the green space polygons. This gave us the green space area within each buffering distance for each neighbourhood. The independent variable in this study is the mental health data that measures annual hospitalization rates for the population of Toronto. This study conducts area data analysis using choropleth maps to visualize trends and patterns in the data, scatterplots, and regression analyses to determine relationships between mental health and the dependent variables. First we created choropleth maps to visualize the variables within Toronto's neighbourhoods, we then created spatial moving average to determine if the neighbourhood level distribution of mental health cases was random or not random. We then use Moran's I to determine if mental health cases were spatially autocorrelated. Finally we completed several linear models examining the correlation between mental health and the study variables focusing on green space availability. 
 
 
+
 **Results**
+
+
   To begin this study we had to overlay a green space shapefile with the census shapefile. The green space data was originally in absolute km^2 but was changed to percentage within each census tract. Centroids were added to each census subdivision to determine the distance between each neighbourhood. 
 
 ```{r Load-Datasets, include=FALSE}
@@ -95,8 +111,9 @@ Parks.df <- data.frame(Parks)
 ```
 
 
-Fixing the names up for some of the fields (Kinda Clunky, if you can find a more efficient method please do!)
+
 ```{r Rename-Variables,include=FALSE}
+#Fixing the names up for some of the fieldsas required
 names(Neighbourbounds)[names(Neighbourbounds) == 'Shape_Area'] <- 'Neighbourhood_Area'
 names(Neighbourbounds)[names(Neighbourbounds) == 'Shape_Ar_1'] <- 'GS_Area'
 names(Neighbourbounds)[names(Neighbourbounds) == 'Med_Indiv_'] <- 'Med_Ind_In'
@@ -123,12 +140,9 @@ names(Neighbourbounds)[names(Neighbourbounds) == 'Shape_Ar_4'] <- 'GSArea_60Min_
 
 
 ```{r Mutate-Variables-To-Rates,include=FALSE}
-
+#Creating new rate variables from the absolute variables obtained
 Neighbourbounds <- Neighbourbounds %>%
   mutate(PropAge65Plus = (Age65to79 +Age80to99) / Census_Pop,
-         PropAge45Plus = (Age45to54+ Age55to64+ Age65to79 +Age80to99) / Census_Pop,
-         PropBelowPoverty = (Income_U5000 + Income_5000to9999 + Income_10000to14999 + Income_15000to19999 + Income_20000to29999 + Income_30000to39999 + Income_40000to49999)/Num_House,
-         PropBelow20k = (Income_U5000 + Income_5000to9999 + Income_10000to14999 + Income_15000to19999)/Num_House,
          Area_5min_km = Area_5min/1000000,
          Area_10min_km = Area_10min/1000000,
          Area_15min_km = Area_15min/1000000,
@@ -141,25 +155,24 @@ Neighbourbounds <- Neighbourbounds %>%
 ```
 
 ```{r Mutate-SMA-Field,include=FALSE}
+#Adding a field to run spatial moving average on
 Neighbourbounds <- Neighbourbounds %>%
   mutate(SMA_MH_PC_Tot = MH_PC_Tot)
 
 ```
 
 
-#Spatial weights Matrix for data
+
 ```{r Spatial-Contiguities, include=FALSE}
+# Creatin Spatial weights Matrix for data
 Neighbourbounds.sp <- as(Neighbourbounds,"Spatial")
 Neighbourbounds.nb <- poly2nb(pl = Neighbourbounds.sp)
 Neighbourbounds.w <- nb2listw(Neighbourbounds.nb)
 ```
 
 
-Choropleth Maps of relevant data for this study:
 
-Population density
-
-```{r plot-density, echo=FALSE, fig.cap={"\\label{fig:Pop-Dens}CPopulation Density based on Total Population of 2615060 in Toronto, ON"}}
+```{r plot-density, echo=FALSE, fig.cap={"\\label{fig:Pop-Dens}Population Density based on Total Population of 2615060 in Toronto, ON"}}
 #Population Density based on a total population of 2615060
 
 options(scipen=10000000)
@@ -168,12 +181,14 @@ ggplot(Neighbourbounds) +
           color = NA, 
           size = 0.1) +
   scale_fill_brewer(palette = "YlOrRd") +
-  labs(fill = "Population Density per Neighbourhood (people per km squared)")
+  labs(fill = "Population Density (per km^2)")
 
 ```
 
 
-```{r plot-cases, echo=FALSE, fig.cap={"\\label{fig:Ment-Cases-Cap}CMental Health Cases per Capita in Toronto, ON"}}
+
+
+```{r plot-cases, echo=FALSE, fig.cap={"\\label{fig:Ment-Cases-Cap}Mental Health Cases per Capita in Toronto, ON"}}
 
 #Mental Health Cases Per Capita
 
@@ -184,33 +199,44 @@ ggplot(Neighbourbounds) +
           color = NA, 
           size = 0.1) +
   scale_fill_brewer(palette = "YlOrRd") +
-  labs(fill = "Mental Health Cases per Capita in each Neighbourhood (Total)")
+  labs(fill = "Mental Health Cases per Capita")
 ```
 
-```{r plot-male-cases, echo=FALSE, fig.cap={"\\label{fig:Ment-MCases-Cap}CMale Mental Health Cases per Capita in Toronto, ON"}}
+
+
+
+
+```{r plot-male-cases, echo=FALSE, fig.cap={"\\label{fig:Ment-MCases-Cap}Male Mental Health Cases per Capita in Toronto, ON"}}
 options(scipen=10000)
 ggplot(Neighbourbounds) + 
   geom_sf(aes(fill = cut_number((MH_PC_M),8)),
           color = NA, 
           size = 0.1) +
   scale_fill_brewer(palette = "YlOrRd") +
-  labs(fill = "Mental Health Cases per Capita in each Neighbourhood (Males)")
+  labs(fill = "Mental Health Cases per Capita")
 ```
 
 
-```{r plot-female-cases, echo=FALSE, fig.cap={"\\label{fig:Ment-FCases-Cap}CFemale Mental Health Cases per Capita in Toronto, ON"}}
+
+
+
+
+```{r plot-female-cases, echo=FALSE, fig.cap={"\\label{fig:Ment-FCases-Cap}Female Mental Health Cases per Capita in Toronto, ON"}}
 options(scipen=10000)
 ggplot(Neighbourbounds) + 
   geom_sf(aes(fill = cut_number((MH_PC_F),8)),
           color = NA, 
           size = 0.1) +
   scale_fill_brewer(palette = "YlOrRd") +
-  labs(fill = "Mental Health Cases per Capita in each Neighbourhood (Females)")
+  labs(fill = "Mental Health Cases per Capita")
 ```
 
 
 
-Unemployment rates:
+
+
+
+
 ```{r plot-unemployment-rates, echo=FALSE, fig.cap={"\\label{fig:Unemploy-Rate}Unemployment Rates in Toronto, ON Neighbourhoods"}}
 #Unemployment Rates 
 
@@ -220,16 +246,18 @@ ggplot() +
   geom_sf(data = Neighbourbounds, 
           aes(fill = Unemploy_r), color = NA) + 
   scale_fill_distiller(palette = "YlOrRd", direction = 1) + 
-  labs(fill = "Unemployment Rates (in %)") + 
+  labs(fill = "Unemployment Rates (%)") + 
   theme(axis.text.x = element_blank(), 
         axis.text.y = element_blank())
 ```
 
-Correlation between mental health cases and unemployment rates are visible in 3 neighbourhoods.
 
-Income Chloropleths:
 
-```{r plot-income, echo=FALSE, fig.cap={"\\label{fig:plot-income}CMedian Individual Income in Toronto, ON Neighbourhoods"}}
+
+
+
+
+```{r plot-income, echo=FALSE, fig.cap={"\\label{fig:plot-income}Median Individual Income in Toronto, ON Neighbourhoods"}}
 # Income Chloropleth Map
 
 options(scipen=10000)
@@ -238,11 +266,16 @@ ggplot() +
   geom_sf(data = Neighbourbounds, 
           aes(fill = Med_Ind_In), color = NA) + 
   scale_fill_distiller(palette = "YlOrRd", direction = 1) +  
-  labs(fill = "Median Income (Individual) ") + 
+  labs(fill = "Median Income (CAD) ") + 
   theme(axis.text.x = element_blank(), 
         axis.text.y = element_blank())
 
 ```
+
+
+
+
+
 
 ```{r plot-Living-Alone, echo=FALSE, fig.cap={"\\label{fig:plot-alone}Proportion of Population Living Alone in Toronto, ON Neighbourhoods"}}
 #Living Situation 
@@ -252,11 +285,15 @@ ggplot(Neighbourbounds) +
           color = NA, 
           size = 0.1) +
   scale_fill_brewer(palette = "YlOrRd") +
-  labs(fill = "Percent of Residents Living Alone")
+  labs(fill = "Residents Living Alone (%)")
 
 
 ```
-Proportion of a community that is immigrants:
+
+
+
+
+
 
 ```{r plot-immigrants, echo=FALSE, fig.cap={"\\label{fig:plot-immi}Percent of Immigrated Population in Toronto, ON Neighbourhoods"}}
 options(scipen=10000)
@@ -279,12 +316,16 @@ ggplot() +
   geom_sf(data = Neighbourbounds, 
           aes(fill = PropAge65Plus), color = NA) + 
   scale_fill_distiller(palette = "YlOrRd", direction = 1) +  
-  labs(fill = "Proportion Above 65") + 
+  labs(fill = "Proportion of Population Aged 65+") + 
   theme(axis.text.x = element_blank(), 
         axis.text.y = element_blank())
 ```
 
-Chloropleth maps for how much green space is available within buffer distance:
+
+
+
+
+
 ```{r plot-green-space5, echo=FALSE, fig.cap={"\\label{fig:plot-g5}Amount of greenspace within 5 minute walking buffer based on average walking speed in Toronto, ON neighbourhoods"}}
 options(scipen=10000)
 
@@ -293,8 +334,12 @@ ggplot(Neighbourbounds) +
           color = NA, 
           size = 0.1) +
   scale_fill_brewer(palette = "YlOrRd") +
-  labs(fill = "Amount of green space within a 5 minute walk (km^2)")
+  labs(fill = "Greenspace within 5 minutes (km^2)")
 ```
+
+
+
+
 
 
 ```{r plot-green-space10, echo=FALSE, fig.cap={"\\label{fig:plot-g10}Amount of greenspace within 10 minute walking buffer based on average walking speed in Toronto, ON neighbourhoods"}}
@@ -304,8 +349,13 @@ ggplot(Neighbourbounds) +
           color = NA, 
           size = 0.1) +
   scale_fill_brewer(palette = "YlOrRd") +
-  labs(fill = "Amount of green space within a 10 minute walk (km^2)")
+  labs(fill = "Greenspace within 10 minutes (km^2)")
 ```
+
+
+
+
+
 
 ```{r plot-green-space15, echo=FALSE, fig.cap={"\\label{fig:plot-g15}Amount of greenspace within 15 minute walking buffer based on average walking speed in Toronto, ON neighbourhoods"}}
 options(scipen=10000)
@@ -314,8 +364,12 @@ ggplot(Neighbourbounds) +
           color = NA, 
           size = 0.1) +
   scale_fill_brewer(palette = "YlOrRd") +
-  labs(fill = "Amount of green space within a 15 minute walk (km^2)")
+  labs(fill = "Greenspace within 15 minutes (km^2)")
 ```
+
+
+
+
 
 
 ```{r plot-green-space30, echo=FALSE, fig.cap={"\\label{fig:plot-g30}Amount of greenspace within 30 minute walking buffer based on average walking speed in Toronto, ON neighbourhoods"}}
@@ -325,9 +379,14 @@ ggplot(Neighbourbounds) +
           color = NA, 
           size = 0.1) +
   scale_fill_brewer(palette = "YlOrRd") +
-  labs(fill = "Amount of green space within a 30 minute walk (km^2)")
+  labs(fill = "Greenspace within 30 minutes (km^2)")
 
 ```
+
+
+
+
+
 
 ```{r plot-green-space60, echo=FALSE, fig.cap={"\\label{fig:plot-g60}Amount of greenspace within 60 minute walking buffer based on average walking speed in Toronto, ON neighbourhoods"}}
 options(scipen=10000)
@@ -336,23 +395,35 @@ ggplot(Neighbourbounds) +
           color = NA, 
           size = 0.1) +
   scale_fill_brewer(palette = "YlOrRd") +
-  labs(fill = "Amount of green space within a 60 minute walk (km^2)")
+  labs(fill = "Greenspace within 60 minutes (km^2)")
 
 ```
 
-Moran Test for Mental health cases:
+
+
+
+
+
 ```{r, include=FALSE}
 moran.test(Neighbourbounds$MH_PC_Tot, Neighbourbounds.w)
 ```
-The p-value is low (~0.00016), therefore the data is spatially autocorellated
 
-Moran Plot:
+
+
+
+
+
+
 ```{r moran-scatterplot, echo=FALSE, fig.cap={"\\label{fig:moran-scatterplot} Moran's scatterplot of empirical variable (observed)"}}
 
 MHTot_MP <- moran.plot(Neighbourbounds$MH_PC_Tot, Neighbourbounds.w)
 ```
 
-This function is used to create local Moran maps:
+
+
+
+
+
 ```{r local-moran-function, include=FALSE}
 localmoran.map <- function(p = p, listw = listw, VAR = VAR, by = by){
   require(tidyverse)
@@ -379,12 +450,18 @@ localmoran.map <- function(p = p, listw = listw, VAR = VAR, by = by){
 ```
 
 
-Creating a local Moran Map:
+
+
+
+
 ```{r local-moran-plot, echo=FALSE, fig.cap={"\\label{fig:moran-localplot} Local Indicators of spatial autocorellation (Moran's I Map)"}}
 localmoran.map(Neighbourbounds, Neighbourbounds.w, "MH_PC_Tot", by = "NAME")
 ```
 
-Creating a spatial moving Average
+
+
+
+
 
 ```{r calculate-spatial-moving-averages, include=FALSE}
 
@@ -409,6 +486,11 @@ Neighbourbounds$simulation_4 <- simulation_4
 Neighbourbounds$simulation_5 <- simulation_5
 ```
 
+
+
+
+
+
 ```{r spatial-Moving-Addition,include=FALSE}
 #Add spatial moving averages to sf dataframe
 Neighbourbounds$simulation_1.sma <- simulation_1.sma
@@ -431,6 +513,11 @@ MH_PC_Tot2 <- Neighbourbounds %>%
   pivot_longer(cols = -c(geometry, ends_with("sma")), names_to = "VAR", values_to = "values") %>%
   st_as_sf()
 ```
+
+
+
+
+
 
 ```{r map-simulated-landscapes, echo=FALSE, fig.cap={"\\label{fig:simulated-landscapesplot}Maps showing the empirical distribution of mental health cases per capita and five simulated landscapes"}}
 ggplot() + 
@@ -457,7 +544,12 @@ MH_PC_Tot2 <- MH_PC_Tot2 %>%
                select(SMA)) # Drop VAR from the the dataframe
 ```
 
-Plots:
+
+
+
+
+
+
 ```{r spatial-moving-averages, echo=FALSE, fig.cap={"\\label{fig:scatterplot-moving-averages}Moran's scatterplots of empirical and simulated spatial moving averages of mental health cases per capita"}}
 ggplot(data = MH_PC_Tot2, 
        aes(x = values, 
@@ -473,6 +565,11 @@ ggplot(data = MH_PC_Tot2,
   ylab("Spatial Lag of Mental Health Cases Per Capita") +
   facet_wrap(~ VAR, ncol = 3)
 ```
+
+
+
+
+
 
 ```{r Neighbourhood-Centroids, include=FALSE}
 
@@ -500,7 +597,8 @@ summary(Neighbourhood_centroids_15min.dnb)
 
 
 
-Regression Model for 5 minutes
+
+
 ```{r Linear-Regression-5min,echo=FALSE, fig.cap={"\\label{fig:LR-5}The relationship between green space avaliability within 5 minute walking distance of neighbourhoods and mental health related hosptial admissions"}}
 
 #5 minutes worth of green space
@@ -521,7 +619,11 @@ ggplot(data = Neighbourbounds,
   ylab("Mental Health Cases per Capita")
 ```
 
-Regression model for others
+
+
+
+
+
 ```{r Linear-Regression-10-15-30-60min, include=FALSE}
 #10 minutes worth of green space
 Neighbourbounds <- Neighbourbounds %>%
@@ -595,7 +697,7 @@ ggplot(data = Neighbourbounds,
   ylab("Mental Health Cases per Capita")
 ```
 
-Linear Models including the other stuff
+
 
 ```{r Linear-Regression-Final,echo=FALSE, fig.cap={"\\label{fig:LR-Final}The relationship between mental health determinants and study variables (including green space avaliability within 5 minute walking distance) of neighbourhoods and mental health related hosptial admissions"}}
 #Model with everything
@@ -603,7 +705,11 @@ model <- lm(formula = MH_PC_Tot ~Area_5_Transform * Unemploy_r * Prop_Alone * Pr
 summary(model)
 ```
 
-<<<<<<< HEAD
+
+
+
+
+
 ```{r}
 #Model with everything
 testmodel <- lm(formula = MH_PC_Tot ~Unemploy_r * Prop_Alone * PropAge65Plus * Med_Ind_In *Prop_Immigrants, data = Neighbourbounds)
@@ -611,8 +717,12 @@ summary(testmodel)
 ```
 
 =======
+
 **Analysis**
+
+
 *Choropleth Maps*
+
 
  Population density choropleth Map \ref{fig:Pop-Dens}: This map shows the population density per capita in each census tract of Toronto. Notably, a significant proportion of the population lives in the lower central area with some census tracts containing >20,000 people. Neighbourhoods surrounding this busy central district seem to have lower population density as you deviate further from the highly populated tracts downtown. The majority of neighbourhoods on the outskirts of this study area have a very low population density. Overall the population density of Toronto is heavily skewed towards the lower centre census tracts near downtown. 
  
@@ -629,20 +739,35 @@ Immigration: Immigrant rates are the highest in the northern parts of the study 
 
 Amount of green Space Chloropleth Map: These choropleth maps show the green space within the previously defined 5,10,15,30, and 60 minute buffers. The 5 minute \ref{fig:plot-g5}, 10 minute \ref{fig:plot-g10}, 15 minute \ref{fig:plot-g15}, 30 minute \ref{fig:plot-g30}, and 60 minute maps \ref{fig:plot-g60} shows the green space that is accessible within each neighbourhood . As the buffers increase the maps become increasingly homogenous with the neighbourhoods near the middle length of Toronto having the highest access to green space. The concrete jungle of downtown has very little access to green space, this area of Toronto also had the highest mental health admissions per capita.Although a number of factors may be contributing to mental health rates, green space correlates quite well with the lower mental health admission areas.
 
+
 *Spatial Weights Matrices*
+
+
 A spatial weights matrix was created for each established distance buffer referenced in the introduction to help understand the geographic distribution and accessibility. As mentioned beforehand, a resident of neighbourhood X could very well walk to a park in neighbourhood Y. As seen in the figures generated with the present code, only a few links located in central Toronto show neighbourhoods accessible in 5 minute \ref{fig:neighbour-SWM5}, 10 minute \ref{fig:neighbour-SWM10}, and 15 minute \ref{fig:neighbour-SWM15} walking time-frames, at an average walking pace. Based on our analysis, the average walking times/distances don't allow the individual to walk over to a different neighbourhood park which supports our theory that individuals go to parks nearest to them.
 
+
 *Spatial Moving Averages Scatterplots*
+
+
 Looking at the scatterplots figure \ref{fig:scatterplot-moving-averages}, the spatial moving average represents the difference between the empirical and simulated variables, along with the fitted regression line. In the figure, the slope of the line tends to be flat in the simulated variables, which is to be expected as these variables are null landscapes and therefore spatially random. On the other hand, the empirical variable has a slope that is closer to the 45-degree line than any of the simulated variables, suggesting that the values of the variable are not independent of their local mean, i.e., the probability of a non-random pattern is high. This result is significant since it indicates that our data shows spatial autocorrelation, allowing us to continue our tests to determine which parameters influence the data.
 
+
 *Simulated Landscapes* 
+
+
 However, for the purpose of certainty, the simulated landscapes figure \ref{fig:simulated-landscapesplot}  shows the distribution of the observed variable and five simulated (random) landscapes. It is readily apparent that the map with the empirical variable is different from the simulated variables, suggesting that the mental health cases for the population per capita of Toronto are not random. The highest average mental health cases per area appear to be around southern Toronto neighbourhoods, followed by the central area and decrease towards the north.
 
+
 *Morans I*
-Since the data is considered to be spatially autocorrelated, a Moran’s test seemed like the next step towards explaining the trends in mental health admissions per capita for the population of Toronto. It is important to work with values associated with area in order to acquire results that represent proportions, and not just absolute counts. The Moran's I value had a p-value below 0.05, indicating that the variables were spatially autocorrelated with a very safe Confidence Interval. The Moran's map \ref{fig:moran-localplot} shows that the majority of statistically high cases of mental health admissions are seen in the south-west and south-central areas of the city. In contrast, the northeast has significantly lower mental health cases.
+
+
+Since the data is considered to be not spatially random, a Moran’s test seemed like the next step towards explaining the trends in mental health admissions per capita for the population of Toronto. It is important to work with values associated with area in order to acquire results that represent proportions, and not just absolute counts. The Moran's I value had a p-value below 0.05 (~0.00016), indicating that the variables were spatially autocorrelated with a very safe Confidence Interval. The Moran's map \ref{fig:moran-localplot} shows that the majority of statistically high cases of mental health admissions are seen in the south-west and south-central areas of the city. In contrast, the northeast has significantly lower mental health cases.
+
 
 *Regression Model*
-We created linear models comparing the amount of green space within each walking distance (5, 10, 15, 30, 60 minutes) and the number of mental health cases per capita. We found a small amount of significant correlation between mental health cases and the amount of green space available within 5, 10, 15, and 30 minutes of a neighbourhood (SEE TABLES?). The highest correlation was seen in the 5-minute distance (Adjusted R squared of 0.051),  this value and its significance continued to decrease as the distance increased. For the 60-minute walking distance, the smallest R squared value (0.02) showed a clear relationship between distance to green space and mental health cases.
+
+
+We created linear models comparing the amount of green space within each walking distance (5, 10, 15, 30, 60 minutes) and the number of mental health cases per capita. We found a small amount of significant correlation between mental health cases and the amount of green space available within 5, 10, 15, and 30 minutes of a neighbourhood (SEE TABLES ADD IN REFERNCE?). The highest correlation was seen in the 5-minute distance (Adjusted R squared of 0.051),  this value and its significance continued to decrease as the distance increased. For the 60-minute walking distance, the smallest R squared value (0.02) showed a clear relationship between distance to green space and mental health cases.
 
  	The progressively lower R squared value suggests a minor correlation between the amount of green space available to Torontonians and mental health admissions to hospitals. This correlation was most significant at the closest walking distance of 5 minutes \ref{fig:LR-5}, and as this distance increased, the correlation and its significance decreased. This indicates that easy, more immediate access to green spaces has a positive impact on residents’ mental health. 
  	
@@ -650,7 +775,11 @@ We created linear models comparing the amount of green space within each walking
  
 Several linear models were created using the five minute greenspace buffer because it correlated best with improved mental health cases. In addition to the five minute buffer, other factors including income, age, unemployment, and if the individual lives alone or identifies as an immigrant were included in the linear model. Models were run to determine which of these variables best correlated with improved mental health. Overall, the model that had the highest correlation with mental health cases used the five minute green space buffer, unemployment rate, and proportion of individuals who live alone \ref{fig:LR-Final}. 
 
-*Conclusion*
+
+
+**Conclusion**
+
+
 Relationships between green spaces in cities and their impact on mental health is extensive and conclusive. The more accessible a park or green space is, the happier and healthier its users and neighbors are (Francis et al., 2012; Barton and Rogerson, 2017; Callahan et al., 2020; Collins et al., 2020; Martin et al., 2020). This research group’s interest lied specifically in the demographic and urban aspects that had the greatest impact on the strength of this green-space and mental health relationship in the city of Toronto, ON, Canada. We obtained publicly available demographic and health data from City of Toronto Open data Portal, and performed a variety of spatial statistic tests that yielded conclusive results as well as informative maps and graphs. The study of patterns of spatial autocorrelation of  mental health cases and green space accessibility in Toronto yielded the following conclusions.
 
 - Moran's I plot (TRUE) suggests statistically significant clustering. This suggests higher mental health-related hospital admissions in the SW and southern central areas of the city, and statistically less cases of mental health in the northeastern part of the city.
@@ -661,11 +790,17 @@ Neighborhoods with less green space available (within reasonable walking distanc
 
 	The present paper, alongside the available literature on the matter, demonstrate the necessity for modern cities to invest in green spaces that are available and easily accessible to specific groups of more vulnerable people. Urban planners must continue to focus on equitable solutions for new park infrastructure, promoting healthier cities with the help of spatial statisticians. 
 
+
+
 *Acknowledgements*
+
+
 We thank the reader for their valuable time, as well as Dr Antonio Paez (SEES, McMaster University) and Rajveer Ubhi (Applied Spatial Statistics: ENVSOCTY 4GA3) for their assistance and valuable feedback during the 2021 Winter semester and the present paper.
 
 
 **References**
+
+
 Alcock, I., White, M. P., Wheeler, B. W., Fleming, L. E., & Depledge, M. H. (2014). Longitudinal Effects on Mental Health of Moving to Greener and Less Green Urban Areas. Environmental Science & Technology, 48(2), 1247–1255. https://doi.org/10.1021/es403688w
 
 Barton, J., & Rogerson, M. (2017). The importance of greenspace for mental health. BJPsych. International, 14(4), 79–81. https://doi.org/10.1192/s2056474000002051
