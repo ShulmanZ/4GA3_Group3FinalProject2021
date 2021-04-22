@@ -114,10 +114,25 @@ names(Neighbourbounds)[names(Neighbourbounds) == 'Shape_Ar_4'] <- 'GSArea_60Min_
 ```
 
 
+Mutate to make variables rates:
+
+```{r}
+
+
+Neighbourbounds <- Neighbourbounds %>%
+  mutate(PropAge65Plus = (Age65to79 +Age80to99) / Census_Pop,
+         PropAge45Plus = (Age45to54+ Age55to64+ Age65to79 +Age80to99) / Census_Pop,
+         PropBelowPoverty = (Income_U5000 + Income_5000to9999 + Income_10000to14999 + Income_15000to19999 + Income_20000to29999 + Income_30000to39999 + Income_40000to49999)/Num_House,
+         PropBelow20k = (Income_U5000 + Income_5000to9999 + Income_10000to14999 + Income_15000to19999)/Num_House)
+
+```
+
 Mutate to add a field from SMA:
 ```{r}
 Neighbourbounds <- Neighbourbounds %>%
-  mutate(SMA_MH_PC_Tot = MH_PC_Tot)
+  mutate(SMA_MH_PC_Tot = MH_PC_Tot,
+         Prop_Comp_Avg_Income = Avg_Ind_In / 46530 )
+
 
 ```
 
@@ -156,6 +171,8 @@ plot(st_geometry(green_buff_60min))
 
 Choropleth Maps of relevant data for this study:
 
+
+Population density
 ```{r}
 #Population Density based on a total population of 2615060
 
@@ -169,7 +186,9 @@ ggplot(Neighbourbounds) +
   labs(fill = "Population Density per Neighbourhood (people per km squared)")
 
 ```
-A select few areas with over 40,000 people
+
+
+
 ```{r}
 #Mental Health Cases Per Capita
 
@@ -228,6 +247,8 @@ ggplot(Neighbourbounds) +
   labs(fill = "Mental Health Cases per Capita in each Neighbourhood (Females)")
 ```
 
+
+Unemployment rates:
 ```{r}
 #Unemployment Rates 
 
@@ -241,7 +262,9 @@ ggplot() +
   theme(axis.text.x = element_blank(), 
         axis.text.y = element_blank())
 ```
-Correlation between mental health cases and unemployment rates are visible in 3 neighbourhoods.
+
+
+Income Chloropleths:
 ```{r}
 # Income Chloropleth Map
 
@@ -262,27 +285,11 @@ ggplot() +
   labs(fill = "Average Income (Individual)") + 
   theme(axis.text.x = element_blank(), 
         axis.text.y = element_blank())
+
 ```
 
 ```{r}
 #Living Situation 
-
-
-ggplot(Neighbourbounds) + 
-  geom_sf(aes(fill = cut_number(((W_Rel) / Census_Pop)*100,8)),
-          color = NA, 
-          size = 0.1) +
-  scale_fill_brewer(palette = "YlOrRd") +
-  labs(fill = "Percent of Residents Living with Relatives")
-
-ggplot(Neighbourbounds) + 
-  geom_sf(aes(fill = cut_number(((W_Non_Rel) / Census_Pop)*100,8)),
-          color = NA, 
-          size = 0.1) +
-  scale_fill_brewer(palette = "YlOrRd") +
-  labs(fill = "Percent of Residents Living non-Relatives")
-
-
 
 ggplot(Neighbourbounds) + 
   geom_sf(aes(fill = cut_number(((Alone) / Census_Pop)*100,8)),
@@ -291,6 +298,20 @@ ggplot(Neighbourbounds) +
   scale_fill_brewer(palette = "YlOrRd") +
   labs(fill = "Percent of Residents Living Alone")
 
+
+```
+Proportion of a community that is immigrants:
+
+```{r}
+options(scipen=10000)
+
+ggplot() + 
+  geom_sf(data = Neighbourbounds, 
+          aes(fill = Prop_Immigrants), color = NA) + 
+  scale_fill_distiller(palette = "YlOrRd", direction = 1) + 
+  labs(fill = "Immigrant Rates (%)") + 
+  theme(axis.text.x = element_blank(), 
+        axis.text.y = element_blank())
 
 ```
 
@@ -302,7 +323,9 @@ Neighbourbounds <- Neighbourbounds %>%
          Area_10min_km = Area_10min/1000000,
          Area_15min_km = Area_15min/1000000,
          Area_30min_km = Area_30min/1000000,
-         Area_60min_km = Area_60min/1000000)
+         Area_60min_km = Area_60min/1000000, 
+         Prop_Alone = Alone/Census_Pop,
+         Prop_Immigrants = (Immigrants/Census_Pop)*100)
 
 ```
 
@@ -439,6 +462,16 @@ ggplot(Neighbourbounds) +
   scale_fill_brewer(palette = "YlOrRd") +
   labs(fill = "Proportion 65+  in Each Neighbourhood")
 
+
+
+
+ggplot() + 
+  geom_sf(data = Neighbourbounds, 
+          aes(fill = PropAge65Plus), color = NA) + 
+  scale_fill_distiller(palette = "YlOrRd", direction = 1) +  
+  labs(fill = "Proportion Above 65 ") + 
+  theme(axis.text.x = element_blank(), 
+        axis.text.y = element_blank())
 ```
 
 The overall findings from these maps point towards high unemployment rates and low median/average income being contributing factors that lead to high mental health cases.
@@ -521,7 +554,7 @@ localmoran.map(Neighbourbounds, Neighbourbounds.w, "Area_15min", by = "NAME")
 ```
 
 
-
+Creating a spatial moving Average
 
 ```{r calculate-spatial-moving-averages, include=FALSE}
 
@@ -740,18 +773,10 @@ ggplot(data = Neighbourbounds,
 
 Linear Models including the other stuff
 
-```{r}
-Neighbourbounds <- Neighbourbounds %>%
-  mutate(PropAge65Plus = (Age65to79 +Age80to99) / Census_Pop,
-         PropAge45Plus = (Age45to54+ Age55to64+ Age65to79 +Age80to99) / Census_Pop,
-         PropBelowPoverty = (Income_U5000 + Income_5000to9999 + Income_10000to14999 + Income_15000to19999 + Income_20000to29999 + Income_30000to39999 + Income_40000to49999)/Num_House,
-         PropBelow20k = (Income_U5000 + Income_5000to9999 + Income_10000to14999 + Income_15000to19999)/Num_House)
-```
-
 
 ```{r}
 #Model is our best bet
-modelBest <- lm(formula = MH_PC_Tot ~Area_5_Transform * Unemploy_r * Alone,  data = Neighbourbounds)
+modelBest <- lm(formula = MH_PC_Tot ~Area_5_Transform * Unemploy_r * Prop_Alone,  data = Neighbourbounds)
 summary(modelBest)
 
 modelBestM <- lm(formula = MH_PC_M ~Area_5_Transform,  data = Neighbourbounds)
@@ -762,33 +787,11 @@ summary(modelBestF)
 ```
 
 ```{r}
-#Model including proportion of people below 50,000
-model1 <- lm(formula = MH_PC_Tot ~ Area_5_Transform + Unemploy_r + Alone + PropBelowPoverty, data = Neighbourbounds)
-summary(model1)
 
-
-#Model including proportion of people below 20,000
-model3 <- lm(formula = MH_PC_Tot ~ Area_5_Transform + Unemploy_r + Alone + PropBelow20k, data = Neighbourbounds)
-summary(model3)
-
-#Model including proportion of people over 65
-model4 <- lm(formula = MH_PC_Tot ~ Area_5_Transform + Unemploy_r + Alone + PropAge65Plus, data = Neighbourbounds)
+#Model with everything
+model4 <- lm(formula = MH_PC_Tot ~Area_5_Transform * Unemploy_r * Prop_Alone * PropAge65Plus * Med_Ind_In * Immigrants, data = Neighbourbounds)
 summary(model4)
 
-
-#Model including proportion of people over 45
-model4 <- lm(formula = MH_PC_Tot ~ Area_5_Transform + Unemploy_r + Alone + PropAge45Plus, data = Neighbourbounds)
-summary(model4)
-
-
-model2_10 <- lm(formula = MH_PC_Tot ~ Area_10_Transform + Unemploy_r + Alone,  data = Neighbourbounds)
-summary(model2_10)
-
-model2_15 <- lm(formula = MH_PC_Tot ~ Area_15_Transform + Unemploy_r + Alone,  data = Neighbourbounds)
-summary(model2_15)
-
-modelnotArea <- lm(formula = MH_PC_Tot ~  Unemploy_r + Alone,  data = Neighbourbounds)
-summary(modelnotArea)
 ```
 
 Create a plot with the model?
