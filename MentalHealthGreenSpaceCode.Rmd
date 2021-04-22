@@ -608,8 +608,14 @@ Linear Models including the other stuff
 
 ```{r}
 #Model with everything
-model <- lm(formula = MH_PC_Tot ~Area_5_Transform * Unemploy_r * Prop_Alone * PropAge65Plus * Med_Ind_In, data = Neighbourbounds)
+model <- lm(formula = MH_PC_Tot ~Area_5_Transform * Unemploy_r * Prop_Alone * PropAge65Plus * Med_Ind_In *Prop_Immigrants, data = Neighbourbounds)
 summary(model)
+```
+
+```{r}
+#Model with everything
+testmodel <- lm(formula = MH_PC_Tot ~Unemploy_r * Prop_Alone * PropAge65Plus * Med_Ind_In *Prop_Immigrants, data = Neighbourbounds)
+summary(testmodel)
 ```
 
 
