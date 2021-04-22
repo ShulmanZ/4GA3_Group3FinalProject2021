@@ -23,12 +23,11 @@ output:
     # http://svmiller.com/blog/2016/02/svm-r-markdown-manuscript/
     # https://github.com/svmiller/svm-r-markdown-templates/blob/master/svm-latex-ms.tex
     template: project-template-default.tex
-bibliography: [bibliography.bib, packages.bib]
 always_allow_html: true
 ---
 
 <!--Chunks of code can have names; the chunk option "include" controls whether the chunk and its output are printed in the final document-->
-```{r load-packages, include=FALSE}
+```{r include=FALSE}
 rm(list = ls())
 library(tidyverse)
 library(ggmap)
@@ -48,7 +47,7 @@ Neighbourbounds <- st_read("Neighbourhoods")
 
 
 
-```{r write-package-bib, include=FALSE}
+```{r include=FALSE}
 # This function is used to write a bibliography for the `R` packages used in the paper
 ```
 #INTRODUCTION
@@ -778,13 +777,7 @@ ggplot(data = Neighbourbounds,
 
 Linear Models including the other stuff
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-```{r write-package-bib, include=FALSE}
-=======
-```{r}
->>>>>>> parent of 9e559cd (Captions Change 1)
+```{r, include=FALSE}
 Neighbourbounds <- Neighbourbounds %>%
   mutate(PropAge65Plus = (Age65to79 +Age80to99) / Census_Pop,
          PropAge45Plus = (Age45to54+ Age55to64+ Age65to79 +Age80to99) / Census_Pop,
@@ -806,19 +799,11 @@ modelBestF <- lm(formula = MH_PC_F ~Area_5_Transform,  data = Neighbourbounds)
 summary(modelBestF)
 ```
 
-<<<<<<< HEAD
-<<<<<<< HEAD
+
 ```{r}
-=======
-```{r write-package-bib, include=FALSE}
-=======
-```{r}
->>>>>>> parent of 9e559cd (Captions Change 1)
 #Model including proportion of people below 50,000
 model1 <- lm(formula = MH_PC_Tot ~ Area_5_Transform + Unemploy_r + Alone + PropBelowPoverty, data = Neighbourbounds)
 summary(model1)
->>>>>>> 9e559cd2c6528b3f57a56051c644d97fb3c259ca
-
 #Model with everything
 model4 <- lm(formula = MH_PC_Tot ~Area_5_Transform * Unemploy_r * Prop_Alone * PropAge65Plus * Med_Ind_In * Immigrants, data = Neighbourbounds)
 summary(model4)
