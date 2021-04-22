@@ -75,7 +75,7 @@ This study uses Rstudio to conduct a series of data processes to visualize and f
 
 #Results
 To begin this study we had to overlay a green space shapefile with the census shapefile. The green space data was originally in absolute km^2 but was changed to percentage within each census tract. Centroids were added to each census subdivision to determine the distance between each neighbourhood. 
-```{r load-packages, include=FALSE}
+```{r}
 Variables_Final <- read_csv("4GA3_Project_Variables_Final.csv")
 Neighbourbounds <- st_read("Neighbourhoods_Boundaries")
 Neighbourbounds_Centroids <- st_read("Neighbourhood_Centroids")
@@ -88,7 +88,7 @@ Parks.df <- data.frame(Parks)
 
 
 Fixing the names up for some of the fields (Kinda Clunky, if you can find a more efficient method please do!)
-```{r rename-data, include=FALSE}
+```{r}
 names(Neighbourbounds)[names(Neighbourbounds) == 'Shape_Area'] <- 'Neighbourhood_Area'
 names(Neighbourbounds)[names(Neighbourbounds) == 'Shape_Ar_1'] <- 'GS_Area'
 names(Neighbourbounds)[names(Neighbourbounds) == 'Med_Indiv_'] <- 'Med_Ind_In'
@@ -115,6 +115,7 @@ names(Neighbourbounds)[names(Neighbourbounds) == 'Shape_Ar_4'] <- 'GSArea_60Min_
 
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 Mutate to make variables rates:
 
 ```{r}
@@ -133,6 +134,10 @@ Mutate to add a field from SMA:
 =======
 ```{r Mutate-Field-For-SMA, include=FALSE}
 >>>>>>> 9e559cd2c6528b3f57a56051c644d97fb3c259ca
+=======
+Mutate to add a field from SMA:
+```{r}
+>>>>>>> parent of 9e559cd (Captions Change 1)
 Neighbourbounds <- Neighbourbounds %>%
   mutate(SMA_MH_PC_Tot = MH_PC_Tot,
          Prop_Comp_Avg_Income = Avg_Ind_In / 46530 )
@@ -141,14 +146,14 @@ Neighbourbounds <- Neighbourbounds %>%
 ```
 
 #Spatial weights Matrix for data
-```{r Create-Spatial-Continguities, include=FALSE}
+```{r}
 Neighbourbounds.sp <- as(Neighbourbounds,"Spatial")
 Neighbourbounds.nb <- poly2nb(pl = Neighbourbounds.sp)
 Neighbourbounds.w <- nb2listw(Neighbourbounds.nb)
 ```
 
-
-```{r Create-Buffers, include=FALSE}
+Creating Buffers:
+```{r}
 #5 minute walk 
 green_buff_5min = st_buffer(Neighbourbounds, dist = 410)
 plot(st_geometry(green_buff_5min))
@@ -173,7 +178,9 @@ plot(st_geometry(green_buff_60min))
 
 
 
+Choropleth Maps of relevant data for this study:
 
+<<<<<<< HEAD
 
 <<<<<<< HEAD
 Population density
@@ -181,6 +188,9 @@ Population density
 =======
 ```{r Population-Density-Map, include=FALSE}
 >>>>>>> 9e559cd2c6528b3f57a56051c644d97fb3c259ca
+=======
+```{r}
+>>>>>>> parent of 9e559cd (Captions Change 1)
 #Population Density based on a total population of 2615060
 
 options(scipen=10000)
@@ -193,6 +203,7 @@ ggplot(Neighbourbounds) +
   labs(fill = "Population Density per Neighbourhood (people per km squared)")
 
 ```
+<<<<<<< HEAD
 
 <<<<<<< HEAD
 
@@ -201,6 +212,10 @@ ggplot(Neighbourbounds) +
 =======
 ```{r Mental-Health-Cases-Maps, include=FALSE}
 >>>>>>> 9e559cd2c6528b3f57a56051c644d97fb3c259ca
+=======
+A select few areas with over 40,000 people
+```{r}
+>>>>>>> parent of 9e559cd (Captions Change 1)
 #Mental Health Cases Per Capita
 
 options(scipen=10000)
@@ -259,12 +274,16 @@ ggplot(Neighbourbounds) +
 ```
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 Unemployment rates:
 ```{r}
 =======
 ```{r Unemployment-Rate-Maps, include=FALSE}
 >>>>>>> 9e559cd2c6528b3f57a56051c644d97fb3c259ca
+=======
+```{r}
+>>>>>>> parent of 9e559cd (Captions Change 1)
 #Unemployment Rates 
 
 options(scipen=10000)
@@ -284,8 +303,12 @@ Income Chloropleths:
 ```{r}
 =======
 Correlation between mental health cases and unemployment rates are visible in 3 neighbourhoods.
+<<<<<<< HEAD
 ```{r Income-Maps, include=FALSE}
 >>>>>>> 9e559cd2c6528b3f57a56051c644d97fb3c259ca
+=======
+```{r}
+>>>>>>> parent of 9e559cd (Captions Change 1)
 # Income Chloropleth Map
 
 options(scipen=10000)
@@ -308,7 +331,7 @@ ggplot() +
 
 ```
 
-```{r Living-Situation-Maps, include=FALSE}
+```{r}
 #Living Situation 
 
 ggplot(Neighbourbounds) + 
@@ -335,9 +358,9 @@ ggplot() +
 
 ```
 
+Mutate to make data in km squared:
 
-
-```{r Mutation-To-Create-KM^2-Data, include=FALSE}
+```{r}
 Neighbourbounds <- Neighbourbounds %>%
   mutate(Area_5min_km = Area_5min/1000000,
          Area_10min_km = Area_10min/1000000,
@@ -352,7 +375,7 @@ Neighbourbounds <- Neighbourbounds %>%
 
 
 Chloropleth maps for how much green space is available within buffer distance:
-```{r Avaliable-Green-Space-Within-Buffer-Distance, include=FALSE}
+```{r}
 options(scipen=10000)
 
 #Continuous Maps:
@@ -458,7 +481,7 @@ ggplot(Neighbourbounds) +
 
 ```
 
-```{r Age-Proportion-Maps, include=FALSE}
+```{r}
 #Age Proportion in each Neighbourhood 
 
 ggplot(Neighbourbounds) + 
@@ -498,20 +521,20 @@ The overall findings from these maps point towards high unemployment rates and l
 
 
 Moran Test for Mental health cases:
-```{r Moran-Test, include=FALSE}
+```{r}
 moran.test(Neighbourbounds$MH_PC_Tot, Neighbourbounds.w)
 
 ```
 The p-value is low (~0.00016), therefore the data is spatially autocorellated
 
 Moran Plot:
-```{ moran-scatterplot, echo=FALSE, fig.cap={"\\label{fig:moran-scatterplot}Moran's scatterplot of empirical variable (observed)"}}
+```{r}
 
 MHTot_MP <- moran.plot(Neighbourbounds$MH_PC_Tot, Neighbourbounds.w)
 ```
 
-this function is used to create local Moran maps:
-```{r Local-Moran-Map, include=FALSE}
+his function is used to create local Moran maps:
+```{r}
 localmoran.map <- function(p = p, listw = listw, VAR = VAR, by = by){
   require(tidyverse)
   require(spdep)
@@ -538,7 +561,7 @@ localmoran.map <- function(p = p, listw = listw, VAR = VAR, by = by){
 
 
 This function is used to create $G_i^*$ maps:
-```{r GI*-Map, include=FALSE}
+```{r}
 gistar.map <- function(p = p, listw = listw, VAR = VAR, by = by){
   require(tidyverse)
   require(spdep)
@@ -565,11 +588,11 @@ gistar.map <- function(p = p, listw = listw, VAR = VAR, by = by){
 ```
 
 Creating a local Moran Map:
-```{r LOcal-Moran-Map, include=FALSE}
+```{r}
 localmoran.map(Neighbourbounds, Neighbourbounds.w, "MH_PC_Tot", by = "NAME")
 ```
 
-```{r Local-Moran-Map include=FALSE}
+```{r}
 localmoran.map(Neighbourbounds, Neighbourbounds.w, "Area_15min", by = "NAME")
 ```
 
@@ -599,7 +622,7 @@ Neighbourbounds$simulation_4 <- simulation_4
 Neighbourbounds$simulation_5 <- simulation_5
 ```
 
-```{r Addition-of-SMA-To-Dataframe, include=FALSE}
+```{r}
 #Add spatial moving averages to sf dataframe
 Neighbourbounds$simulation_1.sma <- simulation_1.sma
 Neighbourbounds$simulation_2.sma <- simulation_2.sma
@@ -646,7 +669,7 @@ MH_PC_Tot2 <- MH_PC_Tot2 %>%
 ```
 
 Plots:
-```{r SMA-Plot, include=FALSE}
+```{r}
 ggplot(data = MH_PC_Tot2, 
        aes(x = values, 
            y = SMA,
@@ -699,7 +722,7 @@ summary(Neighbourhood_centroids_60min.dnb)
 
 
 Regression Model
-```{r write-package-bib, include=FALSE}
+```{r}
 
 #5 minutes worth of green space
 Neighbourbounds <- Neighbourbounds %>%
@@ -794,8 +817,12 @@ ggplot(data = Neighbourbounds,
 Linear Models including the other stuff
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 ```{r write-package-bib, include=FALSE}
+=======
+```{r}
+>>>>>>> parent of 9e559cd (Captions Change 1)
 Neighbourbounds <- Neighbourbounds %>%
   mutate(PropAge65Plus = (Age65to79 +Age80to99) / Census_Pop,
          PropAge45Plus = (Age45to54+ Age55to64+ Age65to79 +Age80to99) / Census_Pop,
@@ -805,7 +832,7 @@ Neighbourbounds <- Neighbourbounds %>%
 
 >>>>>>> 9e559cd2c6528b3f57a56051c644d97fb3c259ca
 
-```{r write-package-bib, include=FALSE}
+```{r}
 #Model is our best bet
 modelBest <- lm(formula = MH_PC_Tot ~Area_5_Transform * Unemploy_r * Prop_Alone,  data = Neighbourbounds)
 summary(modelBest)
@@ -818,9 +845,13 @@ summary(modelBestF)
 ```
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 ```{r}
 =======
 ```{r write-package-bib, include=FALSE}
+=======
+```{r}
+>>>>>>> parent of 9e559cd (Captions Change 1)
 #Model including proportion of people below 50,000
 model1 <- lm(formula = MH_PC_Tot ~ Area_5_Transform + Unemploy_r + Alone + PropBelowPoverty, data = Neighbourbounds)
 summary(model1)
