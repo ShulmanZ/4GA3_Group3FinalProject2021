@@ -27,7 +27,7 @@ always_allow_html: true
 ---
 
 <!--Chunks of code can have names; the chunk option "include" controls whether the chunk and its output are printed in the final document-->
-```{r include=FALSE}
+```{r Load-Packages, include=FALSE}
 rm(list = ls())
 library(tidyverse)
 library(ggmap)
@@ -39,17 +39,12 @@ library(geog4ga3)
 library(readr)
 library(scales)
 ```
-```{r}
+```{r Read-Dataset, include=FALSE}
 Variables_Final <- read_csv("4GA3_Project_Variables_Final.csv")
 Neighbourbounds <- st_read("Neighbourhoods")
 ```
 
 
-
-
-```{r include=FALSE}
-# This function is used to write a bibliography for the `R` packages used in the paper
-```
 #INTRODUCTION
   When is the last time you enjoyed a stroll in the park, a casual game of catch, or simply took your dog for a walk by a green space down your street? Hopefully it hasn’t been too long! Undoubtedly, parks and green spaces have become absolutely essential areas in our cities (Shanahan et al., 2015), a place to disconnect from the stressors of everyday life and, perhaps, connect back to nature, with a neighbour, friends, or one’s inner peace. They provide fundamental services such as physical activity, meditation, social interaction, or simply a moment away from the hustle and bustle of modern cities such as Toronto, the focus of the present paper. Green spaces like Central Park in New York City (USA) or High Park in Toronto (ON) are millionaire investments that require careful planning and maintenance for the remainder from the moment they are inaugurated (and even prior to that). They must have a clear net positive effect on the population if they were deemed as feasible projects. As population rises and cities continue growing exponentially, public services such as city parks and other green spaces must be planned in ways that ensure equitable access to all inhabitants, if they are to be beneficial to the communities they serve (Nutsford et al., 2013). 
 The present paper aims to determine the relationship between green-space availability and mental health in Toronto, ON, Canada. The specific goal of our project is to investigate the relationship between the availability of different green space types including playgrounds, parks, and community gardens; and their effect on mental health admission rates in Toronto neighbourhoods. To determine the existence (or lack thereof) of this relationship this project will firstly provide a comprehensive review of the available literature on links between green space and mental health, and walking distance trends in cities. Following the literature review, the data utilized in this study will be outlined, along with the methodology and statistical analysis used to accept  or reject the null hypothesis. Our running hypothesis will expect there to be a clear negative correlation between green space availability and mental health hospital admissions per neighbourhoods in Toronto. Other aspects and relationships will be explored, such as the socioeconomic groups most affected by different availability of green spaces. Finally, the present paper will present final remarks, along with recommendations on future studies and urban planning, specifically in the city of Toronto, ON.
@@ -81,7 +76,7 @@ This study uses Rstudio to conduct a series of data processes to visualize and f
 
 #Results
 To begin this study we had to overlay a green space shapefile with the census shapefile. The green space data was originally in absolute km^2 but was changed to percentage within each census tract. Centroids were added to each census subdivision to determine the distance between each neighbourhood. 
-```{r}
+```{r Load-Datasets, include=FALSE}
 Variables_Final <- read_csv("4GA3_Project_Variables_Final.csv")
 Neighbourbounds <- st_read("Neighbourhoods_Boundaries")
 Neighbourbounds_Centroids <- st_read("Neighbourhood_Centroids")
@@ -94,7 +89,7 @@ Parks.df <- data.frame(Parks)
 
 
 Fixing the names up for some of the fields (Kinda Clunky, if you can find a more efficient method please do!)
-```{r}
+```{r Rename-Variables,include=FALSE}
 names(Neighbourbounds)[names(Neighbourbounds) == 'Shape_Area'] <- 'Neighbourhood_Area'
 names(Neighbourbounds)[names(Neighbourbounds) == 'Shape_Ar_1'] <- 'GS_Area'
 names(Neighbourbounds)[names(Neighbourbounds) == 'Med_Indiv_'] <- 'Med_Ind_In'
@@ -120,9 +115,7 @@ names(Neighbourbounds)[names(Neighbourbounds) == 'Shape_Ar_4'] <- 'GSArea_60Min_
 ```
 
 
-Mutate to make variables rates:
-
-```{r}
+```{r Mutate-Variables-To-Rates,include=FALSE}
 
 Neighbourbounds <- Neighbourbounds %>%
   mutate(PropAge65Plus = (Age65to79 +Age80to99) / Census_Pop,
@@ -140,9 +133,7 @@ Neighbourbounds <- Neighbourbounds %>%
 
 ```
 
-
-Mutate to add a field from SMA:
-```{r}
+```{r Mutate-SMA-Field,include=FALSE}
 Neighbourbounds <- Neighbourbounds %>%
   mutate(SMA_MH_PC_Tot = MH_PC_Tot)
 
@@ -150,7 +141,7 @@ Neighbourbounds <- Neighbourbounds %>%
 
 
 #Spatial weights Matrix for data
-```{r}
+```{r Spatial-Contiguities, include=FALSE}
 Neighbourbounds.sp <- as(Neighbourbounds,"Spatial")
 Neighbourbounds.nb <- poly2nb(pl = Neighbourbounds.sp)
 Neighbourbounds.w <- nb2listw(Neighbourbounds.nb)
@@ -161,7 +152,7 @@ Choropleth Maps of relevant data for this study:
 
 Population density
 
-```{r}
+```{r plot-density, echo=FALSE, fig.cap={"\\label{fig:Pop-Dens}CPopulation Density based on Total Population of 2615060 in Toronto, ON"}}
 #Population Density based on a total population of 2615060
 
 options(scipen=10000000)
@@ -175,7 +166,7 @@ ggplot(Neighbourbounds) +
 ```
 
 
-```{r}
+```{r plot-cases, echo=FALSE, fig.cap={"\\label{fig:Ment-Cases-Cap}CMental Health Cases per Capita in Toronto, ON"}}
 
 #Mental Health Cases Per Capita
 
@@ -189,7 +180,7 @@ ggplot(Neighbourbounds) +
   labs(fill = "Mental Health Cases per Capita in each Neighbourhood (Total)")
 ```
 
-```{r}
+```{r plot-male-cases, echo=FALSE, fig.cap={"\\label{fig:Ment-MCases-Cap}CMale Mental Health Cases per Capita in Toronto, ON"}}
 options(scipen=10000)
 ggplot(Neighbourbounds) + 
   geom_sf(aes(fill = cut_number((MH_PC_M),8)),
@@ -200,7 +191,7 @@ ggplot(Neighbourbounds) +
 ```
 
 
-```{r}
+```{r plot-female-cases, echo=FALSE, fig.cap={"\\label{fig:Ment-FCases-Cap}CFemale Mental Health Cases per Capita in Toronto, ON"}}
 options(scipen=10000)
 ggplot(Neighbourbounds) + 
   geom_sf(aes(fill = cut_number((MH_PC_F),8)),
@@ -213,7 +204,7 @@ ggplot(Neighbourbounds) +
 
 
 Unemployment rates:
-```{r}
+```{r plot-unemployment-rates, echo=FALSE, fig.cap={"\\label{fig:Unemplpy-Rate}CUnemployment Rates in Toronto, ON Neighbourhoods"}}
 #Unemployment Rates 
 
 options(scipen=10000)
@@ -231,7 +222,7 @@ Correlation between mental health cases and unemployment rates are visible in 3 
 
 Income Chloropleths:
 
-```{r}
+```{r plot-income, echo=FALSE, fig.cap={"\\label{fig:plot-income}CMedian Individual Income in Toronto, ON Neighbourhoods"}}
 # Income Chloropleth Map
 
 options(scipen=10000)
@@ -246,7 +237,7 @@ ggplot() +
 
 ```
 
-```{r}
+```{r plot-Living-Alone, echo=FALSE, fig.cap={"\\label{fig:plot-alone}CProportion of Population Living Alone in Toronto, ON Neighbourhoods"}}
 #Living Situation 
 options(scipen=10000)
 ggplot(Neighbourbounds) + 
@@ -260,77 +251,20 @@ ggplot(Neighbourbounds) +
 ```
 Proportion of a community that is immigrants:
 
-```{r}
+```{r plot-immigrants, echo=FALSE, fig.cap={"\\label{fig:plot-immi}CPercent of Immigrated Population in Toronto, ON Neighbourhoods"}}
 options(scipen=10000)
 
 ggplot() + 
   geom_sf(data = Neighbourbounds, 
           aes(fill = Prop_Immigrants), color = NA) + 
   scale_fill_distiller(palette = "YlOrRd", direction = 1) + 
-  labs(fill = "Immigrant Rates (%)") + 
+  labs(fill = "Immigrant Rate (%)") + 
   theme(axis.text.x = element_blank(), 
         axis.text.y = element_blank())
 
 ```
 
-
-Chloropleth maps for how much green space is available within buffer distance:
-```{r}
-options(scipen=10000)
-
-ggplot(Neighbourbounds) + 
-  geom_sf(aes(fill = cut_number(Area_5min_km, 8)),
-          color = NA, 
-          size = 0.1) +
-  scale_fill_brewer(palette = "YlOrRd") +
-  labs(fill = "Amount of green space within a 5 minute walk (km^2)")
-```
-
-
-```{r}
-options(scipen=10000)
-ggplot(Neighbourbounds) + 
-  geom_sf(aes(fill = cut_number(Area_10min_km,8)),
-          color = NA, 
-          size = 0.1) +
-  scale_fill_brewer(palette = "YlOrRd") +
-  labs(fill = "Amount of green space within a 10 minute walk (km^2)")
-```
-
-```{r}
-options(scipen=10000)
-ggplot(Neighbourbounds) + 
-  geom_sf(aes(fill = cut_number(Area_15min_km,8)),
-          color = NA, 
-          size = 0.1) +
-  scale_fill_brewer(palette = "YlOrRd") +
-  labs(fill = "Amount of green space within a 15 minute walk (km^2)")
-```
-
-
-```{r}
-options(scipen=10000)
-ggplot(Neighbourbounds) + 
-  geom_sf(aes(fill = cut_number(Area_30min_km,8)),
-          color = NA, 
-          size = 0.1) +
-  scale_fill_brewer(palette = "YlOrRd") +
-  labs(fill = "Amount of green space within a 30 minute walk (km^2)")
-
-```
-
-```{r}
-options(scipen=10000)
-ggplot(Neighbourbounds) + 
-  geom_sf(aes(fill = cut_number(Area_60min_km, 8)),
-          color = NA, 
-          size = 0.1) +
-  scale_fill_brewer(palette = "YlOrRd") +
-  labs(fill = "Amount of green space within a 60 minute walk (km^2)")
-
-```
-
-```{r}
+```{r plot-Prop-Old, echo=FALSE, fig.cap={"\\label{fig:plot-old}CProportion of Population over 65 years old in Toronto, ON"} }
 #Proportion Above 65
 
 
@@ -343,23 +277,80 @@ ggplot() +
         axis.text.y = element_blank())
 ```
 
+Chloropleth maps for how much green space is available within buffer distance:
+```{r plot-green-space5, echo=FALSE, fig.cap={"\\label{fig:plot-g5}CAmount of greenspace within 5 minute walking buffer based on average walking speed in Toronto, ON neighbourhoods"}}
+options(scipen=10000)
+
+ggplot(Neighbourbounds) + 
+  geom_sf(aes(fill = cut_number(Area_5min_km, 8)),
+          color = NA, 
+          size = 0.1) +
+  scale_fill_brewer(palette = "YlOrRd") +
+  labs(fill = "Amount of green space within a 5 minute walk (km^2)")
+```
+
+
+```{r plot-green-space10, echo=FALSE, fig.cap={"\\label{fig:plot-g10}CAmount of greenspace within 10 minute walking buffer based on average walking speed in Toronto, ON neighbourhoods"}}
+options(scipen=10000)
+ggplot(Neighbourbounds) + 
+  geom_sf(aes(fill = cut_number(Area_10min_km,8)),
+          color = NA, 
+          size = 0.1) +
+  scale_fill_brewer(palette = "YlOrRd") +
+  labs(fill = "Amount of green space within a 10 minute walk (km^2)")
+```
+
+```{r plot-green-space15, echo=FALSE, fig.cap={"\\label{fig:plot-g15}CAmount of greenspace within 15 minute walking buffer based on average walking speed in Toronto, ON neighbourhoods"}}
+options(scipen=10000)
+ggplot(Neighbourbounds) + 
+  geom_sf(aes(fill = cut_number(Area_15min_km,8)),
+          color = NA, 
+          size = 0.1) +
+  scale_fill_brewer(palette = "YlOrRd") +
+  labs(fill = "Amount of green space within a 15 minute walk (km^2)")
+```
+
+
+```{r plot-green-space30, echo=FALSE, fig.cap={"\\label{fig:plot-g30}CAmount of greenspace within 30 minute walking buffer based on average walking speed in Toronto, ON neighbourhoods"}}
+options(scipen=10000)
+ggplot(Neighbourbounds) + 
+  geom_sf(aes(fill = cut_number(Area_30min_km,8)),
+          color = NA, 
+          size = 0.1) +
+  scale_fill_brewer(palette = "YlOrRd") +
+  labs(fill = "Amount of green space within a 30 minute walk (km^2)")
+
+```
+
+```{r plot-green-space60, echo=FALSE, fig.cap={"\\label{fig:plot-g60}Amount of greenspace within 60 minute walking buffer based on average walking speed in Toronto, ON neighbourhoods"}}
+options(scipen=10000)
+ggplot(Neighbourbounds) + 
+  geom_sf(aes(fill = cut_number(Area_60min_km, 8)),
+          color = NA, 
+          size = 0.1) +
+  scale_fill_brewer(palette = "YlOrRd") +
+  labs(fill = "Amount of green space within a 60 minute walk (km^2)")
+
+```
+
+
 The overall findings from these maps point towards high unemployment rates and low median/average income being contributing factors that lead to high mental health cases.
 
 
 Moran Test for Mental health cases:
-```{r}
+```{r, include=FALSE}
 moran.test(Neighbourbounds$MH_PC_Tot, Neighbourbounds.w)
 ```
 The p-value is low (~0.00016), therefore the data is spatially autocorellated
 
 Moran Plot:
-```{r}
+```{r moran-scatterplot, echo=FALSE, fig.cap={"\\label{fig:moran-scatterplot} Moran's scatterplot of empirical variable (observed)"}}}
 
 MHTot_MP <- moran.plot(Neighbourbounds$MH_PC_Tot, Neighbourbounds.w)
 ```
 
-his function is used to create local Moran maps:
-```{r}
+This function is used to create local Moran maps:
+```{r local-moran-function, include=FALSE}
 localmoran.map <- function(p = p, listw = listw, VAR = VAR, by = by){
   require(tidyverse)
   require(spdep)
@@ -386,7 +377,7 @@ localmoran.map <- function(p = p, listw = listw, VAR = VAR, by = by){
 
 
 Creating a local Moran Map:
-```{r}
+```{r local-moran-plot, echo=FALSE, fig.cap={"\\label{fig:moran-localplot} Local Indicators of spatial autocorellation (Moran's I Map)"}}
 localmoran.map(Neighbourbounds, Neighbourbounds.w, "MH_PC_Tot", by = "NAME")
 ```
 
@@ -415,7 +406,7 @@ Neighbourbounds$simulation_4 <- simulation_4
 Neighbourbounds$simulation_5 <- simulation_5
 ```
 
-```{r}
+```{r spatial-Moving-Addition,include=FALSE}
 #Add spatial moving averages to sf dataframe
 Neighbourbounds$simulation_1.sma <- simulation_1.sma
 Neighbourbounds$simulation_2.sma <- simulation_2.sma
@@ -436,7 +427,9 @@ MH_PC_Tot2 <- Neighbourbounds %>%
   # `pivot_longer()` places all variables with the exception of `geometry` in a single column named `SMA` and creates a new variable called `VAR` with the names of the original columns (i.e., observed, simulation_1,...)
   pivot_longer(cols = -c(geometry, ends_with("sma")), names_to = "VAR", values_to = "values") %>%
   st_as_sf()
+```
 
+```{r map-simulated-landscapes, echo=FALSE, fig.cap={"\\label{fig:simulated-landscapesplot}Maps showing the empirical distribution of mental health cases per capita and five simulated landscapes"}
 ggplot() + 
   geom_sf(data = MH_PC_Tot2, 
           aes(fill = values), color = NA) + 
@@ -462,7 +455,7 @@ MH_PC_Tot2 <- MH_PC_Tot2 %>%
 ```
 
 Plots:
-```{r}
+```{r spatial-moving-averages, echo=FALSE, fig.cap={"\\label{fig:scatterplot-moving-averages}Moran's scatterplots of empirical and simulated spatial moving averages of mental health cases per capita"}}
 ggplot(data = MH_PC_Tot2, 
        aes(x = values, 
            y = SMA,
@@ -478,39 +471,34 @@ ggplot(data = MH_PC_Tot2,
   facet_wrap(~ VAR, ncol = 3)
 ```
 
-```{r}
+```{r Neighbourhood-Centroids, include=FALSE}
 
 Neighbourhood_centroids <- st_centroid(Neighbourbounds_Centroids) %>% 
   st_coordinates()
-
+```
+```{r Neighbourhood-SWM5,echo=FALSE, fig.cap={"\\label{fig:neighbour-SWM5}Spatial weights matrices of neighbouring neighbourhoods within a 5 minute walking distance"}}
 Neighbourhood_centroids_5min.dnb <- dnearneigh(Neighbourhood_centroids, d1 = 0, d2 = 410)
 plot(Neighbourbounds.sp, border = "gray")
 plot(Neighbourhood_centroids_5min.dnb, Neighbourhood_centroids, col = "red", add = TRUE)
 summary(Neighbourhood_centroids_5min.dnb)
-
+```
+```{r Neighbourhood-SWM10,echo=FALSE, fig.cap={"\\label{fig:neighbour-SWM10}Spatial weights matrices of neighbouring neighbourhoods within a 10 minute walking distance"}}
 Neighbourhood_centroids_10min.dnb <- dnearneigh(Neighbourhood_centroids, d1 = 0, d2 = 826)
 plot(Neighbourbounds.sp, border = "gray")
 plot(Neighbourhood_centroids_10min.dnb, Neighbourhood_centroids, col = "red", add = TRUE)
 summary(Neighbourhood_centroids_10min.dnb)
-
+```
+```{r Neighbourhood-SWM15,echo=FALSE, fig.cap={"\\label{fig:neighbour-SWM15}Spatial weights matrices of neighbouring neighbourhoods within a 15 minute walking distance"}}
 Neighbourhood_centroids_15min.dnb <- dnearneigh(Neighbourhood_centroids, d1 = 0, d2 = 1239)
 plot(Neighbourbounds.sp, border = "gray")
 plot(Neighbourhood_centroids_15min.dnb, Neighbourhood_centroids, col = "red", add = TRUE)
 summary(Neighbourhood_centroids_15min.dnb)
-
-
-
-
-# You will notice that the slope of the line tends to be flat in the simulated variables; this is to be expected, since these variables are spatially random the values of the variable at i are independent of the values of their local means in other words, the probability that the map is random is pretty high (in fact, since these 5 of these maps are null landscapes, we know for a fact that they are random).
-
-#The empirical variable, on the other hand, has a slope that is much closer to the 45 degree line. This indicates that the values of the variable at i are not independent of their local mean the probability of a non-random pattern is high
-
-# A spatial weights matrix is a representation of the spatial structure of your data. It is a quantification of the spatial relationships that exist among the features in your dataset (or, at least, a quantification of the way you conceptualize those relationships). Because the spatial weights matrix imposes a structure on your data, you should select a conceptualization that best reflects how features actually interact with each other. A spatial weights matrix was created for each established buffer to help understand the geographic distribution and to understand accessibility such as if you want to go to a different neighborhoods park. As seen by the maps and when we look at the summary tables, it isn't possible to access a different neighborhood in a 5 minute walking distance. other neighborhoods become accessible to the average walker when they go for a 30 to 60 minute walking trip.
 ```
 
 
+
 Regression Model for 5 minutes
-```{r}
+```{r Linear-Regression-5min,echo=FALSE, fig.cap={"\\label{fig:LR-5}The relationship between green space avaliability within 5 minute walking distance of neighbourhoods and mental health related hosptial admissions"}}
 
 #5 minutes worth of green space
 Neighbourbounds <- Neighbourbounds %>%
@@ -531,7 +519,7 @@ ggplot(data = Neighbourbounds,
 ```
 
 Regression model for others
-```{r}
+```{r Linear-Regression-10-15-30-60min, include=FALSE}
 #10 minutes worth of green space
 Neighbourbounds <- Neighbourbounds %>%
   mutate(Area_10_Transform = log10(Area_10min))
@@ -606,7 +594,7 @@ ggplot(data = Neighbourbounds,
 
 Linear Models including the other stuff
 
-```{r}
+```{r Final-Model, include=FALSE}
 #Model with everything
 model <- lm(formula = MH_PC_Tot ~Area_5_Transform * Unemploy_r * Prop_Alone * PropAge65Plus * Med_Ind_In, data = Neighbourbounds)
 summary(model)
