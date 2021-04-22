@@ -785,32 +785,16 @@ Neighbourbounds <- Neighbourbounds %>%
          PropBelow20k = (Income_U5000 + Income_5000to9999 + Income_10000to14999 + Income_15000to19999)/Num_House)
 ```
 
->>>>>>> 9e559cd2c6528b3f57a56051c644d97fb3c259ca
 
-```{r}
-#Model is our best bet
-modelBest <- lm(formula = MH_PC_Tot ~Area_5_Transform * Unemploy_r * Prop_Alone,  data = Neighbourbounds)
-summary(modelBest)
 
-modelBestM <- lm(formula = MH_PC_M ~Area_5_Transform,  data = Neighbourbounds)
-summary(modelBestM)
-
-modelBestF <- lm(formula = MH_PC_F ~Area_5_Transform,  data = Neighbourbounds)
-summary(modelBestF)
-```
 
 
 ```{r}
-#Model including proportion of people below 50,000
-model1 <- lm(formula = MH_PC_Tot ~ Area_5_Transform + Unemploy_r + Alone + PropBelowPoverty, data = Neighbourbounds)
-summary(model1)
 #Model with everything
-model4 <- lm(formula = MH_PC_Tot ~Area_5_Transform * Unemploy_r * Prop_Alone * PropAge65Plus * Med_Ind_In * Immigrants, data = Neighbourbounds)
-summary(model4)
-
+model <- lm(formula = MH_PC_Tot ~Area_5_Transform * Unemploy_r * Prop_Alone * PropAge65Plus * Med_Ind_In, data = Neighbourbounds)
+summary(model)
 ```
 
-Create a plot with the model?
 
 
 
