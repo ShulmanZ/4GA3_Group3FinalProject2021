@@ -211,7 +211,7 @@ ggplot(Neighbourbounds) +
 
 
 Unemployment rates:
-```{r plot-unemployment-rates, echo=FALSE, fig.cap={"\\label{fig:Unemplpy-Rate}CUnemployment Rates in Toronto, ON Neighbourhoods"}}
+```{r plot-unemployment-rates, echo=FALSE, fig.cap={"\\label{fig:Unemploy-Rate}Unemployment Rates in Toronto, ON Neighbourhoods"}}
 #Unemployment Rates 
 
 options(scipen=10000)
@@ -244,7 +244,7 @@ ggplot() +
 
 ```
 
-```{r plot-Living-Alone, echo=FALSE, fig.cap={"\\label{fig:plot-alone}CProportion of Population Living Alone in Toronto, ON Neighbourhoods"}}
+```{r plot-Living-Alone, echo=FALSE, fig.cap={"\\label{fig:plot-alone}Proportion of Population Living Alone in Toronto, ON Neighbourhoods"}}
 #Living Situation 
 options(scipen=10000)
 ggplot(Neighbourbounds) + 
@@ -258,7 +258,7 @@ ggplot(Neighbourbounds) +
 ```
 Proportion of a community that is immigrants:
 
-```{r plot-immigrants, echo=FALSE, fig.cap={"\\label{fig:plot-immi}CPercent of Immigrated Population in Toronto, ON Neighbourhoods"}}
+```{r plot-immigrants, echo=FALSE, fig.cap={"\\label{fig:plot-immi}Percent of Immigrated Population in Toronto, ON Neighbourhoods"}}
 options(scipen=10000)
 
 ggplot() + 
@@ -271,7 +271,7 @@ ggplot() +
 
 ```
 
-```{r plot-Prop-Old, echo=FALSE, fig.cap={"\\label{fig:plot-old}CProportion of Population over 65 years old in Toronto, ON"} }
+```{r plot-Prop-Old, echo=FALSE, fig.cap={"\\label{fig:plot-old}Proportion of Population over 65 years old in Toronto, ON"} }
 #Proportion Above 65
 
 
@@ -285,7 +285,7 @@ ggplot() +
 ```
 
 Chloropleth maps for how much green space is available within buffer distance:
-```{r plot-green-space5, echo=FALSE, fig.cap={"\\label{fig:plot-g5}CAmount of greenspace within 5 minute walking buffer based on average walking speed in Toronto, ON neighbourhoods"}}
+```{r plot-green-space5, echo=FALSE, fig.cap={"\\label{fig:plot-g5}Amount of greenspace within 5 minute walking buffer based on average walking speed in Toronto, ON neighbourhoods"}}
 options(scipen=10000)
 
 ggplot(Neighbourbounds) + 
@@ -297,7 +297,7 @@ ggplot(Neighbourbounds) +
 ```
 
 
-```{r plot-green-space10, echo=FALSE, fig.cap={"\\label{fig:plot-g10}CAmount of greenspace within 10 minute walking buffer based on average walking speed in Toronto, ON neighbourhoods"}}
+```{r plot-green-space10, echo=FALSE, fig.cap={"\\label{fig:plot-g10}Amount of greenspace within 10 minute walking buffer based on average walking speed in Toronto, ON neighbourhoods"}}
 options(scipen=10000)
 ggplot(Neighbourbounds) + 
   geom_sf(aes(fill = cut_number(Area_10min_km,8)),
@@ -307,7 +307,7 @@ ggplot(Neighbourbounds) +
   labs(fill = "Amount of green space within a 10 minute walk (km^2)")
 ```
 
-```{r plot-green-space15, echo=FALSE, fig.cap={"\\label{fig:plot-g15}CAmount of greenspace within 15 minute walking buffer based on average walking speed in Toronto, ON neighbourhoods"}}
+```{r plot-green-space15, echo=FALSE, fig.cap={"\\label{fig:plot-g15}Amount of greenspace within 15 minute walking buffer based on average walking speed in Toronto, ON neighbourhoods"}}
 options(scipen=10000)
 ggplot(Neighbourbounds) + 
   geom_sf(aes(fill = cut_number(Area_15min_km,8)),
@@ -318,7 +318,7 @@ ggplot(Neighbourbounds) +
 ```
 
 
-```{r plot-green-space30, echo=FALSE, fig.cap={"\\label{fig:plot-g30}CAmount of greenspace within 30 minute walking buffer based on average walking speed in Toronto, ON neighbourhoods"}}
+```{r plot-green-space30, echo=FALSE, fig.cap={"\\label{fig:plot-g30}Amount of greenspace within 30 minute walking buffer based on average walking speed in Toronto, ON neighbourhoods"}}
 options(scipen=10000)
 ggplot(Neighbourbounds) + 
   geom_sf(aes(fill = cut_number(Area_30min_km,8)),
@@ -597,7 +597,7 @@ ggplot(data = Neighbourbounds,
 
 Linear Models including the other stuff
 
-```{r Final-Model, include=FALSE}
+```{r Linear-Regression-Final,echo=FALSE, fig.cap={"\\label{fig:LR-Final}The relationship between mental health determinants and study variables (including green space avaliability within 5 minute walking distance) of neighbourhoods and mental health related hosptial admissions"}}
 #Model with everything
 model <- lm(formula = MH_PC_Tot ~Area_5_Transform * Unemploy_r * Prop_Alone * PropAge65Plus * Med_Ind_In, data = Neighbourbounds)
 summary(model)
@@ -605,46 +605,42 @@ summary(model)
 
 **Analysis**
 *Choropleth Maps*
-\ref{fig:}
 
-
- Population density Choropleth Map \ref{fig:Pop-Dens}
-
-: This map shows the population density per capita in each census tract of Toronto. Notably, a significant proportion of the population lives in the lower central area with some census tracts containing >20,000 people. Neighbourhoods surrounding this busy central district seem to have lower population density as you deviate further from the highly populated tracts downtown. The majority of neighbourhoods on the outskirts of this study area have a very low population density. Overall the population density of Toronto is heavily skewed towards the lower centre census tracts near downtown. 
+ Population density choropleth Map \ref{fig:Pop-Dens}: This map shows the population density per capita in each census tract of Toronto. Notably, a significant proportion of the population lives in the lower central area with some census tracts containing >20,000 people. Neighbourhoods surrounding this busy central district seem to have lower population density as you deviate further from the highly populated tracts downtown. The majority of neighbourhoods on the outskirts of this study area have a very low population density. Overall the population density of Toronto is heavily skewed towards the lower centre census tracts near downtown. 
  
- Mental Health Cases per Capita:The mental health cases choropleth maps show a number of interesting results. The highest mental health hospital admissions per capita were primarily in the lower central area of the city but high rates are also seen in the southern portion. The mental health cases correlates with the population density map to a small degree implying population may also have a slight effect on mental health. Overall, the mental health cases between males and females were mostly similar with little variation, however there were more mental health admissions per capita for males.
+ Mental Health Cases per Capita Choropleth Map \ref{fig:Ment-Cases-Cap}:The mental health cases choropleth maps show a number of interesting results. The highest mental health hospital admissions per capita were primarily in the lower central area of the city but high rates are also seen in the southern portion. The mental health cases correlates with the population density map to a small degree implying population may also have a slight effect on mental health. Overall, the mental health cases between males \ref{fig:Ment-MCases-Cap} and females \ref{fig:Ment-FCases-Cap} were mostly similar with little variation, however there were more mental health admissions per capita for males.
  
-Unemployment Rate: The unemployment rate data collected shows that neighbourhoods away from the central, high population density district, tend to have a higher unemployment rates when compared to other neighbourhoods. The majority of high unemployment rates occur on the outskirts of the study area with some deviation. When compared with the population density choropleth map there seems to be a slight inverse relationship. Implying a small correlation between unemployment rate and population density. 
+Unemployment Rate Chloropleth Map \ref{fig:Unemploy-Rate}: The unemployment rate data collected shows that neighbourhoods away from the central, high population density district, tend to have a higher unemployment rates when compared to other neighbourhoods. The majority of high unemployment rates occur on the outskirts of the study area with some deviation. When compared with the population density choropleth map there seems to be a slight inverse relationship. Implying a small correlation between unemployment rate and population density. 
 
-Income Choropleth map: The income data show a significant difference between median income and average income by census tract. The data shows a clear income disparity in Toronto as the highest median income 60,000 CAD but the highest average income (in the same census tract) is ~ 200,000 CAD. It is likely that some ultra - wealthy individuals are outliers in the data causing the significant income disparity. The data shows that the wealthiest individuals live in central, and southern Toronto while the neighbourhoods around it are relatively similar.
+Income Choropleth Map \ref{fig:plot-immi}: The income data show a significant difference between median income and average income by census tract. The data shows a clear income disparity in Toronto as the highest median income 60,000 CAD but the highest average income (in the same census tract) is ~ 200,000 CAD. It is likely that some ultra - wealthy individuals are outliers in the data causing the significant income disparity. The data shows that the wealthiest individuals live in central, and southern Toronto while the neighbourhoods around it are relatively similar.
 
-Living Situation: The proportion of residents living with relatives is large along the boundaries of this study area, and lower in the areas of high population density. For residents living with non-relatives, this proportion increases in the central district due to its close proximity to universities which mean students are likely living with roommates. The proportion of those living alone is extremely high in the central district and closely correlates with the high mental health cases per capita graph. This data shows a  strong correlation between these to factors. 
+Living Situation Chloropleth Map \ref{fig:plot-alone}: The proportion of residents living with relatives is large along the boundaries of this study area, and lower in the areas of high population density. For residents living with non-relatives, this proportion increases in the central district due to its close proximity to universities which mean students are likely living with roommates. The proportion of those living alone is extremely high in the central district and closely correlates with the high mental health cases per capita graph. This data shows a  strong correlation between these to factors. 
 
-Age Proportion in each Neighbourhood: There are a few pockets scattered around the study area that have a high proportion of people over the age of 65, but there is no clear pattern and it looks to have no correlation to previously graphed data. 
+Age Proportion in each Neighbourhood Chloropleth Map \ref{fig:plot-old}: There are a few pockets scattered around the study area that have a high proportion of people over the age of 65, but there is no clear pattern and it looks to have no correlation to previously graphed data. 
 Immigration: Immigrant rates are the highest in the northern parts of the study area, hovering between 50 - 70%, and dropping as low as 20% in the central neighbourhoods. Four neighbourhoods have no immigration data. There is a very notable absence of immigrants in the high income subdivisions as seen in the income choropleth map. 
 
-Amount of green Space: These choropleth maps show the green space within the previously defined 5,10,15,30, and 60 minute buffers. Each map shows the green space that is accessible within each neighbourhood. As the buffers increase the maps become increasingly homogenous with the neighbourhoods near the middle length of Toronto having the highest access to green space. The concrete jungle of downtown has very little access to green space, this area of Toronto also had the highest mental health admissions per capita.Although a number of factors may be contributing to mental health rates, green space correlates quite well with the lower mental health admission areas.
+Amount of green Space Chloropleth Map: These choropleth maps show the green space within the previously defined 5,10,15,30, and 60 minute buffers. The 5 minute \ref{fig:plot-g5}, 10 minute \ref{fig:plot-g10}, 15 minute \ref{fig:plot-g15}, 30 minute \ref{fig:plot-g30}, and 60 minute maps \ref{fig:plot-g60} shows the green space that is accessible within each neighbourhood . As the buffers increase the maps become increasingly homogenous with the neighbourhoods near the middle length of Toronto having the highest access to green space. The concrete jungle of downtown has very little access to green space, this area of Toronto also had the highest mental health admissions per capita.Although a number of factors may be contributing to mental health rates, green space correlates quite well with the lower mental health admission areas.
 
 *Spatial Weights Matrices*
-A spatial weights matrix was created for each established distance buffer referenced in the introduction to help understand the geographic distribution and accessibility. As mentioned beforehand, a resident of neighbourhood X could very well walk to a park in neighbourhood Y. As seen in the figures generated with the present code, only a few links located in central Toronto show neighbourhoods accessible in 5,10, and 15 minute walking time-frames, at an average walking pace. Based on our analysis, the average walking times/distances don't allow the individual to walk over to a different neighbourhood park which supports our theory that individuals go to parks nearest to them.
+A spatial weights matrix was created for each established distance buffer referenced in the introduction to help understand the geographic distribution and accessibility. As mentioned beforehand, a resident of neighbourhood X could very well walk to a park in neighbourhood Y. As seen in the figures generated with the present code, only a few links located in central Toronto show neighbourhoods accessible in 5 minute \ref{fig:neighbour-SWM5}, 10 minute \ref{fig:neighbour-SWM10}, and 15 minute \ref{fig:neighbour-SWM15} walking time-frames, at an average walking pace. Based on our analysis, the average walking times/distances don't allow the individual to walk over to a different neighbourhood park which supports our theory that individuals go to parks nearest to them.
 
-*Spatial Moving Averages*
-Looking at the scatterplots, the spatial moving average figure below (Figure X) represents the difference between the empirical and simulated variables, along with the fitted regression line. In the figure (WHICH FIG), the slope of the line tends to be flat in the simulated variables, which is to be expected as these variables are null landscapes and therefore spatially random. On the other hand, the empirical variable has a slope that is closer to the 45-degree line than any of the simulated variables, suggesting that the values of the variable are not independent of their local mean, i.e., the probability of a non-random pattern is high. This result is significant since it indicates that our data shows spatial autocorrelation, allowing us to continue our tests to determine which parameters influence the data.
+*Spatial Moving Averages Scatterplots*
+Looking at the scatterplots figure \ref{fig:scatterplot-moving-averages}, the spatial moving average represents the difference between the empirical and simulated variables, along with the fitted regression line. In the figure, the slope of the line tends to be flat in the simulated variables, which is to be expected as these variables are null landscapes and therefore spatially random. On the other hand, the empirical variable has a slope that is closer to the 45-degree line than any of the simulated variables, suggesting that the values of the variable are not independent of their local mean, i.e., the probability of a non-random pattern is high. This result is significant since it indicates that our data shows spatial autocorrelation, allowing us to continue our tests to determine which parameters influence the data.
 
-*Simulated Landscapes*
-However, for the purpose of certainty, the figure below (Figure) shows the distribution of the observed variable and five simulated (random) landscapes. It is readily apparent when studying FIGURE X that the map with the empirical variable is different from the simulated variables, suggesting that the mental health cases for the population per capita of Toronto are not random. The highest average mental health cases per area appear to be around southern Toronto neighbourhoods, followed by the central area and decrease towards the north.
+*Simulated Landscapes* 
+However, for the purpose of certainty, the simulated landscapes figure \ref{fig:simulated-landscapesplot}  shows the distribution of the observed variable and five simulated (random) landscapes. It is readily apparent that the map with the empirical variable is different from the simulated variables, suggesting that the mental health cases for the population per capita of Toronto are not random. The highest average mental health cases per area appear to be around southern Toronto neighbourhoods, followed by the central area and decrease towards the north.
 
 *Morans I*
-Since the data is considered to be spatially autocorrelated, a Moran’s test seemed like the next step towards explaining the trends in mental health admissions per capita for the population of Toronto. It is important to work with values associated with area in order to acquire results that represent proportions, and not just absolute counts. The Moran's I value had a p-value below 0.05, indicating that the variables were spatially autocorrelated with a very safe Confidence Interval. The Moran's (SEE FIGURE) map shows that the majority of statistically high cases of mental health admissions are seen in the south-west and south-central areas of the city. In contrast, the northeast has significantly lower mental health cases.
+Since the data is considered to be spatially autocorrelated, a Moran’s test seemed like the next step towards explaining the trends in mental health admissions per capita for the population of Toronto. It is important to work with values associated with area in order to acquire results that represent proportions, and not just absolute counts. The Moran's I value had a p-value below 0.05, indicating that the variables were spatially autocorrelated with a very safe Confidence Interval. The Moran's map \ref{fig:moran-localplot} shows that the majority of statistically high cases of mental health admissions are seen in the south-west and south-central areas of the city. In contrast, the northeast has significantly lower mental health cases.
 
 *Regression Model*
 We created linear models comparing the amount of green space within each walking distance (5, 10, 15, 30, 60 minutes) and the number of mental health cases per capita. We found a small amount of significant correlation between mental health cases and the amount of green space available within 5, 10, 15, and 30 minutes of a neighbourhood (SEE TABLES?). The highest correlation was seen in the 5-minute distance (Adjusted R squared of 0.051),  this value and its significance continued to decrease as the distance increased. For the 60-minute walking distance, the smallest R squared value (0.02) showed a clear relationship between distance to green space and mental health cases.
 
- 	The progressively lower R squared value suggests a minor correlation between the amount of green space available to Torontonians and mental health admissions to hospitals. This correlation was most significant at the closest walking distance of 5 minutes, and as this distance increased, the correlation and its significance decreased. This indicates that easy, more immediate access to green spaces has a positive impact on residents’ mental health. 
+ 	The progressively lower R squared value suggests a minor correlation between the amount of green space available to Torontonians and mental health admissions to hospitals. This correlation was most significant at the closest walking distance of 5 minutes \ref{fig:LR-5}, and as this distance increased, the correlation and its significance decreased. This indicates that easy, more immediate access to green spaces has a positive impact on residents’ mental health. 
  	
  As mentioned, there was only a small correlation between greenspace within a 5-minute walking distance and mental health cases. However, based on the available literature, access to green space is not the only factor that impacts one's mental health. Mental health is affected by a number of socioeconomic factors including health, income, age, and physical activity to name a few (Nutsford et al., 2013; Alcock et al., 2014; Hassen, 2016; Lopes et al., 2020; and Rigolon et al., 2021) . When combined with these and other factors the availability of greenspace may have a more considerable impact on mental health. 
  
-Several linear models were created using the five minute greenspace buffer because it correlated best with improved mental health cases. In addition to the five minute buffer, other factors including income, age, unemployment, and if the individual lives alone or identifies as an immigrant were included in the linear models. Models were run to determine which of these variables best correlated with improved mental health. Overall, the model that had the highest correlation with mental health cases used the five minute green space buffer, unemployment rate, and proportion of individuals who live alone. 
+Several linear models were created using the five minute greenspace buffer because it correlated best with improved mental health cases. In addition to the five minute buffer, other factors including income, age, unemployment, and if the individual lives alone or identifies as an immigrant were included in the linear model. Models were run to determine which of these variables best correlated with improved mental health. Overall, the model that had the highest correlation with mental health cases used the five minute green space buffer, unemployment rate, and proportion of individuals who live alone \ref{fig:LR-Final}. 
 
 *Conclusion*
 Relationships between green spaces in cities and their impact on mental health is extensive and conclusive. The more accessible a park or green space is, the happier and healthier its users and neighbors are (Francis et al., 2012; Barton and Rogerson, 2017; Callahan et al., 2020; Collins et al., 2020; Martin et al., 2020). This research group’s interest lied specifically in the demographic and urban aspects that had the greatest impact on the strength of this green-space and mental health relationship in the city of Toronto, ON, Canada. We obtained publicly available demographic and health data from City of Toronto Open data Portal, and performed a variety of spatial statistic tests that yielded conclusive results as well as informative maps and graphs. The study of patterns of spatial autocorrelation of  mental health cases and green space accessibility in Toronto yielded the following conclusions.
