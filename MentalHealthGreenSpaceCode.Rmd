@@ -347,7 +347,7 @@ moran.test(Neighbourbounds$MH_PC_Tot, Neighbourbounds.w)
 The p-value is low (~0.00016), therefore the data is spatially autocorellated
 
 Moran Plot:
-```{r moran-scatterplot, echo=FALSE, fig.cap={"\\label{fig:moran-scatterplot} Moran's scatterplot of empirical variable (observed)"}}}
+```{r moran-scatterplot, echo=FALSE, fig.cap={"\\label{fig:moran-scatterplot} Moran's scatterplot of empirical variable (observed)"}}
 
 MHTot_MP <- moran.plot(Neighbourbounds$MH_PC_Tot, Neighbourbounds.w)
 ```
@@ -432,7 +432,7 @@ MH_PC_Tot2 <- Neighbourbounds %>%
   st_as_sf()
 ```
 
-```{r map-simulated-landscapes, echo=FALSE, fig.cap={"\\label{fig:simulated-landscapesplot}Maps showing the empirical distribution of mental health cases per capita and five simulated landscapes"}
+```{r map-simulated-landscapes, echo=FALSE, fig.cap={"\\label{fig:simulated-landscapesplot}Maps showing the empirical distribution of mental health cases per capita and five simulated landscapes"}}
 ggplot() + 
   geom_sf(data = MH_PC_Tot2, 
           aes(fill = values), color = NA) + 
