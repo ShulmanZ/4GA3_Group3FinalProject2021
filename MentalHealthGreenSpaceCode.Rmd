@@ -50,7 +50,6 @@ Neighbourbounds <- st_read("Neighbourhoods")
 
 ```{r write-package-bib, include=FALSE}
 # This function is used to write a bibliography for the `R` packages used in the paper
-knitr::write_bib(file = 'packages.bib')
 ```
 #INTRODUCTION
   When is the last time you enjoyed a stroll in the park, a casual game of catch, or simply took your dog for a walk by a green space down your street? Hopefully it hasn’t been too long! Undoubtedly, parks and green spaces have become absolutely essential areas in our cities (Shanahan et al., 2015), a place to disconnect from the stressors of everyday life and, perhaps, connect back to nature, with a neighbour, friends, or one’s inner peace. They provide fundamental services such as physical activity, meditation, social interaction, or simply a moment away from the hustle and bustle of modern cities such as Toronto, the focus of the present paper. Green spaces like Central Park in New York City (USA) or High Park in Toronto (ON) are millionaire investments that require careful planning and maintenance for the remainder from the moment they are inaugurated (and even prior to that). They must have a clear net positive effect on the population if they were deemed as feasible projects. As population rises and cities continue growing exponentially, public services such as city parks and other green spaces must be planned in ways that ensure equitable access to all inhabitants, if they are to be beneficial to the communities they serve (Nutsford et al., 2013). 
@@ -130,9 +129,6 @@ Neighbourbounds <- Neighbourbounds %>%
 
 Mutate to add a field from SMA:
 ```{r}
-=======
-```{r Mutate-Field-For-SMA, include=FALSE}
->>>>>>> 9e559cd2c6528b3f57a56051c644d97fb3c259ca
 Neighbourbounds <- Neighbourbounds %>%
   mutate(SMA_MH_PC_Tot = MH_PC_Tot,
          Prop_Comp_Avg_Income = Avg_Ind_In / 46530 )
@@ -261,10 +257,8 @@ ggplot(Neighbourbounds) +
 <<<<<<< HEAD
 
 Unemployment rates:
-```{r}
-=======
 ```{r Unemployment-Rate-Maps, include=FALSE}
->>>>>>> 9e559cd2c6528b3f57a56051c644d97fb3c259ca
+
 #Unemployment Rates 
 
 options(scipen=10000)
@@ -277,15 +271,11 @@ ggplot() +
   theme(axis.text.x = element_blank(), 
         axis.text.y = element_blank())
 ```
-<<<<<<< HEAD
 
-
-Income Chloropleths:
-```{r}
-=======
 Correlation between mental health cases and unemployment rates are visible in 3 neighbourhoods.
+Income Chloropleths:
+
 ```{r Income-Maps, include=FALSE}
->>>>>>> 9e559cd2c6528b3f57a56051c644d97fb3c259ca
 # Income Chloropleth Map
 
 options(scipen=10000)
