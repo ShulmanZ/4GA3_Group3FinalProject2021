@@ -116,6 +116,7 @@ names(Neighbourbounds)[names(Neighbourbounds) == 'Shape_Ar_4'] <- 'GSArea_60Min_
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 Mutate to make variables rates:
 
 ```{r}
@@ -134,6 +135,10 @@ Mutate to add a field from SMA:
 =======
 ```{r Mutate-Field-For-SMA, include=FALSE}
 >>>>>>> 9e559cd2c6528b3f57a56051c644d97fb3c259ca
+=======
+Mutate to add a field from SMA:
+```{r}
+>>>>>>> parent of 9e559cd (Captions Change 1)
 =======
 Mutate to add a field from SMA:
 ```{r}
@@ -181,6 +186,7 @@ plot(st_geometry(green_buff_60min))
 Choropleth Maps of relevant data for this study:
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 <<<<<<< HEAD
 Population density
@@ -188,6 +194,9 @@ Population density
 =======
 ```{r Population-Density-Map, include=FALSE}
 >>>>>>> 9e559cd2c6528b3f57a56051c644d97fb3c259ca
+=======
+```{r}
+>>>>>>> parent of 9e559cd (Captions Change 1)
 =======
 ```{r}
 >>>>>>> parent of 9e559cd (Captions Change 1)
@@ -204,6 +213,7 @@ ggplot(Neighbourbounds) +
 
 ```
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 <<<<<<< HEAD
 
@@ -212,6 +222,10 @@ ggplot(Neighbourbounds) +
 =======
 ```{r Mental-Health-Cases-Maps, include=FALSE}
 >>>>>>> 9e559cd2c6528b3f57a56051c644d97fb3c259ca
+=======
+A select few areas with over 40,000 people
+```{r}
+>>>>>>> parent of 9e559cd (Captions Change 1)
 =======
 A select few areas with over 40,000 people
 ```{r}
@@ -275,12 +289,16 @@ ggplot(Neighbourbounds) +
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 Unemployment rates:
 ```{r}
 =======
 ```{r Unemployment-Rate-Maps, include=FALSE}
 >>>>>>> 9e559cd2c6528b3f57a56051c644d97fb3c259ca
+=======
+```{r}
+>>>>>>> parent of 9e559cd (Captions Change 1)
 =======
 ```{r}
 >>>>>>> parent of 9e559cd (Captions Change 1)
@@ -304,8 +322,12 @@ Income Chloropleths:
 =======
 Correlation between mental health cases and unemployment rates are visible in 3 neighbourhoods.
 <<<<<<< HEAD
+<<<<<<< HEAD
 ```{r Income-Maps, include=FALSE}
 >>>>>>> 9e559cd2c6528b3f57a56051c644d97fb3c259ca
+=======
+```{r}
+>>>>>>> parent of 9e559cd (Captions Change 1)
 =======
 ```{r}
 >>>>>>> parent of 9e559cd (Captions Change 1)
@@ -356,10 +378,15 @@ ggplot() +
   theme(axis.text.x = element_blank(), 
         axis.text.y = element_blank())
 
+<<<<<<< HEAD
 ```
 
 Mutate to make data in km squared:
 
+=======
+Mutate to make data in km squared:
+
+>>>>>>> parent of 9e559cd (Captions Change 1)
 ```{r}
 Neighbourbounds <- Neighbourbounds %>%
   mutate(Area_5min_km = Area_5min/1000000,
@@ -818,8 +845,12 @@ Linear Models including the other stuff
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 ```{r write-package-bib, include=FALSE}
+=======
+```{r}
+>>>>>>> parent of 9e559cd (Captions Change 1)
 =======
 ```{r}
 >>>>>>> parent of 9e559cd (Captions Change 1)
@@ -846,9 +877,13 @@ summary(modelBestF)
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 ```{r}
 =======
 ```{r write-package-bib, include=FALSE}
+=======
+```{r}
+>>>>>>> parent of 9e559cd (Captions Change 1)
 =======
 ```{r}
 >>>>>>> parent of 9e559cd (Captions Change 1)
