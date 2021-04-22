@@ -61,6 +61,14 @@ The present paper aims to determine the relationship between green-space availab
   Contact with natural environments including green spaces has been associated with improved perceived and objective health outcomes and wellbeing (Alcock et al., 2014 and James et al., 2015;). Science attributes many benefits to green spaces, including increased physical activity, reducing psychological stress, anxiety and depression, increasing social contacts and cohesion and reducing exposure to environmental hazards such as air pollution (Dadvand et al. 2015, 2016). Lopes et al. (2020) demonstrate the positive effects of walking in nature. As they suggest, a walk as short as 30 minutes in a setting with natural elements, such as a park, elicits a feeling of awe and consequently draws people away from themselves, preventing rumination and its negative health effects (related to stress and thus high cortisol levels). In this study, researchers compared the effects of walking in nature with the same type of walk (group and duration) except in an urban setting, through the city. This study adds to the scientific consensus that access to natural environments, especially within an urban environment, yields important benefits to the mental health capital of cities and countries. Dadvand et al. (206) suggest a more relevant effect of green spaces on mental health status in males under the age of 65. For the purpose of our study we will determine whether different sex or age groups experience different mental health outcomes with proximity or accessibility to green spaces in Toronto, as observed by Dadvand et al. (2016) in Barcelona.  While science does not correlate living in a greener neighbourhood with any wellbeing outcomes, on the other hand it does suggest positive health outcomes for those who visited nature more than once a week (Martin et al., 2020). Martin et al. 2020 adds to the scientific consensus of positive health-nature relationships, suggesting that “detachment from the natural world may be a factor in poor mental and physical health”. In the present study we aim to determine whether parameters like distance and size of natural areas within Toronto (which affect accessibility) have an impact on the mental health of its population. Rigolon et al (2021) aim to determine the strength of associations between green-space and health of advantaged and disadvantaged groups. This research is relevant for the purpose of the present study on the associations between green-space and mental health in Toronto. The city has been a focus of this sort of science already, with papers such as Hassen (2016) pointing out the challenges of determining which characteristics of green spaces do affect Torontonians’ mental health, such as quality and accessibility of the parks.
 Determining which socioeconomic groups have a greater health dependency on accessibility to green-space can help in future urban planning and park allocation within cities. Rigolon et al. 2021 demonstrate that people of lower socioeconomic status show more beneficial effects to park accessibility than high-income households. The literature is clear, with multiple papers pointing out clear correlations between higher levels of green space and healthier populations (Richardson et al., 2013; van den Berg et al., 2016; Barton & Rogerson, 2017;  Engeman et al., 2019; Callaghan et al., 2020 ). An important aspect of the analysis carried out for the purpose of our study on Toronto were buffers created around neighbourhoods’ centroids. These buffers would represent the walk time an average person would walk towards a park, within or outside their neighbourhood. 
 
+
+In order to decide the appropriate distance for each of the buffers representing walking distance, we did a brief literature review on the topic. A park that is far from one’s neighbourhood is expected to be considered less “accessible” to that particular neighborhood, since people are more likely to walk to their nearest, most accessible park. However, nothing is stopping Toronto residents from walking over to a park that might be located in a different neighbourhood from the one they reside in. Moore et al. (2010) studied the relationships existing between park use, age, social participation and neighbourhood age composition in the Canadian city of Montreal. Granted, Montreal and Toronto are very different cities, but we considered this research to be significant for the purpose of this paper. Research such as Moore et al. (2010) left it to the study’s subjects to indicate whether a park was (under their subjective opinion, often determined by their mobility status) within an accessible walking distance. Research such as this confirms the importance of park proximity in determining park use and accessibility, also demonstrating differential vulnerability of older adults to neighbourhood influences (average neighbourhood age and park use by age group). 
+
+	Bryan and Katzmarzyk (2009) provide insight into the walking patterns of Canadian adults, which is directly related to the purpose of our study. They found that leisure-walking time trends between canadian adults (2007 data) varied depending on different demographic subgroups. In 2007: 7% of respondents were willing to walk up to 15 minutes (per walk); 40% reported walking 16 to 30 minutes; around 37% walked 31-60 minutes; and less than 13% reported walking over an hour each time they went for a walk. These numbers report total walk time, whereas our buffer decisions are determining walk time towards a park. For that reason, the bracket of 0-30 minutes was deemed more significant for the purpose of this study, with an emphasis on the 5 minute mark which was found to be most significant in our analysis (see below). 
+	
+	Finally, science agrees that someone’s willingness to walk can be determined by their age, health, time availability, quality of surroundings, safety, climate and other factors (Donahue, 2011). In New York, for example, commuters were most likely to walk to a station that was located within a quarter mile, a similar distance when compared to other big cities such as Los Angeles or the Bay Area (all U.S.A locations). Research supports both the quarter mile and half mile distances, since those dilute the issue of determining if the walk to the park is considered a chore, or rather part of the leisure experience. For these reasons, buffers of 5 minutes (410 meters), 10 minutes (826 m) and 15 minutes (1239 m) were determined to be most representative of residents’ trends (Donahue, 2011). Note these distances are measured around the centroid of each neighbourhood in ArcGIS Pro, then imported into R. 
+
+
 # Study area
 The affect of greenspace on mental health was conducted at the census tract level within Toronto. In order to analyze green space we overlayed a shapefile containing the census tracts with a shapefile containing the area in Km^2 of Toronto' green spaces. Toronto was chosen as our study site due to the highly variable greenspace and its abundant open data sources. A high variability in green space was important for this study as it allows us to view results at the extremes (i.e. virtually no nearby green space -> alot of nearby greenspace) while still having enough census tracts to account for any significant deviations such as disproportionately massive parks.
 
@@ -112,33 +120,23 @@ names(Neighbourbounds)[names(Neighbourbounds) == 'Shape_Ar_4'] <- 'GSArea_60Min_
 ```
 
 
-<<<<<<< HEAD
-<<<<<<< HEAD
 Mutate to make variables rates:
 
 ```{r}
-
 
 Neighbourbounds <- Neighbourbounds %>%
   mutate(PropAge65Plus = (Age65to79 +Age80to99) / Census_Pop,
          PropAge45Plus = (Age45to54+ Age55to64+ Age65to79 +Age80to99) / Census_Pop,
          PropBelowPoverty = (Income_U5000 + Income_5000to9999 + Income_10000to14999 + Income_15000to19999 + Income_20000to29999 + Income_30000to39999 + Income_40000to49999)/Num_House,
-         PropBelow20k = (Income_U5000 + Income_5000to9999 + Income_10000to14999 + Income_15000to19999)/Num_House)
-
-```
-
-diting and Adding more fields for choropleths:
-Mutate to make data in km squared:
-
-```{r}
-Neighbourbounds <- Neighbourbounds %>%
-  mutate(Area_5min_km = Area_5min/1000000,
+         PropBelow20k = (Income_U5000 + Income_5000to9999 + Income_10000to14999 + Income_15000to19999)/Num_House,
+         Area_5min_km = Area_5min/1000000,
          Area_10min_km = Area_10min/1000000,
          Area_15min_km = Area_15min/1000000,
          Area_30min_km = Area_30min/1000000,
          Area_60min_km = Area_60min/1000000, 
          Prop_Alone = Alone/Census_Pop,
-         Prop_Immigrants = (Immigrants/Census_Pop)*100)
+         Prop_Immigrants = (Immigrants/Census_Pop)*100,
+         Pop_Density_km = (Census_Pop/Neighbourhood_Area)*1000000)
 
 ```
 
@@ -146,9 +144,7 @@ Neighbourbounds <- Neighbourbounds %>%
 Mutate to add a field from SMA:
 ```{r}
 Neighbourbounds <- Neighbourbounds %>%
-  mutate(SMA_MH_PC_Tot = MH_PC_Tot,
-         Prop_Comp_Avg_Income = Avg_Ind_In / 46530 )
-
+  mutate(SMA_MH_PC_Tot = MH_PC_Tot)
 
 ```
 
@@ -160,31 +156,6 @@ Neighbourbounds.nb <- poly2nb(pl = Neighbourbounds.sp)
 Neighbourbounds.w <- nb2listw(Neighbourbounds.nb)
 ```
 
-Creating Buffers:
-```{r}
-#5 minute walk 
-green_buff_5min = st_buffer(Neighbourbounds, dist = 410)
-plot(st_geometry(green_buff_5min))
-
-#10 minute walk 
-green_buff_10min = st_buffer(Neighbourbounds, dist = 826)
-plot(st_geometry(green_buff_10min))
-
-#15 minute walk 
-green_buff_15min = st_buffer(Neighbourbounds, dist = 1239)
-plot(st_geometry(green_buff_15min))
-
-#30 minute walk 
-green_buff_30min = st_buffer(Neighbourbounds, dist = 2580)
-plot(st_geometry(green_buff_30min))
-
-#60 minute walk 
-green_buff_60min = st_buffer(Neighbourbounds, dist = 5160)
-plot(st_geometry(green_buff_60min))
-```
-
-
-
 
 Choropleth Maps of relevant data for this study:
 
@@ -193,10 +164,9 @@ Population density
 ```{r}
 #Population Density based on a total population of 2615060
 
-options(scipen=10000)
-
+options(scipen=10000000)
 ggplot(Neighbourbounds) + 
-  geom_sf(aes(fill = cut_number(((Census_Pop/Neighbourhood_Area)*1000000),8)),
+  geom_sf(aes(fill = cut_number((Pop_Density_km),8)),
           color = NA, 
           size = 0.1) +
   scale_fill_brewer(palette = "YlOrRd") +
@@ -211,51 +181,27 @@ ggplot(Neighbourbounds) +
 
 options(scipen=10000)
 
-ggplot() + 
-  geom_sf(data = Neighbourbounds, 
-          aes(fill = MH_PC_Tot), color = NA) + 
-  scale_fill_distiller(palette = "YlOrRd", direction = 1) +  
-  labs(fill = "Mental Health Cases Per Capita") + 
-  theme(axis.text.x = element_blank(), 
-        axis.text.y = element_blank())
-
-
-
-
 ggplot(Neighbourbounds) + 
   geom_sf(aes(fill = cut_number((MH_PC_Tot),8)),
           color = NA, 
           size = 0.1) +
   scale_fill_brewer(palette = "YlOrRd") +
   labs(fill = "Mental Health Cases per Capita in each Neighbourhood (Total)")
+```
 
-
-ggplot() + 
-  geom_sf(data = Neighbourbounds, 
-          aes(fill = MH_PC_M), color = NA) + 
-  scale_fill_distiller(palette = "YlOrRd", direction = 1) +  
-  labs(fill = "Mental Health Cases Per Capita (Male)") + 
-  theme(axis.text.x = element_blank(), 
-        axis.text.y = element_blank())
-
-
+```{r}
+options(scipen=10000)
 ggplot(Neighbourbounds) + 
   geom_sf(aes(fill = cut_number((MH_PC_M),8)),
           color = NA, 
           size = 0.1) +
   scale_fill_brewer(palette = "YlOrRd") +
   labs(fill = "Mental Health Cases per Capita in each Neighbourhood (Males)")
-
-ggplot() + 
-  geom_sf(data = Neighbourbounds, 
-          aes(fill = MH_PC_F), color = NA) + 
-  scale_fill_distiller(palette = "YlOrRd", direction = 1) +  
-  labs(fill = "Mental Health Cases Per Capita (Female)") + 
-  theme(axis.text.x = element_blank(), 
-        axis.text.y = element_blank())
+```
 
 
-
+```{r}
+options(scipen=10000)
 ggplot(Neighbourbounds) + 
   geom_sf(aes(fill = cut_number((MH_PC_F),8)),
           color = NA, 
@@ -298,19 +244,11 @@ ggplot() +
   theme(axis.text.x = element_blank(), 
         axis.text.y = element_blank())
 
-ggplot() + 
-  geom_sf(data = Neighbourbounds, 
-          aes(fill = Avg_Ind_In), color = NA) + 
-  scale_fill_distiller(palette = "YlOrRd", direction = 1) +  
-  labs(fill = "Average Income (Individual)") + 
-  theme(axis.text.x = element_blank(), 
-        axis.text.y = element_blank())
-
 ```
 
 ```{r}
 #Living Situation 
-
+options(scipen=10000)
 ggplot(Neighbourbounds) + 
   geom_sf(aes(fill = cut_number(((Alone) / Census_Pop)*100,8)),
           color = NA, 
@@ -340,102 +278,51 @@ Chloropleth maps for how much green space is available within buffer distance:
 ```{r}
 options(scipen=10000)
 
-#Continuous Maps:
-
-
-
-ggplot() + 
-  geom_sf(data = Neighbourbounds, 
-          aes(fill = Area_5min_km), color = NA) + 
-  scale_fill_distiller(palette = "YlOrRd", direction = 1) +  
-  labs(fill = "Amount of Green Space within 5 Minute Walk (km squared) ") + 
-  theme(axis.text.x = element_blank(), 
-        axis.text.y = element_blank())
-
-
-ggplot() + 
-  geom_sf(data = Neighbourbounds, 
-          aes(fill = Area_10min_km), color = NA) + 
-  scale_fill_distiller(palette = "YlOrRd", direction = 1) +  
-  labs(fill = "Amount of Green Space within 10 Minute Walk (km squared) ") + 
-  theme(axis.text.x = element_blank(), 
-        axis.text.y = element_blank())
-
-
-ggplot() + 
-  geom_sf(data = Neighbourbounds, 
-          aes(fill = Area_15min_km), color = NA) + 
-  scale_fill_distiller(palette = "YlOrRd", direction = 1) +  
-  labs(fill = "Amount of Green Space within 15 Minute Walk (km squared) ") + 
-  theme(axis.text.x = element_blank(), 
-        axis.text.y = element_blank())
-
-
-ggplot() + 
-  geom_sf(data = Neighbourbounds, 
-          aes(fill = Area_30min_km), color = NA) + 
-  scale_fill_distiller(palette = "YlOrRd", direction = 1) +  
-  labs(fill = "Amount of Green Space within 30 Minute Walk (km squared) ") + 
-  theme(axis.text.x = element_blank(), 
-        axis.text.y = element_blank())
-
-
-ggplot() + 
-  geom_sf(data = Neighbourbounds, 
-          aes(fill = Area_60min_km), color = NA) + 
-  scale_fill_distiller(palette = "YlOrRd", direction = 1) +  
-  labs(fill = "Amount of Green Space within 60 Minute Walk (km squared) ") + 
-  theme(axis.text.x = element_blank(), 
-        axis.text.y = element_blank())
-
-
-#Discrete Maps
-
-
 ggplot(Neighbourbounds) + 
-  geom_sf(aes(fill = cut_number(((Area_5min)/1000000),8)),
+  geom_sf(aes(fill = cut_number(Area_5min_km, 8)),
           color = NA, 
           size = 0.1) +
   scale_fill_brewer(palette = "YlOrRd") +
   labs(fill = "Amount of green space within a 5 minute walk (km^2)")
+```
 
 
-
-
-
+```{r}
+options(scipen=10000)
 ggplot(Neighbourbounds) + 
-  geom_sf(aes(fill = cut_number(((Area_10min_km)/1000000),8)),
+  geom_sf(aes(fill = cut_number(Area_10min_km,8)),
           color = NA, 
           size = 0.1) +
   scale_fill_brewer(palette = "YlOrRd") +
   labs(fill = "Amount of green space within a 10 minute walk (km^2)")
+```
 
-
-
+```{r}
+options(scipen=10000)
 ggplot(Neighbourbounds) + 
-  geom_sf(aes(fill = cut_number(((Area_15min)/1000000),8)),
+  geom_sf(aes(fill = cut_number(Area_15min_km,8)),
           color = NA, 
           size = 0.1) +
   scale_fill_brewer(palette = "YlOrRd") +
   labs(fill = "Amount of green space within a 15 minute walk (km^2)")
+```
 
 
-
-
-
-
+```{r}
+options(scipen=10000)
 ggplot(Neighbourbounds) + 
-  geom_sf(aes(fill = cut_number(((Area_30min)/1000000),8)),
+  geom_sf(aes(fill = cut_number(Area_30min_km,8)),
           color = NA, 
           size = 0.1) +
   scale_fill_brewer(palette = "YlOrRd") +
   labs(fill = "Amount of green space within a 30 minute walk (km^2)")
 
+```
 
-
-
+```{r}
+options(scipen=10000)
 ggplot(Neighbourbounds) + 
-  geom_sf(aes(fill = cut_number(((Area_60min)/1000000),8)),
+  geom_sf(aes(fill = cut_number(Area_60min_km, 8)),
           color = NA, 
           size = 0.1) +
   scale_fill_brewer(palette = "YlOrRd") +
@@ -444,30 +331,7 @@ ggplot(Neighbourbounds) +
 ```
 
 ```{r}
-#Age Proportion in each Neighbourhood 
-
-ggplot(Neighbourbounds) + 
-  geom_sf(aes(fill = cut_number((
-                                 Age45to54 +
-                                 Age55to64 +
-                                 Age65to79 +
-                                 Age80to99) / Census_Pop,8)),
-          color = NA, 
-          size = 0.1) +
-  scale_fill_brewer(palette = "YlOrRd") +
-  labs(fill = "Proportion 45+  in Each Neighbourhood")
-
-
-ggplot(Neighbourbounds) + 
-  geom_sf(aes(fill = cut_number((
-                                 Age65to79 +
-                                 Age80to99) / Census_Pop,8)),
-          color = NA, 
-          size = 0.1) +
-  scale_fill_brewer(palette = "YlOrRd") +
-  labs(fill = "Proportion 65+  in Each Neighbourhood")
-
-
+#Proportion Above 65
 
 
 ggplot() + 
@@ -521,42 +385,10 @@ localmoran.map <- function(p = p, listw = listw, VAR = VAR, by = by){
 ```
 
 
-This function is used to create $G_i^*$ maps:
-```{r}
-gistar.map <- function(p = p, listw = listw, VAR = VAR, by = by){
-  require(tidyverse)
-  require(spdep)
-  require(sf)
-  require(plotly)
-  
-  p <- mutate(p, key = p[[by]])
-  
-  df.lg <- localG(p[[VAR]], listw)
-  df.lg <- as.numeric(df.lg)
-  df.lg <- data.frame(Gstar = df.lg, p.val = 2 * pnorm(abs(df.lg), lower.tail = FALSE))
-  
-  df.lg <- mutate(df.lg, 
-              Type = case_when(Gstar < 0 & p.val <= 0.05 ~ "Low Concentration",
-                               Gstar > 0 & p.val <= 0.05 ~ "High Concentration",
-                               TRUE ~ "Not Signicant"))
-
-  p <- left_join(p, 
-                  data.frame(key = p[[by]], df.lg))
-  
-  plot_ly(p) %>%
-    add_sf(split = ~(p.val < 0.05), color = ~Type, colors = c("red", "dodgerblue", "gray"))
-}
-```
-
 Creating a local Moran Map:
 ```{r}
 localmoran.map(Neighbourbounds, Neighbourbounds.w, "MH_PC_Tot", by = "NAME")
 ```
-
-```{r}
-localmoran.map(Neighbourbounds, Neighbourbounds.w, "Area_15min", by = "NAME")
-```
-
 
 Creating a spatial moving Average
 
@@ -644,6 +476,9 @@ ggplot(data = MH_PC_Tot2,
   xlab("Mental Health Cases Per Capita") +
   ylab("Spatial Lag of Mental Health Cases Per Capita") +
   facet_wrap(~ VAR, ncol = 3)
+```
+
+```{r}
 
 Neighbourhood_centroids <- st_centroid(Neighbourbounds_Centroids) %>% 
   st_coordinates()
@@ -663,15 +498,7 @@ plot(Neighbourbounds.sp, border = "gray")
 plot(Neighbourhood_centroids_15min.dnb, Neighbourhood_centroids, col = "red", add = TRUE)
 summary(Neighbourhood_centroids_15min.dnb)
 
-Neighbourhood_centroids_30min.dnb <- dnearneigh(Neighbourhood_centroids, d1 = 0, d2 = 2580)
-plot(Neighbourbounds.sp, border = "gray")
-plot(Neighbourhood_centroids_30min.dnb, Neighbourhood_centroids, col = "red", add = TRUE)
-summary(Neighbourhood_centroids_30min.dnb)
 
-Neighbourhood_centroids_60min.dnb <- dnearneigh(Neighbourhood_centroids, d1 = 0, d2 = 5160)
-plot(Neighbourbounds.sp, border = "gray")
-plot(Neighbourhood_centroids_60min.dnb, Neighbourhood_centroids, col = "red", add = TRUE)
-summary(Neighbourhood_centroids_60min.dnb)
 
 
 # You will notice that the slope of the line tends to be flat in the simulated variables; this is to be expected, since these variables are spatially random the values of the variable at i are independent of the values of their local means in other words, the probability that the map is random is pretty high (in fact, since these 5 of these maps are null landscapes, we know for a fact that they are random).
@@ -682,7 +509,7 @@ summary(Neighbourhood_centroids_60min.dnb)
 ```
 
 
-Regression Model
+Regression Model for 5 minutes
 ```{r}
 
 #5 minutes worth of green space
@@ -701,8 +528,10 @@ ggplot(data = Neighbourbounds,
               method = "lm") +
   xlab("Green Space within 5 minutes of neighbourhood") +
   ylab("Mental Health Cases per Capita")
+```
 
-
+Regression model for others
+```{r}
 #10 minutes worth of green space
 Neighbourbounds <- Neighbourbounds %>%
   mutate(Area_10_Transform = log10(Area_10min))
@@ -776,18 +605,6 @@ ggplot(data = Neighbourbounds,
 ```
 
 Linear Models including the other stuff
-
-```{r, include=FALSE}
-Neighbourbounds <- Neighbourbounds %>%
-  mutate(PropAge65Plus = (Age65to79 +Age80to99) / Census_Pop,
-         PropAge45Plus = (Age45to54+ Age55to64+ Age65to79 +Age80to99) / Census_Pop,
-         PropBelowPoverty = (Income_U5000 + Income_5000to9999 + Income_10000to14999 + Income_15000to19999 + Income_20000to29999 + Income_30000to39999 + Income_40000to49999)/Num_House,
-         PropBelow20k = (Income_U5000 + Income_5000to9999 + Income_10000to14999 + Income_15000to19999)/Num_House)
-```
-
-
-
-
 
 ```{r}
 #Model with everything
