@@ -127,15 +127,31 @@ Neighbourbounds <- Neighbourbounds %>%
 
 ```
 
+diting and Adding more fields for choropleths:
+Mutate to make data in km squared:
+
+```{r}
+Neighbourbounds <- Neighbourbounds %>%
+  mutate(Area_5min_km = Area_5min/1000000,
+         Area_10min_km = Area_10min/1000000,
+         Area_15min_km = Area_15min/1000000,
+         Area_30min_km = Area_30min/1000000,
+         Area_60min_km = Area_60min/1000000, 
+         Prop_Alone = Alone/Census_Pop,
+         Prop_Immigrants = (Immigrants/Census_Pop)*100)
+
+```
+
+
 Mutate to add a field from SMA:
-Mutate to add a field from SMA:
-```{r Mutate-Field-For-SMA, include=FALSE}
+```{r}
 Neighbourbounds <- Neighbourbounds %>%
   mutate(SMA_MH_PC_Tot = MH_PC_Tot,
          Prop_Comp_Avg_Income = Avg_Ind_In / 46530 )
 
 
 ```
+
 
 #Spatial weights Matrix for data
 ```{r}
@@ -174,7 +190,7 @@ Choropleth Maps of relevant data for this study:
 
 Population density
 
-```{r Population-Density-Map, include=FALSE}
+```{r}
 #Population Density based on a total population of 2615060
 
 options(scipen=10000)
@@ -189,7 +205,7 @@ ggplot(Neighbourbounds) +
 ```
 
 
-```{r Mental-Health-Cases-Maps, include=FALSE}
+```{r}
 
 #Mental Health Cases Per Capita
 
@@ -251,7 +267,7 @@ ggplot(Neighbourbounds) +
 
 
 Unemployment rates:
-```{r Unemployment-Rate-Maps, include=FALSE}
+```{r}
 #Unemployment Rates 
 
 options(scipen=10000)
@@ -269,7 +285,7 @@ Correlation between mental health cases and unemployment rates are visible in 3 
 
 Income Chloropleths:
 
-```{r Income-Maps, include=FALSE}
+```{r}
 # Income Chloropleth Map
 
 options(scipen=10000)
@@ -318,21 +334,6 @@ ggplot() +
         axis.text.y = element_blank())
 
 ```
-
-Mutate to make data in km squared:
-
-```{r}
-Neighbourbounds <- Neighbourbounds %>%
-  mutate(Area_5min_km = Area_5min/1000000,
-         Area_10min_km = Area_10min/1000000,
-         Area_15min_km = Area_15min/1000000,
-         Area_30min_km = Area_30min/1000000,
-         Area_60min_km = Area_60min/1000000, 
-         Prop_Alone = Alone/Census_Pop,
-         Prop_Immigrants = (Immigrants/Census_Pop)*100)
-
-```
-
 
 
 Chloropleth maps for how much green space is available within buffer distance:
@@ -473,7 +474,7 @@ ggplot() +
   geom_sf(data = Neighbourbounds, 
           aes(fill = PropAge65Plus), color = NA) + 
   scale_fill_distiller(palette = "YlOrRd", direction = 1) +  
-  labs(fill = "Proportion Above 65 ") + 
+  labs(fill = "Proportion Above 65") + 
   theme(axis.text.x = element_blank(), 
         axis.text.y = element_blank())
 ```
@@ -484,7 +485,6 @@ The overall findings from these maps point towards high unemployment rates and l
 Moran Test for Mental health cases:
 ```{r}
 moran.test(Neighbourbounds$MH_PC_Tot, Neighbourbounds.w)
-
 ```
 The p-value is low (~0.00016), therefore the data is spatially autocorellated
 
