@@ -13,15 +13,15 @@ author:
   student_number: 400121210
 date: "Winter 2021"
 output:
-<<<<<<< HEAD
+
   html_document:
     df_print: paged
-=======
-  word_document: default
->>>>>>> c54ea9a418518baad36995c63139d0b9f06689c0
+
+
+
   pdf_document:
     template: project-template-default.tex
-  word_document: default
+
 abstract: This paper reports our analysis of the correlation between green space and
   mental health within Toronto, ON, and its relationship with other socioeconomic
   factors. Data was collected from the Open Ontario, statistics Canada, and Toronto
@@ -73,13 +73,13 @@ Neighbourbounds <- st_read("Neighbourhoods")
 *Study area*
 
 
-  The affect of greenspace on mental health was conducted at the census tract level within Toronto. In order to analyze green space we overlayed a shapefile containing the census tracts with a shapefile containing the area in Km^2 of Toronto' green spaces. Toronto was chosen as our study site due to the highly variable greenspace and its abundant open data sources. A high variability in green space was important for this study as it allows us to view results at the extremes (i.e. virtually no nearby green space -> alot of nearby greenspace) while still having enough census tracts to account for any significant deviations such as disproportionately massive parks.
+  The affect of greenspace on mental health was conducted at the census tract level within Toronto. In order to analyze green space we overlayed a shapefile containing the census tracts with a shapefile containing the area in km^2 of Toronto's green spaces. Toronto was chosen as our study site due to the highly variable greenspace and its abundant open data sources. A high variability in green space was important for this study as it allows us to view results at the extremes (i.e. virtually no nearby green space to alot of nearby greenspace) while still having enough census tracts to account for any significant deviations such as disproportionately massive parks.
 
 
 *Greenspace and Mental Health*
 
 
-  Contact with natural environments including green spaces has been associated with improved perceived and objective health outcomes and wellbeing (Alcock et al., 2014 and James et al., 2015;). Science attributes many benefits to green spaces, including increased physical activity, reducing psychological stress, anxiety and depression, increasing social contacts and cohesion and reducing exposure to environmental hazards such as air pollution (Dadvand et al. 2015, 2016). Lopes et al. (2020) demonstrate the positive effects of walking in nature. As they suggest, a walk as short as 30 minutes in a setting with natural elements, such as a park, elicits a feeling of awe and consequently draws people away from themselves, preventing rumination and its negative health effects (related to stress and thus high cortisol levels). In this study, researchers compared the effects of walking in nature with the same type of walk (group and duration) except in an urban setting, through the city. This study adds to the scientific consensus that access to natural environments, especially within an urban environment, yields important benefits to the mental health capital of cities and countries. Dadvand et al. (206) suggest a more relevant effect of green spaces on mental health status in males under the age of 65. For the purpose of our study we will determine whether different sex or age groups experience different mental health outcomes with proximity or accessibility to green spaces in Toronto, as observed by Dadvand et al. (2016) in Barcelona.  While science does not correlate living in a greener neighbourhood with any wellbeing outcomes, on the other hand it does suggest positive health outcomes for those who visited nature more than once a week (Martin et al., 2020). Martin et al. 2020 adds to the scientific consensus of positive health-nature relationships, suggesting that “detachment from the natural world may be a factor in poor mental and physical health”. In the present study we aim to determine whether parameters like distance and size of natural areas within Toronto (which affect accessibility) have an impact on the mental health of its population. Rigolon et al (2021) aim to determine the strength of associations between green-space and health of advantaged and disadvantaged groups. This research is relevant for the purpose of the present study on the associations between green-space and mental health in Toronto. The city has been a focus of this sort of science already, with papers such as Hassen (2016) pointing out the challenges of determining which characteristics of green spaces do affect Torontonians’ mental health, such as quality and accessibility of the parks.
+  Contact with natural environments including green spaces has been associated with improved perceived and objective health outcomes and wellbeing (Alcock et al., 2014 and James et al., 2015). Science attributes many benefits to green spaces, including increased physical activity, reducing psychological stress, anxiety and depression, increasing social contacts and cohesion and reducing exposure to environmental hazards such as air pollution (Dadvand et al. 2015, 2016). Lopes et al. (2020) demonstrate the positive effects of walking in nature. As they suggest, a walk as short as 30 minutes in a setting with natural elements, such as a park, elicits a feeling of awe and consequently draws people away from themselves, preventing rumination and its negative health effects (related to stress and thus high cortisol levels). In this study, researchers compared the effects of walking in nature with the same type of walk (group and duration) except in an urban setting, through the city. This study adds to the scientific consensus that access to natural environments, especially within an urban environment, yields important benefits to the mental health capital of cities and countries. Dadvand et al. (206) suggest a more relevant effect of green spaces on mental health status in males under the age of 65. For the purpose of our study we will determine whether different sex or age groups experience different mental health outcomes with proximity or accessibility to green spaces in Toronto, as observed by Dadvand et al. (2016) in Barcelona.  While science does not correlate living in a greener neighbourhood with any wellbeing outcomes, on the other hand it does suggest positive health outcomes for those who visited nature more than once a week (Martin et al., 2020). Martin et al. 2020 adds to the scientific consensus of positive health-nature relationships, suggesting that “detachment from the natural world may be a factor in poor mental and physical health”. In the present study we aim to determine whether parameters like distance and size of natural areas within Toronto (which affect accessibility) have an impact on the mental health of its population. Rigolon et al (2021) aim to determine the strength of associations between green-space and health of advantaged and disadvantaged groups. This research is relevant for the purpose of the present study on the associations between green-space and mental health in Toronto. The city has been a focus of this sort of science already, with papers such as Hassen (2016) pointing out the challenges of determining which characteristics of green spaces do affect Torontonians’ mental health, such as quality and accessibility of the parks.
 Determining which socioeconomic groups have a greater health dependency on accessibility to green-space can help in future urban planning and park allocation within cities. Rigolon et al. 2021 demonstrate that people of lower socioeconomic status show more beneficial effects to park accessibility than high-income households. The literature is clear, with multiple papers pointing out clear correlations between higher levels of green space and healthier populations (Richardson et al., 2013; van den Berg et al., 2016; Barton & Rogerson, 2017;  Engeman et al., 2019; Callaghan et al., 2020 ). An important aspect of the analysis carried out for the purpose of our study on Toronto were buffers created around neighbourhoods’ centroids. These buffers would represent the walk time an average person would walk towards a park, within or outside their neighbourhood. 
 
 
@@ -584,7 +584,7 @@ ggplot(data = MH_PC_Tot2,
 Neighbourhood_centroids <- st_centroid(Neighbourbounds_Centroids) %>% 
   st_coordinates()
 ```
-```{r Neighbourhood-SWM5,echo=FALSE, fig.cap={"\\label{fig:neighbour-SWM5}Spatial weights matrices of neighbouring neighbourhoods within a 5 minute walking distance"}}
+```{r Neighbourhood-SWM5,echo=FALSE, fig.cap={"\\label{fig:neighbour-SWM5}Spatial weights matrices of neighbouring neighbourhoods within a 5 minute walking distance; the lack of links indicates no neighbourhood centroids are within 5 minutes of each other"}}
 Neighbourhood_centroids_5min.dnb <- dnearneigh(Neighbourhood_centroids, d1 = 0, d2 = 410)
 plot(Neighbourbounds.sp, border = "gray")
 plot(Neighbourhood_centroids_5min.dnb, Neighbourhood_centroids, col = "red", add = TRUE)
@@ -598,11 +598,7 @@ plot(Neighbourhood_centroids_10min.dnb, Neighbourhood_centroids, col = "red", ad
 Neighbourhood_centroids_15min.dnb <- dnearneigh(Neighbourhood_centroids, d1 = 0, d2 = 1239)
 plot(Neighbourbounds.sp, border = "gray")
 plot(Neighbourhood_centroids_15min.dnb, Neighbourhood_centroids, col = "red", add = TRUE)
-<<<<<<< HEAD
-=======
-summary(Neighbourhood_centroids_15min.dnb)
 
->>>>>>> c54ea9a418518baad36995c63139d0b9f06689c0
 ```
 
 
@@ -610,7 +606,6 @@ summary(Neighbourhood_centroids_15min.dnb)
 
 
 ```{r Linear-Regression-5min,echo=FALSE, fig.cap={"\\label{fig:LR-5}The relationship between green space avaliability within 5 minute walking distance of neighbourhoods and mental health related hosptial admissions"}}
-
 #5 minutes worth of green space
 Neighbourbounds <- Neighbourbounds %>%
   mutate(Area_5_Transform = log10(Area_5min))
@@ -709,22 +704,22 @@ ggplot(data = Neighbourbounds,
 ```
 
 
+Below is the results of the linear model the relationship between all socioeconomic factors (including green space avaliability within 5 minute walking distance of neighbourhoods) and mental health related hospital admissions:
 
-```{r}
+```{r Linear-Regression-All,echo=FALSE, fig.cap={"\\label{fig:LR-All}The relationship between all socioeconomic factors (including green space avaliability within 5 minute walking distance of neighbourhoods) and mental health related hosptial admissions"}}
 #Model with everything
-model <- lm(formula = MH_PC_Tot ~Area_5_Transform * Unemploy_r * Prop_Alone * PropAge65Plus * Med_Ind_In *Prop_Immigrants, data = Neighbourbounds)
+testmodel <- lm(formula = MH_PC_Tot ~ Area_5_Transform + Unemploy_r + Prop_Alone + PropAge65Plus + Immigrants, data = Neighbourbounds)
 
-stargazer(model, type = "text")
+
+stargazer(testmodel, type = "text")
 ```
 
 
+Below is the results of the relationship between all socioeconomic factors (not including green space avaliability within 5 minute walking distance of neighbourhoods) and mental health related hospital admissions:
 
-
-
-
-```{r}
-#Model with everything
-testmodel <- lm(formula = MH_PC_Tot ~Unemploy_r * Prop_Alone * PropAge65Plus * Med_Ind_In *Prop_Immigrants, data = Neighbourbounds)
+```{r Linear-Regression-NoGreen,echo=FALSE, fig.cap={"\\label{fig:LR-NoGreen}The relationship between all socioeconomic factors (not including green space avaliability within 5 minute walking distance of neighbourhoods) and mental health related hosptial admissions"}}
+#Model with everything minus green space
+testmodel <- lm(formula = MH_PC_Tot ~  Unemploy_r + Prop_Alone + PropAge65Plus + Immigrants, data = Neighbourbounds)
 
 
 stargazer(testmodel, type = "text")
@@ -787,7 +782,7 @@ We created linear models comparing the amount of green space within each walking
  	
  As mentioned, there was only a small correlation between greenspace within a 5-minute walking distance and mental health cases. However, based on the available literature, access to green space is not the only factor that impacts one's mental health. Mental health is affected by a number of socioeconomic factors including health, income, age, and physical activity to name a few (Nutsford et al., 2013; Alcock et al., 2014; Hassen, 2016; Lopes et al., 2020; and Rigolon et al., 2021) . When combined with these and other factors the availability of greenspace may have a more considerable impact on mental health. 
  
-Several linear models were created using the five minute greenspace buffer because it correlated best with improved mental health cases. In addition to the five minute buffer, other factors including income, age, unemployment, and if the individual lives alone or identifies as an immigrant were included in the linear model. Models were run to determine which of these variables best correlated with improved mental health. Overall, the model that had the highest correlation with mental health cases used the five minute green space buffer, unemployment rate, and proportion of individuals who live alone \ref{fig:LR-Final}. 
+Several linear models were created using the five minute greenspace buffer because it correlated best with improved mental health cases. In addition to the five minute buffer, other factors including income, age, unemployment, and if the individual lives alone or identifies as an immigrant were included in the linear model. Models were run to determine which of these variables best correlated with improved mental health. Overall, the model that had the highest correlation with mental health cases used the five minute green space buffer, unemployment rate, Proportion of people over the age of 65, the immigrant proportion of a neighbourhood, and proportion of individuals who live alone \ref{fig:LR-All}. However, when running the same model without the greenspace availability factor, we find that the correlation in the model remains almost identical, indicating that green space availability does not have a large effect on this model \ref{fig:LR-NoGreen}
 
 
 
@@ -797,10 +792,10 @@ Several linear models were created using the five minute greenspace buffer becau
 Relationships between green spaces in cities and their impact on mental health is extensive and conclusive. The more accessible a park or green space is, the happier and healthier its users and neighbors are (Francis et al., 2012; Barton and Rogerson, 2017; Callahan et al., 2020; Collins et al., 2020; Martin et al., 2020). This research group’s interest lied specifically in the demographic and urban aspects that had the greatest impact on the strength of this green-space and mental health relationship in the city of Toronto, ON, Canada. We obtained publicly available demographic and health data from City of Toronto Open data Portal, and performed a variety of spatial statistic tests that yielded conclusive results as well as informative maps and graphs. The study of patterns of spatial autocorrelation of  mental health cases and green space accessibility in Toronto yielded the following conclusions:
 
 - Moran's I plot (TRUE) suggests statistically significant clustering. This suggests higher mental health-related hospital admissions in the SW and southern central areas of the city, and statistically less cases of mental health in the northeastern part of the city.
-Neighborhoods with less green space available (within reasonable walking distance) were linked to higher hospital admissions related to mental health issues. Regression analysis suggests a casual but significant relationship between a neighbourhood’s mental health and how accessible, empirically (not subjective to the “walkers”), the green spaces are to people living there.
 
-- The conclusive relationship stated above was exacerbated by other factors. Neighbourhoods with high immigrant populations, high unemployment rates, low annual average incomes, high proportion of people living alone or senior citizens (over 65 years old) were demonstrated to be more sensitive to the accessibility of green spaces. This suggests that these groups are at higher risk of being mentally unhealthy when parks and green spaces become inaccessible to them. 
+- Neighborhoods with less green space available (within reasonable walking distance) were linked to higher hospital admissions related to mental health issues. Regression analysis suggests a casual but significant relationship between a neighbourhood’s mental health and how accessible, empirically (not subjective to the “walkers”), the green spaces are to people living there.
 
+- The availability of greenspace was not found to be influential on a neighbourhood's mental health when other socioeconomic factors including  high immigrant populations, high unemployment rates, low annual average incomes, high proportion of people living alone or senior citizens (over 65 years old) were input into the regression model. This may be due to the fact that a neighbourhoods mental health was measured by a number of hospital admission related to mental health problems. This implies more serious mental health issues and may not be representative of the neighbourhood's actual mental health in relation to green space availability. Future research could focus on collecting a bigger range of mental welling through activities such as surveys, and then comparing this to green space availability.  
 
 - The present paper, alongside the available literature on the matter, demonstrate the necessity for modern cities to invest in green spaces that are available and easily accessible to specific groups of more vulnerable people. Urban planners must continue to focus on equitable solutions for new park infrastructure, promoting healthier cities with the help of spatial statisticians. 
 
