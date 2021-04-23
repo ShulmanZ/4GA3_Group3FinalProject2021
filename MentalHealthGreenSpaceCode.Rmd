@@ -13,8 +13,12 @@ author:
   student_number: 400121210
 date: "Winter 2021"
 output:
+<<<<<<< HEAD
   html_document:
     df_print: paged
+=======
+  word_document: default
+>>>>>>> c54ea9a418518baad36995c63139d0b9f06689c0
   pdf_document:
     template: project-template-default.tex
   word_document: default
@@ -41,6 +45,7 @@ library(spdep)
 library(geog4ga3)
 library(readr)
 library(scales)
+library(stargazer)
 ```
 ```{r Read-Dataset, include=FALSE}
 Variables_Final <- read_csv("4GA3_Project_Variables_Final.csv")
@@ -593,6 +598,11 @@ plot(Neighbourhood_centroids_10min.dnb, Neighbourhood_centroids, col = "red", ad
 Neighbourhood_centroids_15min.dnb <- dnearneigh(Neighbourhood_centroids, d1 = 0, d2 = 1239)
 plot(Neighbourbounds.sp, border = "gray")
 plot(Neighbourhood_centroids_15min.dnb, Neighbourhood_centroids, col = "red", add = TRUE)
+<<<<<<< HEAD
+=======
+summary(Neighbourhood_centroids_15min.dnb)
+
+>>>>>>> c54ea9a418518baad36995c63139d0b9f06689c0
 ```
 
 
@@ -607,7 +617,8 @@ Neighbourbounds <- Neighbourbounds %>%
 
 model5 <- lm(formula = MH_PC_Tot ~ Area_5_Transform, 
              data = Neighbourbounds)
-summary(model5)
+
+stargazer(model5, type = "text")
 
 ggplot(data = Neighbourbounds, 
        aes(x = Area_5_Transform, 
@@ -702,7 +713,8 @@ ggplot(data = Neighbourbounds,
 ```{r}
 #Model with everything
 model <- lm(formula = MH_PC_Tot ~Area_5_Transform * Unemploy_r * Prop_Alone * PropAge65Plus * Med_Ind_In *Prop_Immigrants, data = Neighbourbounds)
-summary(model)
+
+stargazer(model, type = "text")
 ```
 
 
@@ -713,7 +725,9 @@ summary(model)
 ```{r}
 #Model with everything
 testmodel <- lm(formula = MH_PC_Tot ~Unemploy_r * Prop_Alone * PropAge65Plus * Med_Ind_In *Prop_Immigrants, data = Neighbourbounds)
-summary(testmodel)
+
+
+stargazer(testmodel, type = "text")
 ```
 
 =======
