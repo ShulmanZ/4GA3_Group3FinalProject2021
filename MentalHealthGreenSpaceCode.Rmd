@@ -13,10 +13,12 @@ author:
   student_number: 400121210
 date: "Winter 2021"
 output:
+  word_document: default
+  html_document:
+    template: project-template-default.tex
+    df_print: paged
   pdf_document:
     template: project-template-default.tex
-  html_document:
-    df_print: paged
 abstract: This paper reports our analysis of the correlation between green space and
   mental health within Toronto, ON, and its relationship with other socioeconomic
   factors. Data was collected from the Open Ontario, statistics Canada, and Toronto
